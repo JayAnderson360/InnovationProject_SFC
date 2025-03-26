@@ -1118,8 +1118,18 @@ img {
     margin-top: 30px;
 }
 
-.ash_signature img {
-    height: 60px;
+.ash_signature-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #2e7d32;
+    margin-bottom: 8px;
+}
+
+.ash_signature-title {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.3;
 }
 
 /* Strategic Thrusts */
