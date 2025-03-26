@@ -1038,6 +1038,10 @@ img {
     flex: 1;
 }
 
+.ash_logo-explanation p {
+    text-align: justify;
+}
+
 .ash_logo-elements {
     margin-top: 20px;
     display: grid;
@@ -1055,6 +1059,8 @@ img {
     margin: 0;
     font-size: 0.95rem;
     color: #666;
+    text-align: justify;
+    line-height: 1.6;
 }
 
 /* GM Message */
