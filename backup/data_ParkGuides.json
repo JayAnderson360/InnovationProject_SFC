@@ -1,0 +1,53 @@
+[
+    {
+        "guide_id": "1",
+        "user_id": "2",
+        "full_name": "Edison",
+        "ic_passport_number": "040729131467",
+        "gender": "Male",
+        "mobile_number": "010999999",
+        "emergency_contact_number": null,
+        "sfc_license_number": null,
+        "license_issue_date": null,
+        "license_expiry_date": null,
+        "license_status": "Not Licensed",
+        "date_registered": "2025-04-04",
+        "created_at": "2025-04-04 21:54:37",
+        "updated_at": "2025-04-04 21:54:37",
+        "email": "edison@gmail.com"
+    },
+    {
+        "guide_id": "2",
+        "user_id": "4",
+        "full_name": "John",
+        "ic_passport_number": "040728131467",
+        "gender": "Male",
+        "mobile_number": "0109999992",
+        "emergency_contact_number": "1",
+        "sfc_license_number": "1",
+        "license_issue_date": "2025-04-05",
+        "license_expiry_date": "2025-04-05",
+        "license_status": "Not Licensed",
+        "date_registered": "2025-04-05",
+        "created_at": "2025-04-05 08:11:37",
+        "updated_at": "2025-04-05 08:11:37",
+        "email": "w4rf4r304@gmail.com"
+    },
+    {
+        "guide_id": "3",
+        "user_id": "5",
+        "full_name": "Nick",
+        "ic_passport_number": "040728131462",
+        "gender": "Male",
+        "mobile_number": "0109999991",
+        "emergency_contact_number": null,
+        "sfc_license_number": null,
+        "license_issue_date": null,
+        "license_expiry_date": null,
+        "license_status": "Not Licensed",
+        "date_registered": "2025-04-05",
+        "created_at": "2025-04-05 08:19:29",
+        "updated_at": "2025-04-05 08:19:29",
+        "email": "102779496@students.swinburne.edu.my"
+    }
+]
