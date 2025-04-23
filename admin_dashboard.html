@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarawak Forestry Conservation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="admin-bg">
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="logo">
+            <img src="https://placehold.co/200x60?text=Sarawak+Forestry" alt="Sarawak Forestry Logo">
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <!-- Left Navigation Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="#park-guide-info" class="active" data-section="park-guide-info">
+                            <i class="fas fa-user"></i>
+                            <span>Park Guide Information</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#licensing" data-section="licensing">
+                            <i class="fas fa-id-card"></i>
+                            <span>Licensing Details</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#visitor-feedback" data-section="visitor-feedback">
+                            <i class="fas fa-comments"></i>
+                            <span>Visitor Feedback</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#parks" data-section="parks">
+                            <i class="fas fa-tree"></i>
+                            <span>Parks</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="#users" data-section="users">
+                            <i class="fas fa-users"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Park Guide Information Table -->
+            <div class="table-section active" id="park-guide-info-table">
+                <div class="table-header">
+                    <h2>Park Guide Information</h2>
+                    <button class="btn-primary">Add New</button>
+                </div>
+                <div class="search-section">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select class="filter-select">
+                            <option value="all">All Columns</option>
+                            <option value="full_name">Full Name</option>
+                            <option value="ic_passport_number">IC/Passport</option>
+                            <option value="gender">Gender</option>
+                            <option value="mobile_number">Mobile Number</option>
+                            <option value="email">User Email</option>
+                            <option value="license_status">License Status</option>
+                            <option value="assigned_parks">Assigned Parks</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="full_name">Full Name <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="ic_passport_number">IC/Passport <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="gender">Gender <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="mobile_number">Mobile Number <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="email">User Email <i class="fas fa-sort"></i></th><th class="sortable" data-sort="license_status">License Status <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="assigned_parks">Assigned Parks <i class="fas fa-sort"></i></th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody id="park-guide-table-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Licensing Details Table -->
+            <div class="table-section" id="licensing-table">
+                <div class="table-header">
+                    <h2>Licensing Details</h2>
+                    <!-- <button class="btn-primary">Add New</button>  Removed Add New button as data comes from ParkGuides -->
+                </div>
+                <div class="search-section">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select class="filter-select">
+                            <option value="all">All Columns</option>
+                            <option value="sfc_license_number">SFC License Number</option>
+                            <option value="full_name">Full Name</option>
+                            <option value="license_status">Status</option>
+                            <option value="license_issue_date">Issue Date</option>
+                            <option value="license_expiry_date">Expiry Date</option>
+                            <option value="date_registered">Date Registered</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="sfc_license_number">SFC License Number <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="full_name">Full Name <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="license_status">Status <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="license_issue_date">Issue Date <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="license_expiry_date">Expiry Date <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="date_registered">Date Registered <i class="fas fa-sort"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="licensing-table-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Visitor Feedback Table -->
+            <div class="table-section" id="visitor-feedback-table">
+                <div class="table-header">
+                    <h2>Visitor Feedback</h2>
+                    <!-- Add New button might be added later if feedback can be entered here -->
+                </div>
+                <div class="search-section">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select class="filter-select">
+                            <option value="all">All Columns</option>
+                            <option value="guide_name">Guide</option>
+                            <option value="park_name">Park</option>
+                            <option value="visitor_name">Visitor</option>
+                            <option value="visitor_email">Visitor Email</option>
+                            <option value="rating">Rating</option>
+                            <option value="comments">Comments</option>
+                            <option value="feedback_date">Date</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="guide_name">Guide <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="park_name">Park <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="visitor_name">Visitor <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="visitor_email">Visitor Email <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="rating">Rating <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="comments">Comments <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="feedback_date">Date <i class="fas fa-sort"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="visitor-feedback-table-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Parks Table -->
+            <div class="table-section" id="parks-table">
+                <div class="table-header">
+                    <h2>Parks</h2>
+                    <button class="btn-primary">Add New</button>
+                </div>
+                <div class="search-section">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select class="filter-select">
+                            <option value="all">All Columns</option>
+                            <option value="park_id">Park ID</option>
+                            <option value="name">Park Name</option>
+                            <option value="location">Location</option>
+                            <option value="type">Type</option>
+                            <option value="date_of_gazettement">Date of Gazettement</option>
+                            <option value="land_area">Land Area</option>
+                            <option value="marine_area">Marine Area</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="park_id">Park ID <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="name">Park Name <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="location">Location <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="type">Type <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="date_of_gazettement">Date of Gazettement <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="land_area">Land Area (ha) <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="marine_area">Marine Area (ha) <i class="fas fa-sort"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="parks-table-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-section" id="users-table">
+                <div class="table-header">
+                    <h2>Users</h2>
+                    <button class="btn-primary">Add New</button>
+                </div>
+                <div class="search-section">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select class="filter-select">
+                            <option value="all">All Columns</option>
+                            <option value="user_id">User ID</option>
+                            <option value="email">Email</option>
+                            <option value="role">Role</option>
+                            <option value="created_at">Created At</option>
+                            <option value="last_login_at">Last Login</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="user_id">User ID <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="email">Email <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="role">Role <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="created_at">Created At <i class="fas fa-sort"></i></th>
+                                <th class="sortable" data-sort="last_login_at">Last Login <i class="fas fa-sort"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Park Modal -->
+    <div class="modal" id="addParkModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Park</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addParkForm">
+                    <div class="form-group">
+                        <label for="parkName">Park Name</label>
+                        <input type="text" id="parkName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select id="type" name="type" required>
+                            <option value="">Select Type</option>
+                            <option value="National Park">National Park</option>
+                            <option value="Nature Reserve">Nature Reserve</option>
+                            <option value="Wildlife Sanctuary">Wildlife Sanctuary</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="landArea">Land Area (ha)</label>
+                        <input type="number" id="landArea" name="land_area" step="0.01" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="marineArea">Marine Area (ha)</label>
+                        <input type="number" id="marineArea" name="marine_area" step="0.01" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfGazettement">Date of Gazettement</label>
+                        <input type="date" id="dateOfGazettement" name="date_of_gazettement" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Save</button>
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New User</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" id="userEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Password</label>
+                        <input type="password" id="userPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Role</label>
+                        <select id="userRole" name="role" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="ParkGuide">Park Guide</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Save</button>
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Park Guide Modal -->
+    <div class="modal" id="addParkGuideModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Park Guide</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addParkGuideForm">
+                    <div class="form-group">
+                        <label for="guideUserId">User ID</label>
+                        <input type="number" id="guideUserId" name="user_id" required>
+                        <small>Enter the ID of an existing user with the 'ParkGuide' role.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="guideFullName">Full Name</label>
+                        <input type="text" id="guideFullName" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guideIcPassport">IC/Passport Number</label>
+                        <input type="text" id="guideIcPassport" name="ic_passport_number" required>
+                    </div>
+                     <div class="form-group">
+                        <label for="guideGender">Gender</label>
+                        <select id="guideGender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                             <option value="Other">Other</option>
+                            <option value="PreferNotToSay">Prefer Not To Say</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="guideMobileNumber">Mobile Number</label>
+                        <input type="tel" id="guideMobileNumber" name="mobile_number" >
+                    </div>
+                    <div class="form-group">
+                        <label for="guideSfcLicenseNumber">SFC License Number</label>
+                        <input type="text" id="guideSfcLicenseNumber" name="sfc_license_number" >
+                    </div>
+                     <div class="form-group">
+                        <label for="guideLicenseIssueDate">License Issue Date</label>
+                        <input type="date" id="guideLicenseIssueDate" name="license_issue_date">
+                    </div>
+                     <div class="form-group">
+                        <label for="guideLicenseExpiryDate">License Expiry Date</label>
+                        <input type="date" id="guideLicenseExpiryDate" name="license_expiry_date">
+                    </div>
+                     <div class="form-group">
+                        <label for="guideDateRegistered">Date Registered</label>
+                        <input type="date" id="guideDateRegistered" name="date_registered" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guideLicenseStatus">License Status</label>
+                        <select id="guideLicenseStatus" name="license_status" required>
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                             <option value="Expired">Expired</option>
+                             <option value="Suspended">Suspended</option>
+                             <option value="Pending Renewal">Pending Renewal</option>
+                             <option value="Not Licensed" selected>Not Licensed</option>
+                             <option value="Application Pending">Application Pending</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Save</button>
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Park Guide Add Choice Modal -->
+    <div class="modal" id="parkGuideChoiceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Park Guide Linkage</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p>How do you want to link this Park Guide?</p>
+                <div class="form-actions" style="justify-content: center;">
+                    <button type="button" id="btnCreateNewUser" class="btn-primary">Create New User</button>
+                    <button type="button" id="btnSelectExistingUser" class="btn-secondary">Select Existing User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Select Existing User Modal -->
+    <div class="modal" id="selectUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Existing Park Guide User</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="selectUserForm">
+                    <div class="form-group">
+                        <label for="selectExistingUserId">Select User (Role: ParkGuide, Not Linked)</label>
+                        <select id="selectExistingUserId" name="user_id" required>
+                            <option value="">Loading eligible users...</option>
+                            <!-- Eligible users will be populated by JavaScript -->
+                        </select>
+                        <small id="selectUserError" style="color: red; display: none;">No eligible users found.</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="btnConfirmUserSelection" class="btn-primary">Select User</button>
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variable to track the origin of the add user flow
+        let addUserFlowOrigin = null; // Can be 'parkGuide' or null
+        let parkGuideUserIdToLink = null; // Store user ID for linking
+
+        // Function to open the Add Park Guide modal with a pre-filled, read-only User ID
+        function openAddParkGuideModalWithUser(userId) {
+            // Reset the form first
+            document.getElementById('addParkGuideForm').reset();
+            // Pre-fill and disable user ID field
+            const userIdInput = document.getElementById('guideUserId');
+            userIdInput.value = userId;
+            userIdInput.readOnly = true;
+             userIdInput.style.backgroundColor = '#e9ecef'; // Indicate read-only
+            document.getElementById('addParkGuideModal').style.display = 'flex';
+        }
+
+        // Function to fetch eligible users for Park Guide linking
+        async function fetchEligibleUsers() {
+            try {
+                // Fetch all users and all park guides in parallel
+                const [usersResponse, guidesResponse] = await Promise.all([
+                    fetch('users_api.php'),
+                    fetch('park_guides_api.php')
+                ]);
+
+                if (!usersResponse.ok || !guidesResponse.ok) {
+                    throw new Error('Failed to fetch data for user selection.');
+                }
+
+                const usersData = await usersResponse.json();
+                const guidesData = await guidesResponse.json();
+
+                if (usersData.status !== 'success' || guidesData.status !== 'success') {
+                     throw new Error('API error fetching user/guide data.');
+                }
+
+                // Get IDs of users already linked to guides
+                const linkedUserIds = new Set(guidesData.data.map(guide => guide.user_id));
+
+                // Filter users: Role must be 'ParkGuide' and not already linked
+                const eligibleUsers = usersData.data.filter(user => 
+                    user.role === 'ParkGuide' && !linkedUserIds.has(user.user_id)
+                );
+
+                return eligibleUsers;
+
+            } catch (error) {
+                console.error('Error fetching eligible users:', error);
+                return []; // Return empty array on error
+            }
+        }
+
+        // Call the function when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAndCreateDatabase();
+            fetchAndDisplayParkGuides();
+            fetchAndDisplayParks();
+            fetchAndDisplayUsers();
+            fetchAndDisplayLicensingDetails(); // Add call for licensing table
+            fetchAndDisplayVisitorFeedback(); // Add call for visitor feedback
+        });
+
+        // Handle Add New Park button click
+        document.querySelector('#parks-table .btn-primary').addEventListener('click', function() {
+            document.getElementById('addParkModal').style.display = 'flex';
+        });
+
+        // Handle Add New User button click
+        document.querySelector('#users-table .btn-primary').addEventListener('click', function() {
+            document.getElementById('addUserModal').style.display = 'flex';
+        });
+
+        // Handle Add New Park Guide button click - Show choice modal first
+        document.querySelector('#park-guide-info-table .btn-primary').addEventListener('click', function() {
+            // Reset the add park guide form in case it was partially filled
+            document.getElementById('addParkGuideForm').reset();
+            const userIdInput = document.getElementById('guideUserId');
+            userIdInput.readOnly = false; // Ensure User ID is editable if opened directly (fallback)
+             userIdInput.style.backgroundColor = ''; 
+            parkGuideUserIdToLink = null; // Clear any previously stored ID
+            addUserFlowOrigin = null; // Reset origin
+            
+            document.getElementById('parkGuideChoiceModal').style.display = 'flex';
+        });
+
+        // --- Event Listeners for Choice Modal --- 
+        document.getElementById('btnCreateNewUser').addEventListener('click', function() {
+            document.getElementById('parkGuideChoiceModal').style.display = 'none';
+            addUserFlowOrigin = 'parkGuide'; // Set origin
+            // Reset and open Add User modal, maybe pre-fill role?
+            document.getElementById('addUserForm').reset();
+            // document.getElementById('userRole').value = 'ParkGuide'; // Optional pre-fill
+            document.getElementById('addUserModal').style.display = 'flex';
+        });
+
+        document.getElementById('btnSelectExistingUser').addEventListener('click', async function() {
+            document.getElementById('parkGuideChoiceModal').style.display = 'none';
+            const selectElement = document.getElementById('selectExistingUserId');
+            const errorElement = document.getElementById('selectUserError');
+            selectElement.innerHTML = '<option value="">Loading...</option>'; // Show loading state
+            errorElement.style.display = 'none';
+            document.getElementById('selectUserModal').style.display = 'flex';
+
+            const eligibleUsers = await fetchEligibleUsers();
+
+            selectElement.innerHTML = ''; // Clear loading/previous options
+            if (eligibleUsers.length > 0) {
+                 selectElement.innerHTML = '<option value="">-- Select a User --</option>'; // Add default prompt
+                eligibleUsers.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.user_id;
+                    option.textContent = `${user.email} (ID: ${user.user_id})`;
+                    selectElement.appendChild(option);
+                });
+            } else {
+                selectElement.innerHTML = '<option value="">No eligible users found</option>';
+                 errorElement.style.display = 'block';
+            }
+        });
+
+         // --- Event Listener for Select User Form --- 
+        document.getElementById('selectUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const selectedUserId = document.getElementById('selectExistingUserId').value;
+            if (selectedUserId) {
+                document.getElementById('selectUserModal').style.display = 'none';
+                openAddParkGuideModalWithUser(selectedUserId);
+            } else {
+                alert('Please select a user.');
+            }
+        });
+
+        // Handle modal close
+        document.querySelectorAll('.close-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('addParkModal').style.display = 'none';
+                document.getElementById('addUserModal').style.display = 'none';
+                document.getElementById('addParkGuideModal').style.display = 'none';
+                document.getElementById('parkGuideChoiceModal').style.display = 'none';
+                document.getElementById('selectUserModal').style.display = 'none';
+                 // Reset origin flags when any modal is closed manually
+                addUserFlowOrigin = null;
+                parkGuideUserIdToLink = null;
+            });
+        });
+
+        // Handle Add User form submission - Modified for Park Guide flow
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            // Ensure role is set if pre-filled
+            // if (!data.role) data.role = 'ParkGuide'; 
+
+            fetch('users_api.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    document.getElementById('addUserModal').style.display = 'none';
+                    alert('User added successfully!');
+                    this.reset();
+
+                    // If flow originated from Park Guide, open Add Park Guide modal
+                    if (addUserFlowOrigin === 'parkGuide' && result.user_id) {
+                         openAddParkGuideModalWithUser(result.user_id);
+                    } else {
+                        // Otherwise, just refresh the users table
+                        fetchAndDisplayUsers();
+                    }
+                    addUserFlowOrigin = null; // Reset origin
+                } else {
+                    alert('Error adding user: ' + result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error adding user: ' + error.message);
+                addUserFlowOrigin = null; // Reset origin on error
+            });
+        });
+
+        // Handle Add Park Guide form submission - Ensure User ID is not read-only if opened directly (fallback)
+        document.getElementById('addParkGuideForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            // Make user_id writable temporarily to include in FormData if it was read-only
+            const userIdInput = document.getElementById('guideUserId');
+            const wasReadOnly = userIdInput.readOnly;
+            userIdInput.readOnly = false;
+            const data = Object.fromEntries(new FormData(this).entries()); // Re-read form data
+            userIdInput.readOnly = wasReadOnly; // Restore read-only status
+
+            fetch('park_guides_api.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data) 
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    document.getElementById('addParkGuideModal').style.display = 'none';
+                    fetchAndDisplayParkGuides();
+                    alert('Park Guide added successfully!');
+                    document.getElementById('addParkGuideForm').reset();
+                } else {
+                    console.error('Error:', error);
+                    alert('Error adding park guide: ' + error.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error adding park guide: ' + error.message);
+            });
+        });
+
+        // Function to check and create database
+        async function checkAndCreateDatabase() {
+            try {
+                const response = await fetch('check_database.php');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    console.log('Database status:', data.message);
+                    // After database is ready, fetch and display users
+                    await fetchAndDisplayUsers();
+                } else {
+                    console.error('Database error:', data.message);
+                }
+            } catch (error) {
+                console.error('Error checking database:', error);
+            }
+        }
+
+        // Handle sidebar navigation active state and table visibility
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.sidebar-nav a').forEach(a => {
+                    a.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                // Hide all tables
+                document.querySelectorAll('.table-section').forEach(table => {
+                    table.classList.remove('active');
+                });
+
+                // Show the corresponding table
+                const section = this.getAttribute('data-section');
+                document.getElementById(`${section}-table`).classList.add('active');
+            });
+        });
+
+        // Handle table sorting
+        document.querySelectorAll('.sortable').forEach(header => {
+            header.addEventListener('click', function() {
+                const table = this.closest('table');
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const index = Array.from(this.parentElement.children).indexOf(this);
+                const sortType = this.getAttribute('data-sort');
+                const isAsc = this.classList.contains('asc');
+                
+                // Remove sort classes from all headers
+                table.querySelectorAll('.sortable').forEach(h => {
+                    h.classList.remove('asc', 'desc');
+                    h.querySelector('i').className = 'fas fa-sort';
+                });
+                
+                // Add sort class to clicked header
+                this.classList.add(isAsc ? 'desc' : 'asc');
+                const icon = this.querySelector('i');
+                icon.className = isAsc ? 'fas fa-sort-down' : 'fas fa-sort-up';
+                
+                // Sort rows
+                rows.sort((a, b) => {
+                    const aValue = a.children[index].textContent.trim();
+                    const bValue = b.children[index].textContent.trim();
+                    
+                    // Special handling for different data types
+                    if (sortType === 'park_id' || sortType === 'land_area' || sortType === 'marine_area') {
+                        // Handle numeric values
+                        const aNum = parseFloat(aValue.replace(/[^0-9.-]+/g, '')) || 0;
+                        const bNum = parseFloat(bValue.replace(/[^0-9.-]+/g, '')) || 0;
+                        return isAsc ? bNum - aNum : aNum - bNum;
+                    } else if (sortType === 'rating' || sortType === 'progress') {
+                        // Handle numeric values with percentage
+                        const aNum = parseFloat(aValue);
+                        const bNum = parseFloat(bValue);
+                        return isAsc ? bNum - aNum : aNum - bNum;
+                    } else if (sortType === 'status') {
+                        // Handle status values
+                        const statusOrder = { 'Active': 1, 'Inactive': 2, 'Suspended': 3 };
+                        return isAsc ? 
+                            statusOrder[bValue] - statusOrder[aValue] : 
+                            statusOrder[aValue] - statusOrder[bValue];
+                    } else if (sortType === 'login' || sortType === 'issue' || sortType === 'expiry' || sortType === 'registered' || sortType === 'date_of_gazettement') {
+                        // Handle date values
+                        const aDate = new Date(aValue);
+                        const bDate = new Date(bValue);
+                        return isAsc ? bDate - aDate : aDate - bDate;
+                    } else {
+                        // Default string comparison
+                        return isAsc ? 
+                            bValue.localeCompare(aValue) : 
+                            aValue.localeCompare(bValue);
+                    }
+                });
+                
+                // Reorder rows in the table
+                rows.forEach(row => tbody.appendChild(row));
+            });
+        });
+
+        // Handle search functionality
+        document.querySelectorAll('.search-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const tableSection = this.closest('.table-section');
+                const table = tableSection.querySelector('table');
+                const tbody = table.querySelector('tbody');
+                const rows = tbody.querySelectorAll('tr');
+                const searchTerm = this.value.toLowerCase();
+                const filterSelect = tableSection.querySelector('.filter-select');
+                const selectedColumn = filterSelect.value;
+                
+                rows.forEach(row => {
+                    let shouldShow = false;
+                    
+                    if (selectedColumn === 'all') {
+                        // Search across all columns
+                        Array.from(row.children).forEach(cell => {
+                            if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                                shouldShow = true;
+                            }
+                        });
+                    } else {
+                        // Search in specific column
+                        const columnIndex = Array.from(table.querySelectorAll('th'))
+                            .findIndex(th => th.getAttribute('data-sort') === selectedColumn);
+                        if (columnIndex !== -1) {
+                            const cell = row.children[columnIndex];
+                            shouldShow = cell.textContent.toLowerCase().includes(searchTerm);
+                        }
+                    }
+                    
+                    row.style.display = shouldShow ? '' : 'none';
+                });
+            });
+        });
+
+        // Handle filter select change
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const searchInput = this.closest('.search-section').querySelector('.search-input');
+                searchInput.dispatchEvent(new Event('input'));
+            });
+        });
+
+        // Function to fetch and display park guide data
+        function fetchAndDisplayParkGuides() {
+            fetch('park_guides_api.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('park-guide-table-body');
+                    tbody.innerHTML = ''; // Clear existing rows
+                    
+                    if (data.status === 'success' && data.data.length > 0) {
+                        data.data.forEach(guide => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${guide.full_name || '-'}</td>
+                                <td>${guide.ic_passport_number || '-'}</td>
+                                <td>${guide.gender || '-'}</td>
+                                <td>${guide.mobile_number || '-'}</td>
+                                <td>${guide.email || '-'}</td>
+                                <td><span class="status ${(guide.license_status || 'not-licensed').toLowerCase().replace(' ', '-').replace('/', '-').replace('.', '')}">${guide.license_status || 'Not Licensed'}</span></td>
+                                <td class="assigned-parks-cell">${guide.assigned_parks || 'None'}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        // Create a row with "No Data" message
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        cell.colSpan = 7; // Adjusted colspan
+                        cell.textContent = 'No Data';
+                        cell.style.textAlign = 'center';
+                        row.appendChild(cell);
+                        tbody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const tbody = document.getElementById('park-guide-table-body');
+                    tbody.innerHTML = '';
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 7; // Adjusted colspan
+                    cell.textContent = 'Error loading data';
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '20px';
+                    cell.style.color = '#ff4444';
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                });
+        }
+
+        // Function to fetch and display park data
+        function fetchAndDisplayParks() {
+            fetch('parks_api.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('parks-table-body');
+                    tbody.innerHTML = ''; // Clear existing rows
+                    
+                    if (data.status === 'success' && data.data.length > 0) {
+                        data.data.forEach(park => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${park.park_id ? park.park_id : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${park.name ? park.name : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${park.location ? park.location : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${park.type ? park.type : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${park.date_of_gazettement ? park.date_of_gazettement : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${park.land_area ? park.land_area + ' ha' : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${park.marine_area ? park.marine_area + ' ha' : '<div style="text-align: center;">-</div>'}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        // Create a row with "No Data" message
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        cell.colSpan = 7; // Adjusted colspan
+                        cell.textContent = 'No Data';
+                        cell.style.textAlign = 'center';
+                        cell.style.padding = '20px';
+                        cell.style.color = '#666';
+                        row.appendChild(cell);
+                        tbody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const tbody = document.getElementById('parks-table-body');
+                    tbody.innerHTML = '';
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 7; // Adjusted colspan
+                    cell.textContent = 'Error loading data';
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '20px';
+                    cell.style.color = '#ff4444';
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                });
+        }
+
+        // Function to fetch and display user data
+        function fetchAndDisplayUsers() {
+            fetch('users_api.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('users-table-body');
+                    tbody.innerHTML = ''; // Clear existing rows
+                    
+                    if (data.status === 'success' && data.data.length > 0) {
+                        data.data.forEach(user => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${user.user_id ? user.user_id : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${user.email ? user.email : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${user.role ? user.role : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${user.created_at ? user.created_at : '<div style="text-align: center;">-</div>'}</td>
+                                <td>${user.last_login_at ? user.last_login_at : '<div style="text-align: center;">-</div>'}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        // Create a row with "No Data" message
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        cell.colSpan = 5;
+                        cell.textContent = 'No Data';
+                        cell.style.textAlign = 'center';
+                        cell.style.padding = '20px';
+                        cell.style.color = '#666';
+                        row.appendChild(cell);
+                        tbody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const tbody = document.getElementById('users-table-body');
+                    tbody.innerHTML = '';
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 5;
+                    cell.textContent = 'Error loading data';
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '20px';
+                    cell.style.color = '#ff4444';
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                });
+        }
+
+        // Function to fetch and display licensing details (from ParkGuides data)
+        function fetchAndDisplayLicensingDetails() {
+             fetch('park_guides_api.php') // Use the same API as park guides info
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('licensing-table-body');
+                    tbody.innerHTML = ''; // Clear existing rows
+                    
+                    if (data.status === 'success' && data.data.length > 0) {
+                        data.data.forEach(guide => {
+                            const row = document.createElement('tr');
+                            // Select and order columns as requested
+                            row.innerHTML = `
+                                <td>${guide.sfc_license_number || '-'}</td>
+                                <td>${guide.full_name || '-'}</td>
+                                <td><span class="status ${(guide.license_status || 'not-licensed').toLowerCase().replace(' ', '-').replace('/', '-').replace('.', '')}">${guide.license_status || 'Not Licensed'}</span></td>
+                                <td>${guide.license_issue_date || '-'}</td>
+                                <td>${guide.license_expiry_date || '-'}</td>
+                                <td>${guide.date_registered || '-'}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        cell.colSpan = 6; // Adjusted colspan
+                        cell.textContent = 'No Data';
+                        cell.style.textAlign = 'center';
+                        cell.style.padding = '20px';
+                        cell.style.color = '#666';
+                        row.appendChild(cell);
+                        tbody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching licensing details:', error);
+                    const tbody = document.getElementById('licensing-table-body');
+                    tbody.innerHTML = '';
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 6; // Adjusted colspan
+                    cell.textContent = 'Error loading data';
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '20px';
+                    cell.style.color = '#ff4444';
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                });
+        }
+
+        // Function to fetch and display visitor feedback
+        function fetchAndDisplayVisitorFeedback() {
+            fetch('visitor_feedback_api.php') 
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('visitor-feedback-table-body');
+                    tbody.innerHTML = ''; 
+                    
+                    if (data.status === 'success' && data.data.length > 0) {
+                        data.data.forEach(feedback => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${feedback.guide_name || '-'}</td>
+                                <td>${feedback.park_name || 'N/A'}</td> <!-- Use N/A if park is null -->
+                                <td>${feedback.visitor_name || '-'}</td>
+                                <td>${feedback.visitor_email || '-'}</td>
+                                <td>${feedback.rating !== null ? feedback.rating : '-'}</td> <!-- Handle potential null rating -->
+                                <td class="visitor-comments-cell">${feedback.comments || '-'}</td> <!-- Wrap comments -->
+                                <td>${feedback.feedback_date || '-'}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        const row = document.createElement('tr');
+                        const cell = document.createElement('td');
+                        cell.colSpan = 7; // Adjusted colspan
+                        cell.textContent = 'No Feedback Data';
+                        cell.style.textAlign = 'center';
+                        cell.style.padding = '20px';
+                        cell.style.color = '#666';
+                        row.appendChild(cell);
+                        tbody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching visitor feedback:', error);
+                    const tbody = document.getElementById('visitor-feedback-table-body');
+                    tbody.innerHTML = '';
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 7; // Adjusted colspan
+                    cell.textContent = 'Error loading data';
+                    cell.style.textAlign = 'center';
+                    cell.style.padding = '20px';
+                    cell.style.color = '#ff4444';
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                });
+        }
+
+        // Handle edit button click (Event Delegation for all tables) - REMOVED / Simplified
+         // (Listener remains for other potential future actions, but edit/delete logic removed)
+        document.querySelector('.main-content').addEventListener('click', function(e) {
+             // Placeholder for potential future button clicks within the content area
+             // Currently, no edit/delete actions are handled here.
+        });
+
+        // Function to check and create database
+        async function checkAndCreateDatabase() {
+            try {
+                const response = await fetch('check_database.php');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    console.log('Database status:', data.message);
+                    // After database is ready, fetch and display users
+                    await fetchAndDisplayUsers();
+                } else {
+                    console.error('Database error:', data.message);
+                }
+            } catch (error) {
+                console.error('Error checking database:', error);
+            }
+        }
+    </script>
+
+    <style>
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        width: 500px;
+        max-width: 90%;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+        margin: 0;
+    }
+
+    .close-modal {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    /* Style for Assigned Parks cell */
+    .assigned-parks-cell {
+        max-width: 400px;
+        white-space: normal; /* Allow wrapping */
+        word-wrap: break-word; /* Ensure long words break */
+        overflow-wrap: break-word; /* Modern property for word break */
+        text-align: justify; /* Justify text alignment */
+        vertical-align: top; /* Align content to top */
+    }
+
+    /* Style for Visitor Comments cell */
+    .visitor-comments-cell {
+        max-width: 400px;
+        white-space: normal; /* Allow wrapping */
+        word-wrap: break-word; /* Ensure long words break */
+        overflow-wrap: break-word; /* Modern property for word break */
+        vertical-align: top; /* Align content to top */
+        text-align: justify; /* Justify text alignment */
+    }
+    </style>
+</body>
+</html>
