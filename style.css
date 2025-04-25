@@ -1976,3 +1976,149 @@ tr:hover {
         font-size: 0.8rem;
     }
 }
+
+/* Eco-Tourism Page Styles */
+.ash_eco-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.ash_eco-card {
+    background: #fff;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    position: relative;
+}
+
+.ash_eco-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.ash_eco-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+}
+
+.ash_eco-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.ash_eco-card.featured .ash_eco-image {
+    height: 100%;
+}
+
+.ash_eco-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.ash_eco-card:hover .ash_eco-image img {
+    transform: scale(1.05);
+}
+
+.ash_eco-tag {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ash_eco-content {
+    padding: 30px;
+}
+
+.ash_eco-content h3 {
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.ash_eco-content p {
+    color: var(--gray-text);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.ash_eco-content .btn-primary {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* Program Stats */
+.ash_program-stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.ash_stat-item {
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+    padding: 15px;
+    background: var(--bg-light);
+    border-radius: var(--border-radius);
+}
+
+.ash_stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.ash_stat-label {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .ash_eco-card.featured {
+        grid-column: auto;
+        grid-template-columns: 1fr;
+    }
+
+    .ash_eco-card.featured .ash_eco-image {
+        height: 250px;
+    }
+
+    .ash_eco-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .ash_eco-content {
+        padding: 20px;
+    }
+
+    .ash_eco-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .ash_program-stats {
+        justify-content: center;
+    }
+
+    .ash_stat-item {
+        min-width: 140px;
+    }
+}
