@@ -1,211 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>SFC - Eco-Tourism | Sarawak Forestry Corporation</title>
-    <meta charset="utf-8">
-    <meta name="Norman" content="Group 4">
-    <meta name="description" content="Experience Sarawak's biodiversity through conservation-focused eco-tourism programs with Sarawak Forestry Corporation">
-    <meta name="keywords" content="eco-tourism, conservation, Sarawak, orangutan, rainforest, wildlife, nature, adventure">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Eco-Tourism Programs - Sarawak Forestry Corporation</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Sub-header Navigation -->
-    <section class="nrm-sub-header">
-        <nav>
-            <a href="Home.html"><img src="img/sfclogo.jpg" alt="Sarawak Forestry Corporation Logo" class="nrm-logo"></a>
-            <div class="nrm-nav-links" id="nrmNavLinks">
-                <i class="fa fa-times-circle" onclick="nrmHidemenu()"></i>
-                <ul class="nrm-nav-list">
-                    <li><a href="Home.html">HOME</a></li>
-                    <li><a href="AboutUs.html">ABOUT US</a></li>
-                    <li><a href="Conservation.html">CONSERVATION</a></li>
-                    <li><a href="nrm-eco.html">ECO-TOURISM</a></li>
-                    <li><a href="Login.html">LOGIN</a></li>
-                    <li><a href="Register.html">REGISTER</a></li>
-                    <li><a href="nrm-contact.html">CONTACT US</a></li>
-                    <li><a href="privacypolicy.html">PRIVACY POLICY</a></li>
-                </ul> 
-            </div>
-            <i class="fa fa-bars" onclick="nrmShowmenu()"></i>
-        </nav>
-        <h1 class="nrm-page-title">Eco-Tourism Adventures</h1>
-        <p class="nrm-hero-text">Discover Sarawak's breathtaking biodiversity through our conservation-focused eco-tourism programs</p>
-        <a href="#nrm-programs" class="nrm-btn">Explore Programs</a>
-    </section>
-
-    <!-- Quick Navigation -->
-    <div class="nrm-quick-nav">
-        <div class="nrm-quick-nav-container">
-            <ul class="nrm-inner-nav-list">
-                <li><a href="#nrm-orangutan">Orangutan Adoption</a></li>
-                <li><a href="#nrm-rainforest">Rainforest Project</a></li>
-                <li><a href="#nrm-heart">Heart2Heart</a></li>
-                <li><a href="#nrm-turtleAdoption">Turtle Adoption</a></li>
-                <li><a href="#nrm-turtleConservation">Turtle Conservation</a></li>
-                <li><a href="#nrm-loagan">Loagan Bunut</a></li>
-                <li><a href="#nrm-lakei">Lakei Island</a></li>
-                <li><a href="#nrm-piasau">Hornbill Watch</a></li>
-                <li><a href="#nrm-sama">Night Walk</a></li>
-                <li><a href="#nrm-rattan">Rattan Trail</a></li>
-            </ul>
+    <!-- Hero Section -->
+    <header class="ash_hero">
+        <div class="hero-overlay"></div>
+        <div class="ash_hero-content">
+            <h1>Eco-Tourism Programs</h1>
+            <p>Experience Sarawak's natural wonders while supporting conservation</p>
         </div>
-    </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
 
-    <!-- Programs -->
-    <section class="nrm-program-section" id="nrm-programs">
-        <div class="nrm-container">
-            <div class="nrm-section-title">
-                <h2 class="nrm-section-heading">Our Eco-Tourism Programs</h2>
-                <p class="nrm-section-description">Join us in preserving Sarawak's natural heritage while experiencing unforgettable wildlife encounters</p>
+    <!-- Navigation -->
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="logo">
+            <img src="https://placehold.co/200x60?text=Sarawak+Forestry" alt="Sarawak Forestry Logo">
+        </div>
+        <div class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="AboutUs.html">About Us</a></li>
+            <li><a href="Conservation.html" class="active">Conservation</a></li>
+            <li><a href="#parks">National Parks</a></li>
+            <li><a href="#wildlife">Wildlife</a></li>
+            <li><a href="eco.html">Eco-Tourism</a></li>
+            <li><a href="#media">Media & News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Featured Programs -->
+    <section id="featured-programs" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Programs</h2>
+                <div class="underline"></div>
+                <p>Join our signature conservation initiatives</p>
             </div>
-
-            <div class="nrm-catalogue-grid">
-                <!-- Orangutan Adoption -->
-                <div class="nrm-program-card" id="nrm-orangutan">
-                    <img src="img/OrangutanAdoptionProgramme_img.jpg" alt="Orangutan in the wild at Semenggoh Nature Reserve" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Wildlife Conservation</span>
-                        <h3 class="nrm-card-title">Orangutan Adoption Programme</h3>
-                        <p class="nrm-card-text">Sponsor an orangutan and contribute directly to their care, rehabilitation, and eventual release back into the wild. Your adoption helps fund feeding, medical care, and habitat protection at Semenggoh Wildlife Centre.</p>
-                        <a href="#" class="nrm-card-btn">Learn More</a>
+            <div class="ash_eco-grid">
+                <!-- Orangutan Programs -->
+                <div class="ash_eco-card featured">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Orangutan+Adoption" alt="Orangutan Adoption">
+                        <div class="ash_eco-tag">Featured</div>
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Orangutan Adoption Programme</h3>
+                        <p>Support the conservation of Borneo's iconic orangutans through our adoption program. Your contribution helps provide care, rehabilitation, and protection for these endangered primates.</p>
+                        <a href="#" class="btn-primary">Learn More</a>
                     </div>
                 </div>
 
-                <!-- Rainforest Program -->
-                <div class="nrm-program-card" id="nrm-rainforest">
-                    <img src="img/rainforest.webp" alt="Volunteers planting trees in rainforest" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Habitat Restoration</span>
-                        <h3 class="nrm-card-title">Bring Back the Rainforest Programme</h3>
-                        <p class="nrm-card-text">Participate in hands-on reforestation efforts to restore Borneo's precious rainforest ecosystems. Work alongside our conservation team planting native tree species in degraded forest areas.</p>
-                        <a href="#" class="nrm-card-btn">Join Now</a>
+                <div class="ash_eco-card featured">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=heart2heart" alt="Heart2Heart With Orangutan">
+                        <div class="ash_eco-tag">Featured</div>
                     </div>
-                </div>
-
-                <!-- Heart2Heart -->
-                <div class="nrm-program-card" id="nrm-heart">
-                    <img src="img/orangutanh2h2.jpg" alt="Visitor observing orangutan during Heart2Heart program" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Wildlife Experience</span>
-                        <h3 class="nrm-card-title">Heart2Heart With Orangutan</h3>
-                        <p class="nrm-card-text">Experience a unique opportunity to observe orangutans in a semi-wild environment at Matang Wildlife Centre. Learn about their behavior and conservation needs from our primate specialists.</p>
-                        <a href="#" class="nrm-card-btn">Book Experience</a>
-                    </div>
-                </div>
-
-                <!-- Sea Turtle Adoption -->
-                <div class="nrm-program-card" id="nrm-turtleAdoption">
-                    <img src="img/seaturtle.jpg" alt="Sea turtle swimming in ocean" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Marine Conservation</span>
-                        <h3 class="nrm-card-title">Sea Turtle Adoption Programme</h3>
-                        <p class="nrm-card-text">Adopt a sea turtle and support conservation efforts at Talang-Satang National Park. Your adoption helps fund beach patrols, nest protection, and hatchling releases.</p>
-                        <a href="#" class="nrm-card-btn">Adopt Now</a>
-                    </div>
-                </div>
-
-                <!-- Sea Turtle Conservation -->
-                <div class="nrm-program-card" id="nrm-turtleConservation">
-                    <img src="img/seaturtle2.jpeg" alt="Conservationists monitoring turtle nest" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Marine Conservation</span>
-                        <h3 class="nrm-card-title">Sea Turtle Conservation Programme</h3>
-                        <p class="nrm-card-text">Join our team in protecting sea turtle nesting sites along Sarawak's coastline. Participate in night patrols, nest monitoring, and community education programs.</p>
-                        <a href="#" class="nrm-card-btn">Join Program</a>
-                    </div>
-                </div>
-
-                <!-- Loagan Bunut -->
-                <div class="nrm-program-card" id="nrm-loagan">
-                    <img src="img/loaganbunut.jpg" alt="Scenic view of Loagan Bunut lake" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Wetland Exploration</span>
-                        <h3 class="nrm-card-title">Loagan Bunut National Park</h3>
-                        <p class="nrm-card-text">Explore Sarawak's only freshwater swamp forest and its unique seasonal lake ecosystem. Enjoy boat tours, birdwatching, and traditional fishing demonstrations.</p>
-                        <a href="#" class="nrm-card-btn">Explore Now</a>
-                    </div>
-                </div>
-
-                <!-- Lakei Island -->
-                <div class="nrm-program-card" id="nrm-lakei">
-                    <img src="img/lakei.jpg" alt="Pristine beach at Lakei Island" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Island Adventure</span>
-                        <h3 class="nrm-card-title">Lakei Island</h3>
-                        <p class="nrm-card-text">Discover this protected island's beautiful beaches, rainforest trails, and diverse marine life near Santubong. Includes snorkeling, nature walks, and beach clean-up activities.</p>
-                        <a href="#" class="nrm-card-btn">Island Adventure</a>
-                    </div>
-                </div>
-
-                <!-- Piasau Nature Reserve -->
-                <div class="nrm-program-card" id="nrm-piasau">
-                    <img src="img/piasau.jpg" alt="Hornbill in flight at Piasau Nature Reserve" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Bird Watching</span>
-                        <h3 class="nrm-card-title">Piasau Nature Reserve Hornbill Watch</h3>
-                        <p class="nrm-card-text">Observe Sarawak's state bird, the magnificent hornbill, in its natural habitat at this urban oasis in Miri. Guided tours offer excellent photography opportunities.</p>
-                        <a href="#" class="nrm-card-btn">Join Watch</a>
-                    </div>
-                </div>
-
-                <!-- Sama Jaya -->
-                <div class="nrm-program-card" id="nrm-sama">
-                    <img src="img/sama jaya.jpeg" alt="Night walk in Sama Jaya Nature Reserve" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Night Adventure</span>
-                        <h3 class="nrm-card-title">Sama Jaya Nature Reserve Night Walk</h3>
-                        <p class="nrm-card-text">Experience the rainforest at night in this urban green space in Kuching. Discover nocturnal creatures with our expert guides and learn about their unique adaptations.</p>
-                        <a href="#" class="nrm-card-btn">Book Walk</a>
-                    </div>
-                </div>
-
-                <!-- Rattan Valley -->
-                <div class="nrm-program-card" id="nrm-rattan">
-                    <img src="img/beccari.webp" alt="Rattan plants along forest trail" class="nrm-card-image">
-                    <div class="nrm-card-content">
-                        <span class="nrm-card-category">Nature Trail</span>
-                        <h3 class="nrm-card-title">The Beccari Rattan Valley Trail</h3>
-                        <p class="nrm-card-text">Explore this unique ecosystem in Kubah National Park dominated by rattan species. Learn about their ecological importance and traditional uses by local communities.</p>
-                        <a href="#" class="nrm-card-btn">Walk the Trail</a>
+                    <div class="ash_eco-content">
+                        <h3>Heart2Heart With Orangutan</h3>
+                        <p>Experience a unique encounter with orangutans in their natural habitat. This program offers intimate wildlife viewing while supporting conservation efforts.</p>
+                        <a href="#" class="btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="nrm-footer">
-        <section class="nrm-footer-content">
-            <div class="nrm-footer-icons">
-                <a href="https://www.facebook.com/sfcsarawak/" target="_blank" aria-label="Facebook" title="Visit our Facebook page"><i class="fa fa-facebook"></i></a>
-                <a href="https://x.com/sfcsarawak?lang=en" target="_blank" aria-label="Twitter" title="Visit our Twitter page"><i class="fa fa-twitter"></i></a>
-                <a href="https://www.instagram.com/sfcsarawak/?hl=en" target="_blank" aria-label="Instagram" title="Visit our Instagram page"><i class="fa fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/company/sarawak-forestry-corporation-sdn.-bhd./" target="_blank" aria-label="LinkedIn" title="Visit our LinkedIn page"><i class="fa fa-linkedin"></i></a>
+    <!-- Conservation Programs -->
+    <section id="conservation-programs" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Conservation Initiatives</h2>
+                <div class="underline"></div>
+                <p>Participate in our environmental preservation efforts</p>
             </div>
-            <p>&copy; 2025 Sarawak Forestry Corporation. All rights reserved.</p>
-            <p>Last updated: 15 April 2025</p>
-        </section>
+            <div class="ash_eco-grid">
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Rainforest+Project" alt="Rainforest Project">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Bring Back the Rainforest Project</h3>
+                        <p>Join our reforestation initiative to restore Sarawak's rainforest ecosystems. Plant trees and help create wildlife corridors for future generations.</p>
+                        <a href="#" class="btn-primary">Get Involved</a>
+                    </div>
+                </div>
+
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Turtle+Adoption" alt="Sea Turtle Adoption">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Sea Turtle Adoption Programme</h3>
+                        <p>Support the conservation of sea turtles through our adoption program. Help protect nesting sites and ensure the survival of these marine creatures.</p>
+                        <a href="#" class="btn-primary">Adopt Now</a>
+                    </div>
+                </div>
+
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Sea+Turtle+Conservation" alt="Sea Turtle Conservation">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Sea Turtle Conservation Program</h3>
+                        <p>Participate in our sea turtle conservation efforts, including nest monitoring, hatchling releases, and beach clean-ups.</p>
+                        <a href="#" class="btn-primary">Join Program</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nature Experiences -->
+    <section id="nature-experiences" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nature Experiences</h2>
+                <div class="underline"></div>
+                <p>Discover Sarawak's natural wonders</p>
+            </div>
+            <div class="ash_eco-grid">
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Loagan+Bunut" alt="Loagan Bunut">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Loagan Bunut Experience</h3>
+                        <p>Explore Sarawak's largest natural lake and its unique ecosystem. Witness the traditional fishing methods and diverse wildlife.</p>
+                        <a href="#" class="btn-primary">Plan Visit</a>
+                    </div>
+                </div>
+
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Lakei+Island" alt="Lakei Island">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Lakei Island Adventure</h3>
+                        <p>Discover the pristine beaches and rich marine life of Lakei Island. Perfect for snorkeling and nature photography.</p>
+                        <a href="#" class="btn-primary">Explore</a>
+                    </div>
+                </div>
+
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Hornbill+Watch" alt="Hornbill Watch">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Piasau Nature Reserve Hornbill Watch</h3>
+                        <p>Observe Sarawak's iconic hornbills in their natural habitat at Piasau Nature Reserve.</p>
+                        <a href="#" class="btn-primary">Book Now</a>
+                    </div>
+                </div>
+
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Night+Walk" alt="Night Walk">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>Sama Jaya Night Walk</h3>
+                        <p>Experience the forest come alive at night with guided walks through Sama Jaya Nature Reserve.</p>
+                        <a href="#" class="btn-primary">Book Tour</a>
+                    </div>
+                </div>
+
+                <div class="ash_eco-card">
+                    <div class="ash_eco-image">
+                        <img src="https://placehold.co/600x400?text=Rattan+Valley" alt="Rattan Valley">
+                    </div>
+                    <div class="ash_eco-content">
+                        <h3>The Beccari Rattan Valley Trail</h3>
+                        <p>Trek through the historic Rattan Valley and learn about Sarawak's unique plant species.</p>
+                        <a href="#" class="btn-primary">Start Adventure</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="img/sfclogo.jpg" alt="SFC Logo">
+                    <p>Sarawak Forestry Corporation is committed to the conservation and sustainable management of Sarawak's rich forest resources.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="AboutUs.html">About Us</a></li>
+                            <li><a href="Conservation.html">Conservation</a></li>
+                            <li><a href="eco.html">Eco-Tourism</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#">News & Updates</a></li>
+                            <li><a href="#">Publications</a></li>
+                            <li><a href="#">Gallery</a></li>
+                            <li><a href="#">FAQs</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Legal</h3>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#">Disclaimer</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sarawak Forestry Corporation. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
     <script>
-        // Toggle Menu (namespaced)
-        var nrmNavLinks = document.getElementById("nrmNavLinks");
-        function nrmShowmenu(){
-            nrmNavLinks.style.right = "0";
-        }
-        function nrmHidemenu(){
-            nrmNavLinks.style.right = "-200px";
-        }
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('.nrm-quick-nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            navToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
             });
         });
     </script>
