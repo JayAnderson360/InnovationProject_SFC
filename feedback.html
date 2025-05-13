@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Feedback - Sarawak Forestry</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="ash_hero_3">
+        <div class="ash_hero-overlay_3"></div>
+        <div class="ash_hero-content_3">
+            <h1>Visitor Feedback</h1>
+            <p>Help us improve your experience by sharing your thoughts</p>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="logo">
+            <img src="https://placehold.co/200x60?text=Sarawak+Forestry" alt="Sarawak Forestry Logo">
+        </div>
+        <div class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="#wildlife">Wildlife</a></li>
+            <li><a href="conservation.html">Conservation</a></li>
+            <li><a href="eco.html">Eco-Tourism</a></li>
+            <li><a href="#media">Media & News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="feedback.html" class="active">Feedback</a></li>
+        </ul>
+    </nav>
+
+    <!-- Feedback Form Section -->
+    <section id="feedback-form" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Share Your Experience</h2>
+                <div class="underline"></div>
+                <p>Your feedback is valuable to us. It helps us understand what we're doing well and where we can improve to make your visits more enjoyable.</p>
+            </div>
+            
+            <div class="ash_feedback-container_4">
+                <div class="ash_feedback-intro_4">
+                    <h3>We Value Your Opinion</h3>
+                    <p>Whether you had a wonderful experience or encountered some challenges during your visit, we want to hear about it. Your insights help us enhance our services and facilities for all visitors.</p>
+                </div>
+                
+                <form class="ash_feedback-form_4" action="#" method="post">
+                    <div class="ash_form-row_4">
+                        <div class="ash_form-group_4">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="ash_form-group_4">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" oninvalid="this.setCustomValidity('Please enter a valid email address (e.g., user@example.com)')" oninput="this.setCustomValidity('')">
+                        </div>
+                    </div>
+
+                    <div class="ash_form-row_4">
+                        <div class="ash_form-group_4">
+                            <label for="visit-date">Date of Visit</label>
+                            <input type="date" id="visit-date" name="visit-date" required>
+                        </div>
+                        <div class="ash_form-group_4">
+                            <label for="location">Location Visited</label>
+                            <select id="location" name="location" required>
+                                <option value="" disabled selected>Select a location</option>
+                                <option value="bako-national-park">Bako National Park</option>
+                                <option value="gunung-mulu">Gunung Mulu National Park</option>
+                                <option value="semenggoh">Semenggoh Nature Reserve</option>
+                                <option value="kubah">Kubah National Park</option>
+                                <option value="lambir-hills">Lambir Hills National Park</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="ash_rating-section_4">
+                        <h4>Rate Your Experience</h4>
+                        <div class="ash_rating-container_4">
+                            <div class="ash_rating-category_4">
+                                <span>Cleanliness</span>
+                                <div class="ash_star-rating_4">
+                                    <i class="far fa-star" data-rating="1"></i>
+                                    <i class="far fa-star" data-rating="2"></i>
+                                    <i class="far fa-star" data-rating="3"></i>
+                                    <i class="far fa-star" data-rating="4"></i>
+                                    <i class="far fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" name="cleanliness-rating" id="cleanliness-rating" value="0">
+                            </div>
+                            <div class="ash_rating-category_4">
+                                <span>Staff Friendliness</span>
+                                <div class="ash_star-rating_4">
+                                    <i class="far fa-star" data-rating="1"></i>
+                                    <i class="far fa-star" data-rating="2"></i>
+                                    <i class="far fa-star" data-rating="3"></i>
+                                    <i class="far fa-star" data-rating="4"></i>
+                                    <i class="far fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" name="staff-rating" id="staff-rating" value="0">
+                            </div>
+                            <div class="ash_rating-category_4">
+                                <span>Facilities</span>
+                                <div class="ash_star-rating_4">
+                                    <i class="far fa-star" data-rating="1"></i>
+                                    <i class="far fa-star" data-rating="2"></i>
+                                    <i class="far fa-star" data-rating="3"></i>
+                                    <i class="far fa-star" data-rating="4"></i>
+                                    <i class="far fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" name="facilities-rating" id="facilities-rating" value="0">
+                            </div>
+                            <div class="ash_rating-category_4">
+                                <span>Overall Experience</span>
+                                <div class="ash_star-rating_4">
+                                    <i class="far fa-star" data-rating="1"></i>
+                                    <i class="far fa-star" data-rating="2"></i>
+                                    <i class="far fa-star" data-rating="3"></i>
+                                    <i class="far fa-star" data-rating="4"></i>
+                                    <i class="far fa-star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" name="overall-rating" id="overall-rating" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ash_form-group_4 full-width">
+                        <label>Type of Feedback</label>
+                        <div class="ash_radio-group_4">
+                            <div class="ash_radio-option_4">
+                                <input type="radio" id="compliment" name="feedback-type" value="compliment" required>
+                                <label for="compliment">Compliment</label>
+                            </div>
+                            <div class="ash_radio-option_4">
+                                <input type="radio" id="suggestion" name="feedback-type" value="suggestion">
+                                <label for="suggestion">Suggestion</label>
+                            </div>
+                            <div class="ash_radio-option_4">
+                                <input type="radio" id="complaint" name="feedback-type" value="complaint">
+                                <label for="complaint">Complaint</label>
+                            </div>
+                            <div class="ash_radio-option_4">
+                                <input type="radio" id="general" name="feedback-type" value="general">
+                                <label for="general">General Comment</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ash_form-group_4 full-width">
+                        <label for="feedback">Your Feedback</label>
+                        <textarea id="feedback" name="feedback" rows="6" placeholder="Please share your thoughts, suggestions, or concerns here..." required class="ash_textarea_4"></textarea>
+                    </div>
+
+                    <div class="ash_form-group_4 full-width">
+                        <label for="improvements">Suggestions for Improvement</label>
+                        <textarea id="improvements" name="improvements" rows="4" placeholder="How can we make your next visit even better?" class="ash_textarea_4"></textarea>
+                    </div>
+
+                    <div class="ash_form-group_4 checkbox-group">
+                        <div class="ash_checkbox-option_4">
+                            <input type="checkbox" id="contact-permission" name="contact-permission">
+                            <label for="contact-permission">I consent to be contacted regarding my feedback if necessary</label>
+                        </div>
+                        <div class="ash_checkbox-option_4">
+                            <input type="checkbox" id="privacy-policy" name="privacy-policy" required>
+                            <label for="privacy-policy">I have read and agree to the <a href="#">Privacy Policy</a></label>
+                        </div>
+                    </div>
+
+                    <div class="ash_form-actions_4">
+                        <button type="reset" class="ash_btn-secondary_4">Clear Form</button>
+                        <button type="submit" class="ash_btn-primary_4">Submit Feedback</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Your Feedback Matters</h2>
+                <div class="underline"></div>
+            </div>
+
+            <div class="ash_benefits-grid_3">
+                <div class="ash_benefit-card_3">
+                    <div class="ash_benefit-icon_3">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Continuous Improvement</h3>
+                    <p>Your feedback helps us identify areas where we can enhance our services and facilities for all visitors.</p>
+                </div>
+                <div class="ash_benefit-card_3">
+                    <div class="ash_benefit-icon_3">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Innovation</h3>
+                    <p>Your suggestions inspire new ideas and approaches to make our parks more enjoyable and accessible.</p>
+                </div>
+                <div class="ash_benefit-card_3">
+                    <div class="ash_benefit-icon_3">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Engagement</h3>
+                    <p>Feedback strengthens our connection with the community and ensures we're meeting your needs.</p>
+                </div>
+                <div class="ash_benefit-card_3">
+                    <div class="ash_benefit-icon_3">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Quality Assurance</h3>
+                    <p>Your insights help us maintain high standards across all our parks and recreational facilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <div class="underline"></div>
+            </div>
+
+            <div class="ash_faq-container_3">
+                <div class="ash_faq-item_3">
+                    <div class="ash_faq-question_3">
+                        <h3>What happens after I submit my feedback?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="ash_faq-answer_3">
+                        <p>Your feedback is reviewed by our management team. We analyze all feedback to identify trends and improvement opportunities. If you've provided contact information and consented to be contacted, we may reach out to you for additional details.</p>
+                    </div>
+                </div>
+                <div class="ash_faq-item_3">
+                    <div class="ash_faq-question_3">
+                        <h3>Is my feedback anonymous?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="ash_faq-answer_3">
+                        <p>We respect your privacy. You can submit anonymous feedback if you prefer, but providing your contact information allows us to follow up if needed. All personal information is handled according to our privacy policy.</p>
+                    </div>
+                </div>
+                <div class="ash_faq-item_3">
+                    <div class="ash_faq-question_3">
+                        <h3>How quickly will my suggestions be implemented?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="ash_faq-answer_3">
+                        <p>Implementation timelines vary depending on the type of suggestion, budget considerations, and planning requirements. Some changes can be made quickly, while others may be incorporated into our long-term improvement plans.</p>
+                    </div>
+                </div>
+                <div class="ash_faq-item_3">
+                    <div class="ash_faq-question_3">
+                        <h3>Can I report a maintenance issue through this form?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="ash_faq-answer_3">
+                        <p>Yes, you can report maintenance issues through this feedback form. For urgent matters that require immediate attention, we recommend also contacting our maintenance hotline at (555) 123-4567.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact-info" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Have Questions?</h2>
+                <div class="underline"></div>
+                <p>If you have any questions about providing feedback or want to discuss your park experience, please don't hesitate to contact us.</p>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+60 82-610088</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>feedback@sarawakforestry.com</p>
+                        </div>
+                    </div>
+
+                    <div class="social-media">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Join Our Visitor Panel</h3>
+                    <p>Want to have a greater impact? Join our visitor panel and participate in regular surveys and focus groups to help shape the future of our parks.</p>
+                    <a href="#" class="btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Operating Hours</h3>
+                    <p>Monday - Friday [8:00am to 5:00pm]</p>
+                    <p>Weekend & Public Holiday [Counter closed]</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="aboutus.html">About Us</a></li>
+                            <li><a href="#parks">National Parks</a></li>
+                            <li><a href="#wildlife">Wildlife</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#">Vacancies</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h3>Legal</h3>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Sarawak Forestry Corporation. All Rights Reserved.</p>
+                <p>This is a student project for educational purposes only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactive Elements -->
+    <script>
+        // Star Rating Functionality
+        document.querySelectorAll('.ash_star-rating_4 i').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-rating');
+                const parentRating = this.parentElement;
+                const hiddenInput = parentRating.parentElement.querySelector('input[type="hidden"]');
+                
+                // Reset all stars
+                parentRating.querySelectorAll('i').forEach(s => {
+                    s.className = 'far fa-star';
+                });
+                
+                // Fill stars up to selected rating
+                parentRating.querySelectorAll('i').forEach(s => {
+                    if (s.getAttribute('data-rating') <= rating) {
+                        s.className = 'fas fa-star';
+                    }
+                });
+                
+                // Update hidden input value
+                if (hiddenInput) {
+                    hiddenInput.value = rating;
+                }
+            });
+        });
+
+        // Simplified FAQ Accordion
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ Accordion
+            document.querySelectorAll('.ash_faq-question_3').forEach(question => {
+                question.addEventListener('click', function() {
+                    const parent = this.parentElement;
+                    
+                    // Close other FAQs
+                    document.querySelectorAll('.ash_faq-item_3.active').forEach(item => {
+                        if (item !== parent) {
+                            item.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current FAQ
+                    parent.classList.toggle('active');
+                });
+            });
+            
+            // Navigation toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (navToggle) {
+                navToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+
+        // Email validation
+        document.getElementById('email').addEventListener('input', function() {
+            if (this.validity.patternMismatch) {
+                this.setCustomValidity('Please enter a valid email address (e.g., user@example.com)');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
+</body>
+</html>
