@@ -1,4 +1,4 @@
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
 // Firebase config
@@ -46,7 +46,7 @@ function checkAuth() {
                 if (userRole === "ParkGuide") {
                     dropdownMenu = `
                         <div class="dropdown-toggle">
-                            <img src="https://placehold.co/40x40?text=P" alt="Profile Icon" />
+                            <img src="Resources/Images/logo.png" alt="Profile Icon" />
                         </div>
                         <div class="dropdown-menu">
                             <a href="courses.html">Courses</a>
@@ -57,7 +57,7 @@ function checkAuth() {
                 } else if (userRole === "user") {
                     dropdownMenu = `
                         <div class="dropdown-toggle">
-                            <img src="https://placehold.co/40x40?text=U" alt="Profile Icon" />
+                            <img src="Resources/Images/logo.png" alt="Profile Icon" />
                         </div>
                         <div class="dropdown-menu">
                             <a href="#" id="navbar-logout-btn">Logout</a>
@@ -66,7 +66,7 @@ function checkAuth() {
                 } else if (userRole === "admin") {
                     dropdownMenu = `
                         <div class="dropdown-toggle">
-                            <img src="https://placehold.co/40x40?text=A" alt="Admin Icon" />
+                            <img src="Resources/Images/logo.png" alt="Admin Icon" />
                         </div>
                         <div class="dropdown-menu">
                             <a href="index.html">Index</a>
