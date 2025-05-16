@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Sarawak Forestry</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-bg">
+    <div class="main-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <img src="../Resources/Images/logo.png" alt="Sarawak Forestry Logo" style="height: 40px; margin: 20px auto; display: block;">
+            </div>
+            <nav class="sidebar-nav">
+                <ul id="sidebar-links">
+                    <!-- Links will be populated by JavaScript -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <header class="content-header">
+                <h1 id="current-collection-title">Dashboard</h1>
+                <button id="add-new-button" class="btn-primary" style="display: none;">Add New Item</button>
+            </header>
+            <div id="data-display" class="table-section active">
+                <!-- Data table or forms will be rendered here -->
+                <p>Select a collection from the sidebar to view data.</p>
+            </div>
+
+            <!-- Modal for Add/Edit Forms -->
+            <div id="form-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Add/Edit Item</h2>
+                        <span class="close-btn" id="close-modal-button">&times;</span>
+                    </div>
+                    <div class="modal-body" id="modal-body-content">
+                        <!-- Form will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="api.js"></script>
+    <script src="ui.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
