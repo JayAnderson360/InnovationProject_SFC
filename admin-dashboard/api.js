@@ -27,13 +27,9 @@ const api = {
         try {
             const normalizedCollectionName = collectionName.toLowerCase();
             const snapshot = await db.collection(normalizedCollectionName).limit(1).get();
-            if (snapshot.empty) {
-                return []; // No documents, so no fields can be determined
-            }
+            if (snapshot.empty) return [];
             const doc = snapshot.docs[0];
-            // Get all keys from the document, excluding the 'id' if we added it manually
-            const fields = Object.keys(doc.data());
-            return fields;
+            return Object.keys(doc.data());
         } catch (error) {
             console.error(`Error fetching fields for ${collectionName}:`, error);
             alert(`Error fetching fields for ${collectionName}. Check console.`);
@@ -49,53 +45,29 @@ const api = {
      */
     async addDocument(collectionName, data) {
         try {
-            let docRef;
             const normalizedCollectionName = collectionName.toLowerCase();
-            
-            // Special handling for specific collections
+
             if (normalizedCollectionName === 'user') {
-                // Generate a 6-digit random number
-                const randomId = Math.floor(100000 + Math.random() * 900000).toString();
-                
-                // Determine prefix based on role
-                let prefix;
-                switch(data.role) {
-                    case 'General Users':
-                        prefix = 'GU';
-                        break;
-                    case 'Admin':
-                        prefix = 'AU';
-                        break;
-                    case 'Park Guide':
-                        prefix = 'PG';
-                        break;
-                    default:
-                        prefix = 'GU'; // Default to General Users if role is not recognized
-                }
-                
-                // Create the document with the specific fields
+                // Create user with Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(data.email, data.password);
+                const uid = userCredential.user.uid;
+
+                // Prepare user data (exclude password)
                 const userData = {
                     name: data.name,
                     email: data.email,
-                    password: data.password, // Note: In a production environment, this should be hashed
                     role: data.role
                 };
 
-                // Add phone number and license number for Park Guides
                 if (data.role === 'Park Guide') {
                     userData.phoneNumber = data.phoneNumber || null;
                 }
-                
-                // Combine prefix and random number for the document ID
-                const userId = `${prefix}${randomId}`;
-                docRef = await db.collection(normalizedCollectionName).doc(userId).set(userData);
-                return userId;
+
+                // Store additional data in Firestore under user's UID
+                await db.collection('user').doc(uid).set(userData);
+                return uid;
             } else if (normalizedCollectionName === 'parks') {
-                // Generate a 6-digit random number for park ID
-                const randomId = Math.floor(100000 + Math.random() * 900000).toString();
-                const parkId = `PID${randomId}`;
-                
-                // Create the document with the specific fields
+                // Store parks with auto-generated ID
                 const parkData = {
                     name: data.name,
                     location: data.location,
@@ -104,12 +76,12 @@ const api = {
                     marineArea: data.marineArea,
                     dateOfGazettement: data.dateOfGazettement
                 };
-                
-                docRef = await db.collection(normalizedCollectionName).doc(parkId).set(parkData);
-                return parkId;
+
+                const docRef = await db.collection('parks').add(parkData);
+                return docRef.id;
             } else {
-                // Default behavior for other collections
-                docRef = await db.collection(normalizedCollectionName).add(data);
+                // Default for other collections
+                const docRef = await db.collection(normalizedCollectionName).add(data);
                 return docRef.id;
             }
         } catch (error) {
@@ -156,3 +128,7 @@ const api = {
         }
     }
 };
+
+window.api = api;
+
+
