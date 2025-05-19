@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (logoutBtn) logoutBtn.style.display = "none";
         }
     });
-
+});
 
 
 
