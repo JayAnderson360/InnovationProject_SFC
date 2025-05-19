@@ -429,7 +429,7 @@ const ui = {
         phoneInput.id = 'phone-number';
         phoneInput.name = 'phoneNumber';
         phoneInput.pattern = '01[0-9]-?[0-9]{3}-?[0-9]{4}|01[0-9]{9}';
-        phoneInput.placeholder = '01X-XXX-XXXX or 01XXXXXXXX';
+        phoneInput.placeholder = '01x-xxx-xxxx or 01xxxxxxxx';
         phoneInput.value = currentData.phoneNumber || '';
         phoneInput.required = currentData.role === 'Park Guide';
 
@@ -452,7 +452,6 @@ const ui = {
         phoneNumberGroup.appendChild(phoneInput);
         form.appendChild(phoneNumberGroup);
 
-        // Remove license number field completely since it's not needed
         const modalFooter = document.createElement('div');
         modalFooter.className = 'modal-footer';
         
@@ -468,6 +467,29 @@ const ui = {
             e.preventDefault();
             const formData = new FormData(form);
             const data = {};
+
+            // Validate required fields
+            const requiredFields = ['name', 'email', 'password', 'role'];
+            const missingFields = [];
+
+            requiredFields.forEach(field => {
+                const value = formData.get(field);
+                if (!value) {
+                    missingFields.push(field);
+                }
+            });
+
+            // Additional validation for Park Guide
+            if (formData.get('role') === 'Park Guide' && !formData.get('phoneNumber')) {
+                missingFields.push('phoneNumber');
+            }
+
+            if (missingFields.length > 0) {
+                alert(`Please fill in all required fields: ${missingFields.join(', ')}`);
+                return;
+            }
+
+            // Process all fields
             fields.forEach(field => {
                 if (field.toLowerCase() === 'id') return; // Don't include ID in submitted data if it's auto-generated
                 
@@ -479,8 +501,7 @@ const ui = {
                         data[field] = new Date(formData.get(field));
                     } else if (formInput.tagName.toLowerCase() === 'select' && (formData.get(field) === 'true' || formData.get(field) === 'false')) {
                         data[field] = formData.get(field) === 'true';
-                    }
-                    else {
+                    } else {
                         data[field] = formData.get(field);
                     }
                 }
@@ -498,6 +519,12 @@ const ui = {
                 }
                 data.phoneNumber = phoneNumber;
             }
+
+            // Ensure all required fields are present
+            data.name = formData.get('name');
+            data.email = formData.get('email');
+            data.password = formData.get('password');
+            data.role = formData.get('role');
 
             submitCallback(collectionName, currentData.id, data);
         });

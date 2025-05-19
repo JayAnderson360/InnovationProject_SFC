@@ -78,18 +78,12 @@ const api = {
                     name: data.name,
                     email: data.email,
                     password: data.password, // Note: In a production environment, this should be hashed
-                    role: data.role,
-                    imgUrl: "Resources/Images/defaultProfile.jpeg" // Add default image URL for all users except admin
+                    role: data.role
                 };
 
-                // Add phone number for Park Guides
+                // Add phone number and license number for Park Guides
                 if (data.role === 'Park Guide') {
                     userData.phoneNumber = data.phoneNumber || null;
-                }
-                
-                // Remove imgUrl for admin users
-                if (data.role === 'Admin') {
-                    delete userData.imgUrl;
                 }
                 
                 // Combine prefix and random number for the document ID
