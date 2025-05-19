@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Dashboard - SFC</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                <a href="../index.html">
+                    <img src="../Resources/Images/logo.png" alt="SFC Logo" class="logo-img">
+                </a>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="#" id="nav-my-courses" class="active"><i class="fas fa-book"></i> My Courses</a></li>
+                <li><a href="#" id="nav-my-carts"><i class="fas fa-shopping-cart"></i> My Carts</a></li>
+                <li><a href="#" id="nav-completed-courses"><i class="fas fa-check-circle"></i> Completed Courses</a></li>
+                <li><a href="#" id="nav-certificates"><i class="fas fa-certificate"></i> Certificates</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="banner-container">
+                <video class="banner-video" src="../Resources/Videos/course-banner.mp4" autoplay loop muted playsinline></video>
+                <div class="banner-overlay">
+                    <h1 class="banner-title">Welcome, <span id="user-name">User</span>!</h1>
+                    <button id="browse-courses-btn" class="btn-primary">Browse More Courses</button>
+                </div>
+            </div>
+            <section class="my-courses-section">
+                <h2>My Courses</h2>
+            </section>
+            <div id="data-display">
+                <!-- Data will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for forms -->
+    <div id="form-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New</h2>
+                <span id="close-modal-button">&times;</span>
+            </div>
+            <div id="modal-body-content">
+                <!-- Form will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+
+    <!-- Application Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="api.js"></script>
+    <script src="ui.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Example: Set user name dynamically (replace with actual logic)
+        document.getElementById('user-name').textContent = localStorage.getItem('userName') || 'User';
+        // Browse More Courses button switches to My Carts tab
+        document.getElementById('browse-courses-btn').onclick = function() {
+            document.getElementById('nav-my-carts').click();
+        };
+    </script>
+</body>
+</html> 
