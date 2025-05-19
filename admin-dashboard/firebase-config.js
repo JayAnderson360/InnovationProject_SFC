@@ -14,7 +14,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore(app); // Using Firestore
+const auth = firebase.auth(app);
 
+window.db = db;
+window.auth = auth;
 // Make db globally available or export it if using modules (not used in this simple setup)
 // For simplicity in this multi-file non-module setup, we'll assume firebase.firestore() is available after this script.
 // If you were using ES6 modules, you'd export: export { db };
