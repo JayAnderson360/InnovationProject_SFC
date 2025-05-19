@@ -3,12 +3,14 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 
 // Firebase config
 const firebaseConfig = {
-    apiKey: "AIzaSyAJn4_xPJTiurXnttyrfplp06sgJKNKefU",
-    authDomain: "register-574e7.firebaseapp.com",
-    projectId: "register-574e7",
-    storageBucket: "register-574e7.appspot.com",
-    messagingSenderId: "208987609770",
-    appId: "1:208987609770:web:d0c8c3976989753ef24ed3"
+    apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI", // Replace with your actual API key
+    authDomain: "sarawak-forestry-database.firebaseapp.com",
+    // databaseURL: "https://sarawak-forestry-database-default-rtdb.asia-southeast1.firebasedatabase.app", // For Realtime Database
+    projectId: "sarawak-forestry-database",
+    storageBucket: "sarawak-forestry-database.appspot.com", // Correct format is typically project-id.appspot.com
+    messagingSenderId: "979838017340",
+    appId: "1:979838017340:web:a31113d00fafcb0bcb4839",
+    measurementId: "G-KXNY4PT4VY"
 };
 
 // Initialize Firebase app
