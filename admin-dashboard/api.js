@@ -8,7 +8,8 @@ const api = {
      */
     async getCollectionData(collectionName) {
         try {
-            const snapshot = await db.collection(collectionName).get();
+            const normalizedCollectionName = collectionName.toLowerCase();
+            const snapshot = await db.collection(normalizedCollectionName).get();
             return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         } catch (error) {
             console.error(`Error fetching collection ${collectionName}:`, error);
@@ -24,7 +25,8 @@ const api = {
      */
     async getCollectionFields(collectionName) {
         try {
-            const snapshot = await db.collection(collectionName).limit(1).get();
+            const normalizedCollectionName = collectionName.toLowerCase();
+            const snapshot = await db.collection(normalizedCollectionName).limit(1).get();
             if (snapshot.empty) {
                 return []; // No documents, so no fields can be determined
             }
@@ -47,8 +49,70 @@ const api = {
      */
     async addDocument(collectionName, data) {
         try {
-            const docRef = await db.collection(collectionName).add(data);
-            return docRef.id;
+            let docRef;
+            const normalizedCollectionName = collectionName.toLowerCase();
+            
+            // Special handling for specific collections
+            if (normalizedCollectionName === 'user') {
+                // Generate a 6-digit random number
+                const randomId = Math.floor(100000 + Math.random() * 900000).toString();
+                
+                // Determine prefix based on role
+                let prefix;
+                switch(data.role) {
+                    case 'General Users':
+                        prefix = 'GU';
+                        break;
+                    case 'Admin':
+                        prefix = 'AU';
+                        break;
+                    case 'Park Guide':
+                        prefix = 'PG';
+                        break;
+                    default:
+                        prefix = 'GU'; // Default to General Users if role is not recognized
+                }
+                
+                // Create the document with the specific fields
+                const userData = {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password, // Note: In a production environment, this should be hashed
+                    role: data.role
+                };
+
+                // Add phone number and license number for Park Guides
+                if (data.role === 'Park Guide') {
+                    userData.phoneNumber = data.phoneNumber || null;
+                    userData.licenseNumber = data.licenseNumber || null;
+                }
+                
+                // Combine prefix and random number for the document ID
+                const userId = `${prefix}${randomId}`;
+                docRef = await db.collection(normalizedCollectionName).doc(userId).set(userData);
+                return userId;
+            } else if (normalizedCollectionName === 'parks') {
+                // Generate a 6-digit random number for park ID
+                const randomId = Math.floor(100000 + Math.random() * 900000).toString();
+                const parkId = `PID${randomId}`;
+                
+                // Create the document with the specific fields
+                const parkData = {
+                    name: data.name,
+                    location: data.location,
+                    type: data.type,
+                    landArea: data.landArea,
+                    marineArea: data.marineArea,
+                    dateOfGazettement: data.dateOfGazettement
+                };
+                
+                docRef = await db.collection(normalizedCollectionName).doc(parkId).set(parkData);
+                return parkId;
+            } else {
+                // Default behavior for other collections
+                docRef = await db.collection(normalizedCollectionName).add(data);
+                return docRef.id;
+            }
         } catch (error) {
             console.error(`Error adding document to ${collectionName}:`, error);
             alert(`Error adding document to ${collectionName}. Check console.`);
@@ -65,7 +129,8 @@ const api = {
      */
     async updateDocument(collectionName, docId, data) {
         try {
-            await db.collection(collectionName).doc(docId).update(data);
+            const normalizedCollectionName = collectionName.toLowerCase();
+            await db.collection(normalizedCollectionName).doc(docId).update(data);
             return true;
         } catch (error) {
             console.error(`Error updating document ${docId} in ${collectionName}:`, error);
@@ -82,7 +147,8 @@ const api = {
      */
     async deleteDocument(collectionName, docId) {
         try {
-            await db.collection(collectionName).doc(docId).delete();
+            const normalizedCollectionName = collectionName.toLowerCase();
+            await db.collection(normalizedCollectionName).doc(docId).delete();
             return true;
         } catch (error) {
             console.error(`Error deleting document ${docId} from ${collectionName}:`, error);
