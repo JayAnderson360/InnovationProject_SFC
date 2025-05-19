@@ -55,27 +55,27 @@ document.addEventListener("DOMContentLoaded", () => {
         // Since api.js only has Firestore wrappers, handle signIn here using firebase auth:
         
         // Assuming api.js exposes auth instance as window.auth
-        const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
   
         // Fetch user data with api.js getCollectionData or Firestore getDoc wrapper
-        const userDoc = await window.api.getCollectionData('users'); // but this fetches whole collection, not ideal
+        const userDoc = await window.api.getCollectionData('user'); // but this fetches whole collection, not ideal
         // Instead, let's add a new method to api.js to get doc by id for better approach (or fetch manually here):
   
         // For now, fetch user role by direct Firestore call since api.js doesn't have a method for single doc get:
-        const userDocRef = window.api.db.collection('users').doc(user.uid); // this won't work because window.api.db doesn't exist
+        const userDocRef = window.api.db.collection('user').doc(user.uid); // this won't work because window.api.db doesn't exist
         // So use Firestore getDoc directly (or add to api.js if needed)
         
         // So fallback: let's assume the role is stored in localStorage by a function or after login
   
         // Instead, you can do:
-        const userDocSnap = await window.api.db.doc(`users/${user.uid}`).get(); // again not in api.js, can't do this directly
+        const userDocSnap = await window.api.db.doc(`user/${user.uid}`).get(); // again not in api.js, can't do this directly
   
         // So for practical approach: use firestore's getDoc directly here (because api.js lacks a getDoc method)
         // So import Firestore methods in login.js or add a new method in api.js:
   
         // Quick solution: add getDocument method to api.js to get single doc by id:
-        const userData = await window.api.getDocument('users', user.uid);
+        const userData = await window.api.getDocument('user', user.uid);
         if (!userData) {
           errorMessage.textContent = "User data not found.";
           return;
