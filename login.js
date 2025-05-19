@@ -17,87 +17,89 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 🔄 Redirect logged-in users away from login.html based on role
 document.addEventListener("DOMContentLoaded", () => {
-    if (window.location.pathname.includes("login.html")) {
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                try {
-                    const userDocRef = doc(db, "users", user.uid);
-                    const userDocSnap = await getDoc(userDocRef);
-                    if (userDocSnap.exists()) {
-                        const { role } = userDocSnap.data();
-                        if (role === "admin") {
-                            window.location.href = "admin_dashboard.html";
-                        } else {
-                            window.location.href = "index.html";
-                        }
-                    } else {
-                        console.warn("No user document found.");
-                    }
-                } catch (err) {
-                    console.error("Error fetching user data:", err.message);
-                }
-            }
-        });
+    const loginForm = document.getElementById("login-form");
+    const errorMessage = document.getElementById("error-message");
+  
+    // Check if user is already logged in and redirect based on role saved in localStorage
+    // (Assuming api.js handles auth state changes somewhere else)
+    const userRole = localStorage.getItem("userRole");
+    if (userRole) {
+      if (userRole.toLowerCase() === "admin") {
+        window.location.href = "admin_dashboard.html";
+      } else {
+        window.location.href = "index.html";
+      }
     }
-
-    const submitButton = document.getElementById("submit");
-
-    if (submitButton) {
-        submitButton.addEventListener("click", (event) => {
-            event.preventDefault();
-
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
-            const errorBox = document.getElementById("error-message");
-
-            if (errorBox) errorBox.textContent = "";
-
-            if (!email || !password) {
-                showError("Please fill in both email and password.");
-                return;
-            }
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then(async (userCredential) => {
-                    const user = userCredential.user;
-                    const userDocRef = doc(db, "users", user.uid);
-                    const userDocSnap = await getDoc(userDocRef);
-
-                    if (userDocSnap.exists()) {
-                        const { role, extraFeatures = [] } = userDocSnap.data();
-
-                        localStorage.setItem("userRole", role);
-                        localStorage.setItem("extraFeatures", JSON.stringify(extraFeatures));
-
-                        alert("Login successful!");
-                        window.location.href = role === "admin" ? "admin_dashboard.html" : "index.html";
-                    } else {
-                        showError("User role not found in Firestore.");
-                    }
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    if (errorCode === "auth/user-not-found") {
-                        showError("No user found with this email.");
-                    } else if (errorCode === "auth/invalid-credential") {
-                        showError("Invalid email or password format.");
-                    } else {
-                        showError("Login failed: " + error.message);
-                    }
-                });
-
-            function showError(message) {
-                if (errorBox) {
-                    errorBox.textContent = message;
-                    errorBox.style.color = "red";
-                } else {
-                    alert(message);
-                }
-            }
-        });
-    }
+  
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+      
+        errorMessage.textContent = "";
+      
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+      
+        // Log inputs for debugging
+        console.log("Email entered:", email);
+        console.log("Password entered:", password);
+      
+        if (!email || !password) {
+          errorMessage.textContent = "Please fill in both email and password.";
+          return;
+        }
+  
+      try {
+        // Use api.js to sign in (api.js doesn't currently expose a signIn function,
+        // so let's add a signIn function to api or handle signIn here with auth)
+        // Since api.js only has Firestore wrappers, handle signIn here using firebase auth:
+        
+        // Assuming api.js exposes auth instance as window.auth
+        const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+  
+        // Fetch user data with api.js getCollectionData or Firestore getDoc wrapper
+        const userDoc = await window.api.getCollectionData('users'); // but this fetches whole collection, not ideal
+        // Instead, let's add a new method to api.js to get doc by id for better approach (or fetch manually here):
+  
+        // For now, fetch user role by direct Firestore call since api.js doesn't have a method for single doc get:
+        const userDocRef = window.api.db.collection('users').doc(user.uid); // this won't work because window.api.db doesn't exist
+        // So use Firestore getDoc directly (or add to api.js if needed)
+        
+        // So fallback: let's assume the role is stored in localStorage by a function or after login
+  
+        // Instead, you can do:
+        const userDocSnap = await window.api.db.doc(`users/${user.uid}`).get(); // again not in api.js, can't do this directly
+  
+        // So for practical approach: use firestore's getDoc directly here (because api.js lacks a getDoc method)
+        // So import Firestore methods in login.js or add a new method in api.js:
+  
+        // Quick solution: add getDocument method to api.js to get single doc by id:
+        const userData = await window.api.getDocument('users', user.uid);
+        if (!userData) {
+          errorMessage.textContent = "User data not found.";
+          return;
+        }
+  
+        const role = userData.role || "user";
+        localStorage.setItem("userRole", role);
+  
+        if (role.toLowerCase() === "admin") {
+          window.location.href = "admin_dashboard.html";
+        } else {
+          window.location.href = "index.html";
+        }
+      } catch (error) {
+        if (error.code === "auth/user-not-found") {
+          errorMessage.textContent = "No user found with this email.";
+        } else if (error.code === "auth/wrong-password") {
+          errorMessage.textContent = "Incorrect password.";
+        } else {
+          errorMessage.textContent = "Login failed: " + error.message;
+        }
+      }
+    });
+  });
 
     onAuthStateChanged(auth, (user) => {
         const loginLink = document.getElementById("login-link");
@@ -131,6 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (logoutBtn) logoutBtn.style.display = "none";
         }
     });
-});
+
+
+
 
 

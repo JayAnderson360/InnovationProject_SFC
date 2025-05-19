@@ -37,6 +37,28 @@ const api = {
         }
     },
 
+        /**
+     * Fetches a single document from a specified collection by document ID.
+     * @param {string} collectionName - The name of the collection.
+     * @param {string} docId - The document ID.
+     * @returns {Promise<Object|null>} The document data with ID or null if not found.
+     */
+    async getDocument(collectionName, docId) {
+        try {
+        const normalizedCollectionName = collectionName.toLowerCase();
+        const docRef = db.collection(normalizedCollectionName).doc(docId);
+        const docSnap = await docRef.get();
+        if (!docSnap.exists) {
+            return null;
+        }
+        return { id: docSnap.id, ...docSnap.data() };
+        } catch (error) {
+        console.error(`Error fetching document ${docId} from ${collectionName}:`, error);
+        alert(`Error fetching document. Check console.`);
+        return null;
+        }
+    },
+
     /**
      * Adds a new document to a specified collection.
      * @param {string} collectionName - The name of the collection.
@@ -46,23 +68,27 @@ const api = {
     async addDocument(collectionName, data) {
         try {
             const normalizedCollectionName = collectionName.toLowerCase();
-
+    
             if (normalizedCollectionName === 'user') {
+                // Debug logs for email and password (DO NOT keep in production)
+                console.log("Creating user with email:", data.email);
+                console.log("Password entered:", data.password);
+    
                 // Create user with Firebase Auth
                 const userCredential = await auth.createUserWithEmailAndPassword(data.email, data.password);
                 const uid = userCredential.user.uid;
-
+    
                 // Prepare user data (exclude password)
                 const userData = {
                     name: data.name,
                     email: data.email,
                     role: data.role
                 };
-
+    
                 if (data.role === 'Park Guide') {
                     userData.phoneNumber = data.phoneNumber || null;
                 }
-
+    
                 // Store additional data in Firestore under user's UID
                 await db.collection('user').doc(uid).set(userData);
                 return uid;
