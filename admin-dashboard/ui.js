@@ -425,11 +425,11 @@ const ui = {
         phoneLabel.textContent = 'Phone Number';
 
         const phoneInput = document.createElement('input');
-        phoneInput.type = 'tel';
+        phoneInput.type = 'text';
         phoneInput.id = 'phone-number';
         phoneInput.name = 'phoneNumber';
         phoneInput.pattern = '01[0-9]-?[0-9]{3}-?[0-9]{4}|01[0-9]{9}';
-        phoneInput.placeholder = '01x-xxx-xxxx or 01xxxxxxxx';
+        phoneInput.placeholder = '01X-XXX-XXXX or 01XXXXXXXX';
         phoneInput.value = currentData.phoneNumber || '';
         phoneInput.required = currentData.role === 'Park Guide';
 
@@ -452,26 +452,7 @@ const ui = {
         phoneNumberGroup.appendChild(phoneInput);
         form.appendChild(phoneNumberGroup);
 
-        // Add license number field for Park Guides
-        const licenseNumberGroup = document.createElement('div');
-        licenseNumberGroup.id = 'license-number-group';
-        licenseNumberGroup.className = 'form-group';
-        licenseNumberGroup.style.display = currentData.role === 'Park Guide' ? 'block' : 'none';
-
-        const licenseLabel = document.createElement('label');
-        licenseLabel.htmlFor = 'license-number';
-        licenseLabel.textContent = 'License Number (Optional)';
-
-        const licenseInput = document.createElement('input');
-        licenseInput.type = 'text';
-        licenseInput.id = 'license-number';
-        licenseInput.name = 'licenseNumber';
-        licenseInput.value = currentData.licenseNumber || '';
-
-        licenseNumberGroup.appendChild(licenseLabel);
-        licenseNumberGroup.appendChild(licenseInput);
-        form.appendChild(licenseNumberGroup);
-
+        // Remove license number field completely since it's not needed
         const modalFooter = document.createElement('div');
         modalFooter.className = 'modal-footer';
         
@@ -505,7 +486,7 @@ const ui = {
                 }
             });
 
-            // Add phone number and license number for Park Guides
+            // Add phone number for Park Guides
             if (formData.get('role') === 'Park Guide') {
                 // Format phone number before storing
                 let phoneNumber = formData.get('phoneNumber');
@@ -516,7 +497,6 @@ const ui = {
                     phoneNumber = phoneNumber.slice(0, 3) + '-' + phoneNumber.slice(3, 6) + '-' + phoneNumber.slice(6, 10);
                 }
                 data.phoneNumber = phoneNumber;
-                data.licenseNumber = formData.get('licenseNumber') || null;
             }
 
             submitCallback(collectionName, currentData.id, data);
