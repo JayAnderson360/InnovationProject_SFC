@@ -1,7 +1,3 @@
-import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { doc, getDoc, getFirestore } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
 // Firebase config for sarawak-forestry-database
 const firebaseConfig = {
     apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI", // Replace with your actual API key for sarawak-forestry-database
@@ -13,10 +9,10 @@ const firebaseConfig = {
     measurementId: "G-KXNY4PT4VY"
 };
 
-// Initialize Firebase app (ensure it's only initialized once)
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const auth = getAuth(app);
-const db = getFirestore(app); // Initialize Firestore
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 // Authentication state check and navbar update
 async function checkAuth() { // Made async to use await
@@ -28,7 +24,7 @@ async function checkAuth() { // Made async to use await
         loginLink.style.display = 'none';
     }
 
-    onAuthStateChanged(auth, async (user) => { // Made callback async
+    auth.onAuthStateChanged(async (user) => { // Made callback async
         const existingDropdown = document.querySelector('.dropdown');
         if (existingDropdown) {
             existingDropdown.remove(); // Remove existing dropdown before adding a new one
@@ -39,8 +35,8 @@ async function checkAuth() { // Made async to use await
 
             try {
                 // Fetch user data from Firestore
-                const userDocRef = doc(db, "users", user.uid);
-                const userDocSnap = await getDoc(userDocRef);
+                const userDocRef = db.collection("users").doc(user.uid);
+                const userDocSnap = await userDocRef.get();
 
                 let userRole = null;
                 let profilePictureUrl = 'Resources/Images/ProfilePicture/defaultProfile.jpeg'; // Default image
@@ -133,7 +129,7 @@ async function checkAuth() { // Made async to use await
                         navbarLogoutBtn.addEventListener('click', async (e) => { // Made async
                             e.preventDefault();
                             try {
-                                await signOut(auth);
+                                await auth.signOut();
                                 localStorage.clear(); // Clear local storage upon logout
                                 alert("You have logged out.");
                                 window.location.href = "login.html";
@@ -175,7 +171,7 @@ async function checkAuth() { // Made async to use await
                         navbarLogoutBtn.addEventListener('click', async (e) => { // Made async
                             e.preventDefault();
                              try {
-                                await signOut(auth);
+                                await auth.signOut();
                                 localStorage.clear(); // Clear local storage upon logout
                                 alert("You have logged out.");
                                 window.location.href = "login.html";
@@ -213,5 +209,3 @@ document.addEventListener('click', (event) => {
         openDropdown.classList.remove('show');
     }
 });
-
-

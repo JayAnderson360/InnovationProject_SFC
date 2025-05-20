@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin User - Sarawak Forestry</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 25px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .info h3 {
+            margin-top: 0;
+            color: #2e7d32;
+        }
+        .info p {
+            margin: 5px 0;
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Admin User</h1>
+        <p>This utility will create an admin user for the Sarawak Forestry Corporation website. Click the button below to create the admin account.</p>
+        
+        <button id="createAdminBtn" class="btn">Create Admin User</button>
+        
+        <div class="info">
+            <h3>Admin Account Details:</h3>
+            <p><strong>Email:</strong> admin@sarawakforestry.com</p>
+            <p><strong>Password:</strong> Admin123!</p>
+            <p>After creating the admin user, you can log in using these credentials and access the admin dashboard.</p>
+        </div>
+    </div>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI",
+            authDomain: "sarawak-forestry-database.firebaseapp.com",
+            projectId: "sarawak-forestry-database",
+            storageBucket: "sarawak-forestry-database.appspot.com",
+            messagingSenderId: "979838017340",
+            appId: "1:979838017340:web:a31113d00fafcb0bcb4839",
+            measurementId: "G-KXNY4PT4VY"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Function to create an admin user
+        async function createAdminUser() {
+            const email = "admin@sarawakforestry.com";
+            const password = "Admin123!";
+            const button = document.getElementById('createAdminBtn');
+            
+            // Disable button to prevent multiple clicks
+            button.disabled = true;
+            button.textContent = 'Creating user...';
+            
+            try {
+                // Register user first
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Set user role as admin
+                await db.collection("users").doc(user.uid).set({
+                    email,
+                    role: "Admin",
+                    imgUrl: "../Resources/Images/ProfilePicture/defaultProfile.jpeg"
+                });
+                
+                console.log("Admin user created successfully!");
+                alert("Admin user created successfully! You can now login with the admin credentials.");
+                button.textContent = 'Admin Created Successfully!';
+                button.style.backgroundColor = '#2e7d32';
+                
+            } catch (error) {
+                console.error("Error creating admin user:", error);
+                alert("Error: " + error.message);
+                button.disabled = false;
+                button.textContent = 'Try Again';
+            }
+        }
+
+        // Add click event to the button
+        document.getElementById('createAdminBtn').addEventListener('click', createAdminUser);
+    </script>
+</body>
+</html>

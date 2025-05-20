@@ -1,7 +1,3 @@
-import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { doc, getDoc, updateDoc, getFirestore } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
 // Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI",
@@ -13,9 +9,10 @@ const firebaseConfig = {
   measurementId: "G-KXNY4PT4VY"
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const auth = getAuth(app);
-const db = getFirestore(app);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 // DOM Elements
 const nameField = document.getElementById('display-name');
@@ -38,10 +35,10 @@ document.addEventListener('click', (e) => {
 });
 
 // Auth Check
-onAuthStateChanged(auth, async (user) => {
+auth.onAuthStateChanged(async (user) => {
   if (user) {
-    const userRef = doc(db, 'users', user.uid);
-    const userSnap = await getDoc(userRef);
+    const userRef = db.collection('users').doc(user.uid);
+    const userSnap = await userRef.get();
 
     if (userSnap.exists()) {
       const userData = userSnap.data();
@@ -64,7 +61,7 @@ onAuthStateChanged(auth, async (user) => {
       e.preventDefault();
 
       try {
-        await updateDoc(userRef, {
+        await userRef.update({
           name: nameInput.value.trim(),
           imgUrl: imgUrlInput.value.trim()
         });
