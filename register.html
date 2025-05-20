@@ -1,125 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarawak Forestry Conservation</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sarawak Forestry Conservation - Register</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="module" src="register.js" defer></script>
+
+  <style>
+    /* Modal Overlay */
+    #role-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Modal Content */
+    #role-modal .modal-content2 {
+      background-color: #fff;
+      padding: 2.5rem;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Modal Heading */
+    #role-modal h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+      color: #333;
+      font-weight: 600;
+    }
+
+    /* Buttons */
+    #role-modal button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    #park-guide-btn {
+      background-color: #2e7d32;
+      color: white;
+    }
+
+    #park-guide-btn:hover {
+      background-color: #27662b;
+    }
+
+    #general-user-btn {
+      background-color: #1565c0;
+      color: white;
+    }
+
+    #general-user-btn:hover {
+      background-color: #0d47a1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Hide forms initially */
+    .register-container form {
+      display: none;
+    }
+    #malaysia-only-modal {
+      display: none;
+      /* other styling */
+    }
+
+  </style>
+
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="main-nav">
-        <div class="logo">
-            <a href="index.html"><img src="Resources/Images/logo.png" alt="Sarawak Forestry Logo"></a>
-        </div>
-        <div class="nav-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="aboutus.html">About Us</a></li>
-            <li><a href="nationalparks.html">National Parks</a></li>
-            <li><a href="conservation.html">Conservation</a></li>
-            <li><a href="eco.html">Eco-Tourism</a></li>
-            <li><a href="media.html">Media & News</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-            <li><a href="login.html">Login</a></li>
-        </ul>
-    </nav>
+   <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="logo">
+      <a href="index.html"><img src="Resources/Images/logo.png" alt="Sarawak Forestry Logo"></a>
+    </div>
+    <div class="nav-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="aboutus.html">About Us</a></li>
+        <li><a href="nationalparks.html">National Parks</a></li>
+        <li><a href="conservation.html">Conservation</a></li>
+        <li><a href="eco.html">Eco-Tourism</a></li>
+        <li><a href="media.html">Media & News</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+        <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+  <!-- Role Selection Modal -->
+    <div id="role-modal">
+    <div class="modal-content2">
+   
+        <h2>Register As</h2>
+        <button id="park-guide-btn">Park Guide</button>
+        <button id="general-user-btn">General User</button>
+        <p class="register-text">
+          Return to <a href="login.html">Login</a>
+        </p>
+    </div>
+    </div>
 
 
-    <!-- Parks & Reserves Showcase -->
-    <section id="login" class="section bg-dark">
-        <div class="registerback">
-            <div class="register-container">
-                <h2>Register</h2>
-                <form>
-                    <div class="name-fields">
-                        <div>
-                            <label for="first-name">First Name</label>
-                            <input type="text" id="first-name" placeholder="First Name" required>
-                        </div>
-                        <div>
-                            <label for="last-name">Last Name</label>
-                            <input type="text" id="last-name" placeholder="Last Name" required>
-                        </div>
-                    </div>
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="Enter your phone number" required>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
-                    <button type="submit" class="btn-secondary">Register</button>
-                </form>
-                <p class="login-text">Already have an account? <a href="login.html">Login Here</a></p>
+
+  <!-- Registration Forms -->
+  <section id="register" class="section bg-dark">
+    <div class="registerback">
+      <div class="register-container">
+
+        <!-- Park Guide Form -->
+        <form id="park-guide-form">
+          <h2>Park Guide Registration</h2>
+          <label for="pg-name">Full Name</label>
+          <input type="text" id="pg-name" placeholder="Full Name" required />
+
+          <label for="pg-email">Email</label>
+          <input type="email" id="pg-email" placeholder="Email" required />
+
+          <label for="pg-phone">Phone Number</label>
+          <input type="tel" id="pg-phone" placeholder="Phone Number" required />
+
+          <label for="pg-ic">IC Number</label>
+          <input type="text" id="pg-ic" placeholder="IC Number" required />
+
+          <label for="pg-password">Password</label>
+          <input type="password" id="pg-password" placeholder="Password" required />
+
+          <label for="pg-confirm-password">Confirm Password</label>
+          <input type="password" id="pg-confirm-password" placeholder="Confirm Password" required />
+
+
+          <p id="pg-error" style="color: red; margin-top: 10px;"></p>
+          <button type="submit" class="btn-secondary">Register as Park Guide</button>
+        </form>
+
+        <!-- General User Form -->
+        <form id="general-user-form">
+          <h2>General User Registration</h2>
+          <label for="gu-email">Email</label>
+          <input type="email" id="gu-email" placeholder="Email" required />
+
+          <label for="gu-password">Password</label>
+          <input type="password" id="gu-password" placeholder="Password" required />
+
+          <label for="gu-confirm-password">Confirm Password</label>
+          <input type="password" id="gu-confirm-password" placeholder="Confirm Password" required />
+
+          <p id="gu-error" style="color: red; margin-top: 10px;"></p>
+          <button type="submit" class="btn-secondary">Register as General User</button>
+        </form>
+
+        <p class="login-text">Already have an account? <a href="login.html">Login Here</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Operating Hours</h3>
+                <p>Monday - Friday [8:00am to 5:00pm]</p>
+                <p>Weekend & Public Holiday [Counter closed]</p>
             </div>
-        </div>
-    </section>
 
-    
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
+            <div class="footer-links">
                 <div class="footer-column">
-                    <h3>Operating Hours</h3>
-                    <p>Monday - Friday [8:00am to 5:00pm]</p>
-                    <p>Weekend & Public Holiday [Counter closed]</p>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="aboutus.html">About Us</a></li>
+                        <li><a href="nationalparks.html">National Parks</a></li>
+                        <li><a href="conservation.html">Conservation</a></li>
+                        <li><a href="eco.html">Eco-Tourism</a></li>
+                        <li><a href="media.html">Media & News</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                    </ul>
                 </div>
 
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h3>Quick Links</h3>
-                        <ul>
-                            <li><a href="aboutus.html">About Us</a></li>
-                            <li><a href="nationalparks.html">National Parks</a></li>
-                            <li><a href="conservation.html">Conservation</a></li>
-                            <li><a href="eco.html">Eco-Tourism</a></li>
-                            <li><a href="media.html">Media & News</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="feedback.html">Feedback</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h3>Resources</h3>
-                        <ul>
-                            <li><a href="#">Vacancies</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h3>Legal</h3>
-                        <ul>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Use</a></li>
-                        </ul>
-                    </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Vacancies</a></li>
+                    </ul>
                 </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 Sarawak Forestry Corporation. All Rights Reserved.</p>
-                <p>This is a student project for educational purposes only.</p>
+
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </footer>
+        <div class="copyright">
+            <p>&copy; 2023 Sarawak Forestry Corporation. All Rights Reserved.</p>
+            <p>This is a student project for educational purposes only.</p>
+        </div>
+    </div>
+  </footer>
 
-    <script>
-        // Basic JavaScript for navigation toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const navToggle = document.querySelector('.nav-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            
-            navToggle.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
-            });
-        });
-    </script>
+  <!-- Malaysia Only Modal -->
+  <div id="malaysia-only-modal" style="display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; font-family: 'Poppins', sans-serif;">
+    <div style="background-color: white; padding: 2rem; border-radius: 16px; max-width: 400px; text-align: center;">
+      <h3>Registration Restricted</h3>
+      <p>We only accept Park Guides from Malaysia.</p>
+      <button id="malaysia-only-close" style="margin-top: 1rem; padding: 0.6rem 1.2rem; background-color: #1565c0; color: white; border: none; border-radius: 8px;">Back to Registration</button>
+    </div>
+  </div>
+
 </body>
 </html>
