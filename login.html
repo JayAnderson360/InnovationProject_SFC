@@ -58,21 +58,23 @@
       color: #666;
     }
 
-    /* Input Styling */
     .modal-input {
       width: 100%;
-      padding: 10px 14px;
+      padding: 12px 14px;
       border: 1px solid #ccc;
       border-radius: 8px;
       margin-bottom: 10px;
       font-size: 14px;
-      transition: border 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
     }
 
     .modal-input:focus {
-      border-color: #58a6ff;
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
       outline: none;
     }
+
 
     /* Button Styling */
     .modal-button {
@@ -193,7 +195,7 @@
     <div class="modal-content">
       <span id="close-forgot-password" class="close">&times;</span>
       <h3>Reset Your Password</h3>
-      <input type="email" id="reset-email" placeholder="Enter your email" />
+      <input type="email" class="modal-input" id="reset-email" placeholder="Enter your email" />
       <p id="reset-message" style="color: green;"></p>
       <p id="reset-error" style="color: red;"></p>
       <button id="send-reset" class="btn-secondary">Send Reset Email</button>
