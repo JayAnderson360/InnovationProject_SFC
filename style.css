@@ -238,13 +238,13 @@ img {
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding-right: 2rem;
+    padding-right: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: var(--transition);
     background-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .logo img {
@@ -254,6 +254,7 @@ img {
 .nav-links {
     display: flex;
     list-style: none;
+    align-items: center; /* Vertically center nav links */
 }
 
 .nav-links li {
@@ -1799,7 +1800,7 @@ tr:hover {
 }
 
 .ash_hotline-card {
-    background: ##ecfadc;
+    background: #ecfadc;
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
@@ -2388,7 +2389,7 @@ tr:hover {
 /* About Navigation Styles */
 .ash_about-nav {
     background-color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     padding: 15px 0;
     position: sticky;
     top: 50px;
@@ -4392,4 +4393,67 @@ tr:hover {
 .ash_hero-content, .scroll-indicator {
     position: relative;
     z-index: 2; /* content and scroll indicator above everything */
+}
+
+/* Styles for Navbar Dropdown and Profile Image */
+.dropdown-toggle img {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Should match width for a perfect circle */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Ensure image covers the circular area without distortion */
+    display: block; /* Remove any extra space below the image */
+    border: 2px solid var(--primary-color); /* Optional: Add a subtle border */
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    padding: 0.5rem 1rem; /* Add some padding around the image */
+    cursor: pointer;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center; /* Vertically center text and icons */
+    padding: 0.75rem 1.5rem; /* Add padding for menu items */
+    color: var(--dark-text);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-menu a i {
+     margin-right: 0.75rem; /* Space between icon and text */
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--bg-light);
+}
+
+/* Hide the dropdown menu by default */
+.dropdown-menu {
+    position: absolute;
+    right: -10rem; /* Start off-screen to the right */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 0 15px;
+    min-width: 160px;
+    z-index: 90; /* Ensure it's above other content */
+    overflow: hidden;
+    opacity: 0; /* Start invisible */
+    visibility: hidden; /* Hide completely when not visible */
+    transition: right 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+/* Show the dropdown menu when the parent has the 'show' class */
+.dropdown.show .dropdown-menu {
+    right: 0; /* Slide to the final position */
+    opacity: 1; /* Become fully visible */
+    visibility: visible; /* Make visible */
+}
+
+.nav-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
 }

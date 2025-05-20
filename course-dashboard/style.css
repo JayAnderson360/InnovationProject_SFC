@@ -95,11 +95,6 @@ img {
 }
 
 
-/* Admin Layout */
-.admin-bg {
-    background-color: var(--bg-light);
-}
-
 .main-wrapper {
     display: flex;
     margin-top: 0; /* Admin page starts from top */
@@ -109,7 +104,7 @@ img {
 .sidebar {
     width: 280px; /* Slightly wider sidebar */
     background-color: #ffffff; /* White sidebar */
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     position: fixed;
     top: 0;
     left: 0;
@@ -163,7 +158,7 @@ img {
 }
 
 .sidebar-nav li a.active, .sidebar-nav li a:hover {
-    background-color: var(--primary-light);
+    background-color: var(--primary-color);
     color: var(--light-text);
     border-left-color: var(--secondary-color);
     font-weight: 600;
@@ -407,7 +402,7 @@ td .actions .btn-icon.delete:hover {
     margin-bottom: 2rem;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     background: #000;
     display: flex;
     align-items: center;
@@ -435,7 +430,7 @@ td .actions .btn-icon.delete:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(34, 49, 63, 0.35);
+    background: rgba(34, 49, 63, 0.1);
     color: #fff;
     text-align: center;
 }
@@ -474,7 +469,7 @@ td .actions .btn-icon.delete:hover {
 .my-courses-section {
     background: #fff;
     border-radius: 20px;
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     padding: 2rem 1.5rem 1.5rem 1.5rem;
     margin-bottom: 2rem;
     margin-top: 0.5rem;
