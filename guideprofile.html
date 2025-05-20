@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sarawak Forestry Conservation</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <script type="module" src="guideprofile.js" defer></script>
+  <script type="module" src="auth.js"></script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="main-nav">
+    <div class="logo">
+      <img src="https://placehold.co/200x60?text=Sarawak+Forestry" alt="Sarawak Forestry Logo"/>
+    </div>
+    <div class="nav-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+    </ul>
+  </nav>
+
+  <!-- Profile Section -->
+  <section id="profile" class="section bg-dark">
+    <div class="profile-container">
+      <h2>Your Profile</h2>
+      <div id="profileInfo">
+        <img id="profile-img" src="" alt="Profile Picture" style="width:150px;border-radius:8px;margin-bottom:1rem;">
+        <p><strong>Name:</strong> <span id="display-name"></span></p>
+        <p><strong>Email:</strong> <span id="display-email"></span></p>
+        <p><strong>Role:</strong> <span id="display-role"></span></p>
+      </div>
+      <button id="editProfileBtn">Edit Profile</button>
+    </div>
+
+    <!-- Edit Popup -->
+    <div id="editPopup" class="popup hidden">
+      <div class="popup-content">
+        <span class="close-btn">&times;</span>
+        <h3>Edit Profile</h3>
+        <form id="profileForm">
+          <label for="name">Name</label>
+          <input type="text" id="name" required />
+
+          <label for="imgUrl">Profile Image URL</label>
+          <input type="text" id="imgUrl" required />
+
+          <button type="submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Operating Hours</h3>
+          <p>Monday - Friday [8:00am to 5:00pm]</p>
+          <p>Weekend & Public Holiday [Counter closed]</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#parks">National Parks</a></li>
+              <li><a href="#wildlife">Nature Reserves</a></li>
+              <li><a href="#eco-tourism">Eco-Tourism</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="#">Vacancies</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Use</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 Sarawak Forestry Corporation. All Rights Reserved.</p>
+        <p>This is a student project for educational purposes only.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
