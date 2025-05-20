@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Rating System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Comment Rating System</h1>
+            <p>Powered by NLTK VADER Sentiment Analysis</p>
+        </header>
+        
+        <section class="rating-form">
+            <h2>Submit a Comment for Rating</h2>
+            <form id="comment-form">
+                <div class="form-group">
+                    <label for="comment">Your Comment:</label>
+                    <textarea id="comment" name="comment" rows="5" placeholder="Type your comment here..."></textarea>
+                </div>
+                <button type="submit" id="analyze-btn">
+                    <span class="btn-text">Analyze Sentiment</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+        
+        <section class="results hidden" id="results-section">
+            <h2>Analysis Results</h2>
+            <div class="result-card">
+                <div class="comment-text" id="result-comment"></div>
+                <div class="star-rating" id="star-display">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="rating-explanation" id="rating-explanation"></div>
+            </div>
+        </section>
+        
+        <section class="examples">
+            <h2>Try These Examples</h2>
+            <div class="example-buttons">
+                <button class="example-btn" data-text="I absolutely loved this product! It exceeded all my expectations and works perfectly.">Positive Example</button>
+                <button class="example-btn" data-text="The service was okay, but could be better. There's definitely room for improvement.">Neutral Example</button>
+                <button class="example-btn" data-text="This is the worst experience I've ever had. Complete waste of money and time.">Negative Example</button>
+            </div>
+        </section>
+        
+        <section class="about">
+            <h2>About This Tool</h2>
+            <p>This comment rating system uses NLTK's VADER (Valence Aware Dictionary for Sentiment Reasoning) to analyze the sentiment of text comments. Based on natural language processing, it assigns a rating from 1 to 5 stars:</p>
+            <ul>
+                <li>⭐ - Very negative sentiment</li>
+                <li>⭐⭐ - Negative sentiment</li>
+                <li>⭐⭐⭐ - Neutral sentiment</li>
+                <li>⭐⭐⭐⭐ - Positive sentiment</li>
+                <li>⭐⭐⭐⭐⭐ - Very positive sentiment</li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <p>NLTK VADER Sentiment Analysis | Powered by Python</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

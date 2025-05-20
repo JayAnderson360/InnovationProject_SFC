@@ -1,8 +1,3 @@
-import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { doc, getDoc, getFirestore } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
 // Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI", // Replace with your actual API key
@@ -16,17 +11,17 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const auth = getAuth(app);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 document.addEventListener("DOMContentLoaded", () => {
     if (window.location.pathname.includes("login.html")) {
-        onAuthStateChanged(auth, async (user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
                 try {
-                    const userDocRef = doc(db, "users", user.uid);
-                    const userDocSnap = await getDoc(userDocRef);
+                    const userDocRef = db.collection("users").doc(user.uid);
+                    const userDocSnap = await userDocRef.get();
                     if (userDocSnap.exists()) {
                         const { role } = userDocSnap.data();
                         if (role === "Admin") {
@@ -63,11 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            signInWithEmailAndPassword(auth, email, password)
+            auth.signInWithEmailAndPassword(email, password)
                 .then(async (userCredential) => {
                     const user = userCredential.user;
-                    const userDocRef = doc(db, "users", user.uid);
-                    const userDocSnap = await getDoc(userDocRef);
+                    const userDocRef = db.collection("users").doc(user.uid);
+                    const userDocSnap = await userDocRef.get();
 
                     if (userDocSnap.exists()) {
                         const { role } = userDocSnap.data();
@@ -109,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    onAuthStateChanged(auth, (user) => {
+    auth.onAuthStateChanged((user) => {
         const loginLink = document.getElementById("login-link");
         const logoutBtn = document.getElementById("logout-btn");
 
@@ -123,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', (event) => {
                     event.preventDefault();
-                    signOut(auth)
+                    auth.signOut()
                         .then(() => {
                             localStorage.removeItem("userRole");
 
@@ -168,7 +163,7 @@ sendResetBtn.addEventListener("click", async () => {
   error.textContent = "";
 
   try {
-    await sendPasswordResetEmail(auth, emailInput.value.trim());
+    await auth.sendPasswordResetEmail(emailInput.value.trim());
     message.textContent = "Reset email sent. Check your inbox.";
     emailInput.value = "";
   } catch (err) {
@@ -181,4 +176,3 @@ function clearResetFields() {
   document.getElementById("reset-message").textContent = "";
   document.getElementById("reset-error").textContent = "";
 }
-

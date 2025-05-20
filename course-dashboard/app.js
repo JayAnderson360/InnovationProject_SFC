@@ -3,14 +3,43 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 // Define collections
 const collections = ['courses'];
 
-// Initialize UI
-document.addEventListener('DOMContentLoaded', () => {
-    ui.init(collections, loadCollection, showAddForm);
-    loadCollection('courses'); // Load courses by default
+// Check authentication state
+auth.onAuthStateChanged(user => {
+    if (user) {
+        // User is signed in
+        console.log('User is signed in:', user.email);
+        document.getElementById('user-name').textContent = user.displayName || user.email;
+        
+        // Initialize UI
+        ui.init(collections, loadCollection, showAddForm);
+        loadCollection('courses'); // Load courses by default
+        
+        // Implement logout functionality
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await auth.signOut();
+                    localStorage.clear(); // Clear local storage upon logout
+                    alert("You have logged out.");
+                    window.location.href = "../login.html";
+                } catch (error) {
+                    console.error("Error during logout:", error.message);
+                    alert("Logout failed: " + error.message);
+                }
+            });
+        }
+    } else {
+        // User is signed out, redirect to login page
+        console.log('No user is signed in');
+        window.location.href = '../login.html';
+    }
 });
 
 // Load collection data
@@ -81,4 +110,4 @@ async function handleDelete(collectionName, docId) {
             alert('Error deleting document. Check console.');
         }
     }
-} 
+}
