@@ -200,6 +200,33 @@ img {
     margin: 0;
 }
 
+.sidebar-logout {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 1px solid #ccc;
+}
+
+.btn-logout {
+  background-color: #e74c3c; /* Red color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 90%;
+  max-width: 200px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+  background-color: #c0392b;
+}
+
+
 /* Table Styles */
 .table-section {
     background-color: white;

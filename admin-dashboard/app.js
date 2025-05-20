@@ -125,6 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const logoutBtn = document.getElementById("logout-btn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", async () => {
+        try {
+            await firebase.auth().signOut(); // or signOut(auth) if modular SDK
+            alert("You have been logged out.");
+            window.location.href = "../login.html"; // Redirect after logout
+        } catch (error) {
+            console.error("Logout failed:", error);
+            alert("Logout failed. See console for details.");
+        }
+        });
+    }
+
     // --- Initial Load ---
     // Optionally, load the first collection by default or show a welcome message
     if (COLLECTIONS.length > 0) {
