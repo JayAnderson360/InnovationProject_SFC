@@ -1756,7 +1756,7 @@ tr:hover {
 }
 
 .ash_contact-card {
-    background: #fff;
+    background: #ecfadc;
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
@@ -1799,7 +1799,7 @@ tr:hover {
 }
 
 .ash_hotline-card {
-    background: #fff;
+    background: ##ecfadc;
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
@@ -2256,8 +2256,15 @@ tr:hover {
     line-height: 1.6;
 }
 
-.ash_dos-box_2, .ash_donts-box_2 {
-    background: white;
+.ash_dos-box_2 {
+    background: #cdebc5;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.ash_donts-box_2 {
+    background: #fdaaaa;
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
@@ -4360,4 +4367,29 @@ tr:hover {
 
 .ash_media-section_5 {
     display: block;
+}
+
+.ash_hero-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0; /* background layer */
+}
+
+.ash_hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(4,9,30,0.7);
+    z-index: 1; /* overlay above image */
+}
+
+.ash_hero-content, .scroll-indicator {
+    position: relative;
+    z-index: 2; /* content and scroll indicator above everything */
 }
