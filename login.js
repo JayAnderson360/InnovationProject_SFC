@@ -69,10 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const userDocSnap = await getDoc(userDocRef);
 
                     if (userDocSnap.exists()) {
-                        const { role, extraFeatures = [] } = userDocSnap.data();
+                        const { role } = userDocSnap.data();
 
                         localStorage.setItem("userRole", role);
-                        localStorage.setItem("extraFeatures", JSON.stringify(extraFeatures));
 
                         alert("Login successful!");
                         // Redirect based on user role
@@ -126,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     signOut(auth)
                         .then(() => {
                             localStorage.removeItem("userRole");
-                            localStorage.removeItem("extraFeatures");
 
                             alert("You have logged out.");
                             window.location.href = "login.html";
