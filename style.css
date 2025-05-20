@@ -3646,7 +3646,7 @@ tr:hover {
 }
 
 .ash_section-header_5 {
-    text-align: left;
+    text-align: center;
     margin-bottom: 1.5rem;
 }
 
@@ -3654,7 +3654,7 @@ tr:hover {
     color: var(--primary-dark);
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .ash_underline_5 {
@@ -3666,7 +3666,12 @@ tr:hover {
 }
 
 .ash_media-link_5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 1.5rem 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .ash_btn-primary_5 {
@@ -3683,7 +3688,9 @@ tr:hover {
     gap: 0.5rem;
     box-shadow: 0 2px 8px rgba(46, 125, 50, 0.08);
     cursor: pointer;
+    margin: 0;
 }
+
 .ash_btn-primary_5:hover {
     background-color: var(--primary-dark);
     color: #fff;
@@ -3706,15 +3713,18 @@ tr:hover {
     flex-direction: column;
     justify-content: space-between;
 }
+
 .ash_media-card_5:hover {
     box-shadow: 0 8px 24px rgba(46, 125, 50, 0.13);
     transform: translateY(-5px);
 }
+
 .ash_media-card_5 h3 {
     color: var(--primary-dark);
     font-size: 1.2rem;
     margin-bottom: 0.7rem;
 }
+
 .ash_media-date_5 {
     color: var(--secondary-color);
     font-size: 0.95rem;
@@ -3723,6 +3733,7 @@ tr:hover {
     align-items: center;
     gap: 0.5rem;
 }
+
 .ash_media-link_5 {
     color: var(--primary-color);
     font-weight: 500;
@@ -3732,13 +3743,16 @@ tr:hover {
     gap: 0.3rem;
     transition: color 0.2s;
 }
+
 .ash_media-link_5 i {
     font-size: 1rem;
     transition: transform 0.2s;
 }
+
 .ash_media-link_5:hover {
     color: var(--primary-dark);
 }
+
 .ash_media-link_5:hover i {
     transform: translateX(4px);
 }
@@ -3759,4 +3773,591 @@ tr:hover {
     .ash_media-section_5 {
         padding: 1rem 0.2rem 1rem 0.2rem;
     }
+}
+
+/* National Parks Page Styles */
+.ash_hero_6 {
+    height: 50vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url('img/parks-banner.jpg');
+    background-color: #2e7d32;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 0;
+}
+
+.ash_hero-overlay_6 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(30, 60, 30, 0.55);
+    z-index: 1;
+}
+
+.ash_hero-content_6 {
+    color: #fff;
+    text-align: center;
+    z-index: 2;
+    padding: 0 20px;
+    max-width: 800px;
+    position: relative;
+}
+
+.ash_hero-content_6 h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.ash_hero-content_6 p {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+    color: #f0f0f0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.ash_parks-main_6 {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+}
+
+.ash_parks-title_6 {
+    color: var(--primary-dark);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.ash_parks-desc_6 {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+}
+
+.ash_underline_6 {
+    height: 4px;
+    width: 80px;
+    background-color: var(--secondary-color);
+    margin: 0.5rem auto 1.5rem;
+    border-radius: 2px;
+}
+
+.ash_parks-grid_6 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.ash_park-card_6 {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ash_park-card_6:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.13);
+}
+
+.ash_park-image_6 {
+    height: 220px;
+    overflow: hidden;
+}
+
+.ash_park-image_6 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.ash_park-card_6:hover .ash_park-image_6 img {
+    transform: scale(1.05);
+}
+
+.ash_park-content_6 {
+    padding: 1.5rem 1.5rem 2rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.ash_park-content_6 h3 {
+    color: var(--primary-dark);
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+}
+
+.ash_park-content_6 p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.ash_park-features_6 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.ash_park-features_6 span {
+    background: #f0f7f0;
+    color: var(--primary-color);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ash_park-features_6 span i {
+    font-size: 1rem;
+}
+
+.ash_park-link_6 {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+    margin-top: auto;
+}
+
+.ash_park-link_6 i {
+    transition: transform 0.3s ease;
+}
+
+.ash_park-link_6:hover {
+    color: var(--primary-dark);
+}
+
+.ash_park-link_6:hover i {
+    transform: translateX(5px);
+}
+
+.ash_conservation-message_6 {
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 40px 30px;
+    margin-top: 60px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.ash_message-content_6 {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ash_message-content_6 h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.ash_message-content_6 p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.95;
+}
+
+.ash_btn-primary_6 {
+    display: inline-block;
+    background: white;
+    color: var(--primary-color);
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.08);
+}
+
+.ash_btn-primary_6:hover {
+    background: var(--primary-dark);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.13);
+}
+
+@media (max-width: 992px) {
+    .ash_hero-content_6 h1 {
+        font-size: 2.2rem;
+    }
+    .ash_parks-grid_6 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .ash_hero_6 {
+        height: 32vh;
+    }
+    .ash_hero-content_6 h1 {
+        font-size: 1.5rem;
+    }
+    .ash_parks-grid_6 {
+        grid-template-columns: 1fr;
+    }
+    .ash_conservation-message_6 {
+        padding: 30px 10px;
+    }
+}
+
+.ash_parks-main_6 {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+.ash_parks-main_6::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(249,249,249,0) 100%);
+}
+
+.ash_parks-title_6 {
+    color: var(--primary-dark);
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.ash_parks-desc_6 {
+    color: #555;
+    line-height: 1.8;
+    font-size: 1.15rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+.ash_park-card_6 {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.ash_park-card_6:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.ash_park-image_6 {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+
+.ash_park-image_6::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ash_park-card_6:hover .ash_park-image_6::after {
+    opacity: 1;
+}
+
+.ash_park-image_6 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.ash_park-card_6:hover .ash_park-image_6 img {
+    transform: scale(1.08);
+}
+
+.ash_park-content_6 {
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: white;
+}
+
+.ash_park-content_6 h3 {
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.ash_park-content_6 p {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
+.ash_park-features_6 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.ash_park-features_6 span {
+    background: #f0f7f0;
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.ash_park-features_6 span:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.ash_park-features_6 span i {
+    font-size: 1.1rem;
+}
+
+.ash_park-link_6 {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+    padding: 10px 0;
+    font-size: 1.05rem;
+}
+
+.ash_park-link_6 i {
+    transition: transform 0.3s ease;
+}
+
+.ash_park-link_6:hover {
+    color: var(--primary-dark);
+    gap: 15px;
+}
+
+.ash_park-link_6:hover i {
+    transform: translateX(5px);
+}
+
+.ash_conservation-message_6 {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border-radius: 20px;
+    padding: 60px 40px;
+    margin-top: 80px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.ash_conservation-message_6::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('img/pattern.png');
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.ash_message-content_6 {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.ash_message-content_6 h3 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.ash_message-content_6 p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.ash_btn-primary_6 {
+    display: inline-block;
+    background: white;
+    color: var(--primary-color);
+    padding: 15px 35px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    font-size: 1.1rem;
+}
+
+.ash_btn-primary_6:hover {
+    background: var(--primary-dark);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .ash_parks-grid_6 {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .ash_parks-title_6 {
+        font-size: 2.4rem;
+    }
+    
+    .ash_conservation-message_6 {
+        padding: 50px 30px;
+    }
+    
+    .ash_message-content_6 h3 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .ash_parks-main_6 {
+        padding: 60px 0;
+    }
+    
+    .ash_parks-title_6 {
+        font-size: 2rem;
+    }
+    
+    .ash_parks-desc_6 {
+        font-size: 1.1rem;
+    }
+    
+    .ash_park-image_6 {
+        height: 240px;
+    }
+    
+    .ash_park-content_6 {
+        padding: 1.5rem;
+    }
+    
+    .ash_conservation-message_6 {
+        padding: 40px 20px;
+        margin-top: 60px;
+    }
+    
+    .ash_message-content_6 h3 {
+        font-size: 1.8rem;
+    }
+    
+    .ash_message-content_6 p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .ash_parks-title_6 {
+        font-size: 1.8rem;
+    }
+    
+    .ash_parks-desc_6 {
+        font-size: 1rem;
+    }
+    
+    .ash_park-content_6 h3 {
+        font-size: 1.3rem;
+    }
+    
+    .ash_conservation-message_6 {
+        padding: 30px 20px;
+    }
+    
+    .ash_message-content_6 h3 {
+        font-size: 1.6rem;
+    }
+}
+
+.ash_hero_6 {
+    height: 60vh;
+    background-attachment: fixed;
+    position: relative;
+}
+
+.ash_hero-overlay_6 {
+    background: linear-gradient(135deg, rgba(30, 60, 30, 0.8) 0%, rgba(30, 60, 30, 0.6) 100%);
+}
+
+.ash_hero-content_6 {
+    animation: fadeInUp 1.2s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ash_media-section_5 {
+    display: block;
 }
