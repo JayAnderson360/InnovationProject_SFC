@@ -75,7 +75,7 @@ const ui = {
         const headerRow = document.createElement('tr');
 
         // Special handling for specific collections
-        if (normalizedCollectionName === 'user') {
+        if (normalizedCollectionName === 'users') {
             // Add ID column first
             const idTh = document.createElement('th');
             idTh.textContent = 'ID';
@@ -121,7 +121,7 @@ const ui = {
             const row = document.createElement('tr');
             
             // Special handling for specific collections
-            if (normalizedCollectionName === 'user') {
+            if (normalizedCollectionName === 'users') {
                 // Add ID cell first
                 const idTd = document.createElement('td');
                 idTd.textContent = item.id;
@@ -257,7 +257,7 @@ const ui = {
         // If this is a specific collection, use the ordered fields
         const normalizedCollectionName = collectionName.toLowerCase();
         let orderedFields;
-        if (normalizedCollectionName === 'user') {
+        if (normalizedCollectionName === 'users') {
             orderedFields = userFieldOrder;
         } else if (normalizedCollectionName === 'parks') {
             orderedFields = parkFieldOrder;

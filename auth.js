@@ -45,7 +45,7 @@ function checkAuth() {
 
                 let dropdownMenu = '';
 
-                if (userRole === "ParkGuide") {
+                if (userRole === "Park Guide") {
                     dropdownMenu = `
                         <div class="dropdown-toggle">
                             <img src="Resources/Images/logo.png" alt="Profile Icon" />
@@ -56,7 +56,7 @@ function checkAuth() {
                             <a href="#" id="navbar-logout-btn">Logout</a>
                         </div>
                     `;
-                } else if (userRole === "user") {
+                } else if (userRole === "General User") {
                     dropdownMenu = `
                         <div class="dropdown-toggle">
                             <img src="Resources/Images/logo.png" alt="Profile Icon" />
@@ -65,7 +65,7 @@ function checkAuth() {
                             <a href="#" id="navbar-logout-btn">Logout</a>
                         </div>
                     `;
-                } else if (userRole === "admin") {
+                } else if (userRole === "Admin") {
                     dropdownMenu = `
                         <div class="dropdown-toggle">
                             <img src="Resources/Images/logo.png" alt="Admin Icon" />

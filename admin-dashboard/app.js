@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'parkguide_certification', 
         'parkguide_score', 
         'parks', 
-        'user', // Using lowercase 'user' for consistency
+        'users', // Using lowercase 'user' for consistency
         'visitor_feedback'
     ];
 
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let success = false;
         
         // Special handling for user collection
-        if (normalizedCollectionName === 'user') {
+        if (normalizedCollectionName === 'users') {
             // Validate required fields
             if (!data.name || !data.email || !data.password || !data.role) {
                 alert('All fields are required for user creation.');

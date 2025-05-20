@@ -24,12 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try {
-                    const userDocRef = doc(db, "user", user.uid);
+                    const userDocRef = doc(db, "users", user.uid);
                     const userDocSnap = await getDoc(userDocRef);
                     if (userDocSnap.exists()) {
                         const { role } = userDocSnap.data();
                         if (role === "Admin") {
                             window.location.href = "admin-dashboard/admin-dashboard.html";
+                        } else if (role === "Park Guide") {
+                            window.location.href = "course-dashboard/course-dashboard.html";
                         } else {
                             window.location.href = "index.html";
                         }
@@ -63,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     const user = userCredential.user;
-                    const userDocRef = doc(db, "user", user.uid);
+                    const userDocRef = doc(db, "users", user.uid);
                     const userDocSnap = await getDoc(userDocRef);
 
                     if (userDocSnap.exists()) {
@@ -73,7 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         localStorage.setItem("extraFeatures", JSON.stringify(extraFeatures));
 
                         alert("Login successful!");
-                        window.location.href = role === "Admin" ? "admin-dashboard/admin-dashboard.html" : "index.html";
+                        // Redirect based on user role
+                        if (role === "Admin") {
+                            window.location.href = "admin-dashboard/admin-dashboard.html";
+                        } else if (role === "Park Guide") {
+                            window.location.href = "course-dashboard/course-dashboard.html";
+                        } else {
+                            window.location.href = "index.html";
+                        }
                     } else {
                         showError("User role not found in Firestore.");
                     }

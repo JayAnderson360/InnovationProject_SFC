@@ -69,7 +69,7 @@ const api = {
         try {
             const normalizedCollectionName = collectionName.toLowerCase();
     
-            if (normalizedCollectionName === 'user') {
+            if (normalizedCollectionName === 'users') {
                 // Debug logs for email and password (DO NOT keep in production)
                 console.log("Creating user with email:", data.email);
                 console.log("Password entered:", data.password);
@@ -90,7 +90,7 @@ const api = {
                 }
     
                 // Store additional data in Firestore under user's UID
-                await db.collection('user').doc(uid).set(userData);
+                await db.collection('users').doc(uid).set(userData);
                 return uid;
             } else if (normalizedCollectionName === 'parks') {
                 // Store parks with auto-generated ID
