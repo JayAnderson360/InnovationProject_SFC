@@ -1,6 +1,7 @@
 import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { doc, getDoc, getFirestore } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -142,5 +143,42 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// Forgot password modal logic
+const forgotPasswordLink = document.getElementById("forgot-password-link");
+const forgotPasswordModal = document.getElementById("forgot-password-modal");
+const closeForgotPassword = document.getElementById("close-forgot-password");
+const sendResetBtn = document.getElementById("send-reset");
 
+forgotPasswordLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  forgotPasswordModal.style.display = "flex";
+});
+
+closeForgotPassword.addEventListener("click", () => {
+  forgotPasswordModal.style.display = "none";
+  clearResetFields();
+});
+
+sendResetBtn.addEventListener("click", async () => {
+  const emailInput = document.getElementById("reset-email");
+  const message = document.getElementById("reset-message");
+  const error = document.getElementById("reset-error");
+  
+  message.textContent = "";
+  error.textContent = "";
+
+  try {
+    await sendPasswordResetEmail(auth, emailInput.value.trim());
+    message.textContent = "Reset email sent. Check your inbox.";
+    emailInput.value = "";
+  } catch (err) {
+    error.textContent = err.message;
+  }
+});
+
+function clearResetFields() {
+  document.getElementById("reset-email").value = "";
+  document.getElementById("reset-message").textContent = "";
+  document.getElementById("reset-error").textContent = "";
+}
 
