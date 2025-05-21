@@ -27,41 +27,19 @@
 
         <!-- Main Content -->
         <div class="main-content">
-
-            <!-- Admin View -->
-            <div id="admin-dashboard-content" class="role-content hidden">
-                 <div class="banner-container">
-                    <video class="banner-video" src="../Resources/Videos/course-banner.mp4" autoplay loop muted playsinline></video>
-                    <div class="banner-overlay">
-                        <h1 class="banner-title">Welcome, Admin!</h1>
-                    </div>
-                 </div>
-                 <section class="admin-courses-section">
-                    <h2>Manage Courses</h2>
-                    <!-- Admin course management content will be loaded here -->
-                 </section>
-                 <div id="admin-data-display">
-                     <!-- Admin data will be displayed here (e.g., tables for published/suspended courses) -->
-                 </div>
-            </div>
-
-            <!-- Park Guide View -->
-            <div id="parkguide-dashboard-content" class="role-content hidden">
-                <div class="banner-container">
-                    <video class="banner-video" src="../Resources/Videos/course-banner.mp4" autoplay loop muted playsinline></video>
-                    <div class="banner-overlay">
-                        <h1 class="banner-title">Welcome, <span id="user-name">User</span>!</h1>
-                        <button id="browse-courses-btn" class="btn-primary">Browse More Courses</button>
-                    </div>
-                </div>
-                <section class="my-courses-section">
-                    <h2>My Courses</h2>
-                </section>
-                <div id="data-display">
-                    <!-- Data will be displayed here -->
+            <div class="banner-container">
+                <video class="banner-video" src="../Resources/Videos/course-banner.mp4" autoplay loop muted playsinline></video>
+                <div class="banner-overlay">
+                    <h1 class="banner-title">Welcome, <span id="user-name">User</span>!</h1>
+                    <button id="browse-courses-btn" class="btn-primary">Browse More Courses</button>
                 </div>
             </div>
-
+            <section class="my-courses-section">
+                <h2>My Courses</h2>
+            </section>
+            <div id="data-display">
+                <!-- Data will be displayed here -->
+            </div>
         </div>
     </div>
 
@@ -88,5 +66,13 @@
     <script src="api.js"></script>
     <script src="ui.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Example: Set user name dynamically (replace with actual logic)
+        document.getElementById('user-name').textContent = localStorage.getItem('userName') || 'User';
+        // Browse More Courses button switches to My Carts tab
+        document.getElementById('browse-courses-btn').onclick = function() {
+            document.getElementById('nav-my-carts').click();
+        };
+    </script>
 </body>
 </html>

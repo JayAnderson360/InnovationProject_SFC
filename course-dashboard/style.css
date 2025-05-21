@@ -10,7 +10,7 @@
     --bg-light: #f9f9f9;
     --bg-dark: #1b1b1b; /* Not used much in admin */
     --border-radius: 8px;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
     --transition: all 0.3s ease; /* Reduced transition time for responsiveness */
 }
 
@@ -103,7 +103,7 @@ img {
 
 .sidebar {
     width: 280px; /* Slightly wider sidebar */
-    background-color: beige; /* White sidebar */
+    background-color: #ffffff; /* White sidebar */
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     position: fixed;
     top: 0;
@@ -119,7 +119,7 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 0 2rem 0;
+    padding-bottom: 1rem;
 }
 
 .logo-img {
@@ -351,11 +351,6 @@ td .actions .btn-icon.delete:hover {
     text-transform: capitalize;
 }
 
-/* Utility Classes */
-.hidden {
-    display: none !important;
-}
-
 /* Responsive */
 @media (max-width: 992px) {
     .sidebar {
@@ -486,121 +481,4 @@ td .actions .btn-icon.delete:hover {
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: 1px;
-}
-
-/* Styles for Admin Sections */
-.admin-courses-section {
-    background: #fff;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
-    margin-bottom: 2rem;
-    margin-top: 0.5rem; /* Adjust if needed to align with banner */
-}
-
-.admin-courses-section h2 {
-    margin: 0;
-    color: var(--primary-dark);
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-/* Styles for Park Guide Sections */
-.my-courses-section {
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
-    margin-bottom: 2rem;
-    margin-top: 0.5rem;
-}
-
-.my-courses-section h2 {
-    margin: 0;
-    color: var(--primary-dark);
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-/* Course Cards Styles */
-.course-cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.course-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.course-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0 0 15px 0;
-}
-
-.course-price {
-    font-size: 1.1rem;
-    color: #2ecc71;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.course-duration {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-.course-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.btn-edit, .btn-delete {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: background-color 0.2s ease;
-}
-
-.btn-edit {
-    background-color: #3498db;
-    color: white;
-}
-
-.btn-edit:hover {
-    background-color: #2980b9;
-}
-
-.btn-delete {
-    background-color: #e74c3c;
-    color: white;
-}
-
-.btn-delete:hover {
-    background-color: #c0392b;
-}
-
-.btn-edit i, .btn-delete i {
-    font-size: 0.9rem;
 }

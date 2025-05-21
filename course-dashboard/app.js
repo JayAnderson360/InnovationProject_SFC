@@ -44,7 +44,6 @@ auth.onAuthStateChanged(user => {
 
 // Load collection data
 async function loadCollection(collectionName) {
-    console.log(`Loading data for collection: ${collectionName}`);
     try {
         const data = await api.getCollectionData(collectionName);
         const fields = await api.getCollectionFields(collectionName);
