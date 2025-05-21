@@ -1,9 +1,11 @@
-// Firebase v9+ compat version
+// Firebase v9+ modular SDK
+// IMPORTANT: Replace with your actual Firebase project configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI", 
+    apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI", // Replace with your actual API key
     authDomain: "sarawak-forestry-database.firebaseapp.com",
+    // databaseURL: "https://sarawak-forestry-database-default-rtdb.asia-southeast1.firebasedatabase.app", // For Realtime Database
     projectId: "sarawak-forestry-database",
-    storageBucket: "sarawak-forestry-database.appspot.com",
+    storageBucket: "sarawak-forestry-database.appspot.com", // Correct format is typically project-id.appspot.com
     messagingSenderId: "979838017340",
     appId: "1:979838017340:web:a31113d00fafcb0bcb4839",
     measurementId: "G-KXNY4PT4VY"
@@ -11,9 +13,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+const db = firebase.firestore(app); // Using Firestore
+const auth = firebase.auth(app);
 
-// Make them globally available
 window.db = db;
 window.auth = auth;

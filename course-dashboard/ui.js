@@ -66,7 +66,64 @@ const ui = {
             return;
         }
 
-        // Create table
+        // Check if user is admin and collection is courses
+        const userRole = localStorage.getItem('userRole');
+        if (userRole === 'Admin' && normalizedCollectionName === 'courses') {
+            // Create cards container
+            const cardsContainer = document.createElement('div');
+            cardsContainer.className = 'course-cards-container';
+
+            // Create cards for each course
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'course-card';
+
+                // Title
+                const title = document.createElement('h3');
+                title.className = 'course-title';
+                title.textContent = item.title || item.name || 'Untitled Course';
+                card.appendChild(title);
+
+                // Price
+                const price = document.createElement('div');
+                price.className = 'course-price';
+                price.textContent = `RM ${parseFloat(item.price || 0).toFixed(2)}`;
+                card.appendChild(price);
+
+                // Duration
+                const duration = document.createElement('div');
+                duration.className = 'course-duration';
+                duration.textContent = `${item.completionDurationDays || item.duration || 0} Days`;
+                card.appendChild(duration);
+
+                // Actions
+                const actions = document.createElement('div');
+                actions.className = 'course-actions';
+
+                const editButton = document.createElement('button');
+                editButton.className = 'btn-edit';
+                editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
+                editButton.onclick = () => onEdit(collectionName, item.id, item);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'btn-delete';
+                deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i> Delete';
+                deleteButton.onclick = () => onDelete(collectionName, item.id);
+
+                actions.appendChild(editButton);
+                actions.appendChild(deleteButton);
+                card.appendChild(actions);
+
+                cardsContainer.appendChild(card);
+            });
+
+            // Clear and append
+            this.dataDisplayContainer.innerHTML = '';
+            this.dataDisplayContainer.appendChild(cardsContainer);
+            return;
+        }
+
+        // Default table view for other cases
         const table = document.createElement('table');
         table.className = 'data-table';
 
