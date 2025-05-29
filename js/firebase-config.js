@@ -4,7 +4,6 @@ const firebaseConfig = {
     authDomain: "sarawak-forestry-database.firebaseapp.com",
     databaseURL: "https://sarawak-forestry-database-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "sarawak-forestry-database",
-    storageBucket: "sarawak-forestry-database.firebasestorage.app",
     messagingSenderId: "979838017340",
     appId: "1:979838017340:web:a31113d00fafcb0bcb4839",
     measurementId: "G-KXNY4PT4VY"
@@ -16,9 +15,15 @@ if (!firebase.apps.length) {
 }
 
 const db = firebase.firestore();
-const rtdb = firebase.database();
 const auth = firebase.auth();
 
 window.db = db;
-window.rtdb = rtdb;
 window.auth = auth;
+
+// Conditionally initialize Realtime Database and Storage
+if (typeof firebase.database === 'function') {
+    const rtdb = firebase.database();
+    window.rtdb = rtdb;
+} else {
+    console.warn('Firebase Realtime Database SDK not loaded. window.rtdb will not be available.');
+}

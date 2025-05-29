@@ -85,15 +85,48 @@ class FirebaseAPI {
 
     async updateUser(userId, userData) {
         try {
-            await this.db.collection('users').doc(userId).update(userData);
+            const updateData = { ...userData };
+            // Prevent email change from this generic update form if it's an auth credential
+            // as it might require re-authentication or specific SDK methods.
+            if (updateData.email && users[userId] && updateData.email !== users[userId].email) {
+                 console.warn("Attempting to change email directly via updateUser. This might have implications for Firebase Auth user email. Ensure this is intended or handle email updates separately.");
+                 // For safety, you might disallow email changes here or require a separate flow for it.
+                 // delete updateData.email; 
+            }
+
+            await this.db.collection('users').doc(userId).update(updateData);
             
-            // Update local storage
             const users = JSON.parse(localStorage.getItem('users') || '{}');
-            users[userId] = { ...users[userId], ...userData };
+            users[userId] = { ...users[userId], ...updateData };
             localStorage.setItem('users', JSON.stringify(users));
         } catch (error) {
-            console.error('Error updating user:', error);
+            console.error('Error updating user in Firestore:', error);
             throw error;
+        }
+    }
+
+    async setUserStatus(userId, status) {
+        try {
+            // 1. Update user status in Firestore
+            await this.db.collection('users').doc(userId).update({ status: status });
+            console.log(`User ${userId} status set to '${status}' in Firestore.`);
+
+            // Firebase Authentication record is NOT deleted or disabled here directly from client.
+            // Login logic elsewhere must check the Firestore 'status' field.
+
+            // 2. Update local storage
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            if (users[userId]) {
+                users[userId].status = status;
+                localStorage.setItem('users', JSON.stringify(users));
+                console.log(`User ${userId} status updated to '${status}' in local storage.`);
+            } else {
+                console.warn(`User ${userId} not found in local storage during status update.`);
+            }
+
+        } catch (error) {
+            console.error(`Error setting user ${userId} status to '${status}':`, error);
+            throw error; // Re-throw the error to be caught by the UI layer
         }
     }
 

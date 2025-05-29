@@ -48,24 +48,27 @@ const downloadPdfButton = document.getElementById('downloadPdfButton');
 const downloadPngButton = document.getElementById('downloadPngButton');
 const certificateDisplayElement = document.getElementById('certificateDisplay');
 
-function showCertificateModal(certId) {
-    const certificates = JSON.parse(localStorage.getItem('certificatesData')) || [];
+function showCertificateModal(certificateId) {
+    const certificate = JSON.parse(localStorage.getItem('certificatesData')).find(c => c.id === certificateId);
     const userData = JSON.parse(localStorage.getItem('userData'));
-    const certificate = certificates.find(c => c.id === certId);
 
     if (certificate && userData) {
-        modalCertUserName.textContent = userData.name || 'N/A';
-        modalCertName.textContent = certificate.certificateName || 'N/A';
-        modalCertOrgName.textContent = certificate.grantedByCertificateCourseTitle || 'N/A'; 
-        modalCertIssueDate.textContent = formatDate(certificate.issuedAt);
-        modalCertId.textContent = certificate.id || 'N/A';
-        
-        modal.dataset.currentCertId = certId;
-        modal.dataset.currentCertName = certificate.certificateName || 'certificate';
+        // Populate modal with certificate details
+        if (modalCertUserName) modalCertUserName.textContent = userData.name || 'N/A'; // User's full name
+        if (modalCertName) modalCertName.textContent = certificate.certificateName || 'N/A';
+        if (modalCertIssueDate) modalCertIssueDate.textContent = certificate.issuedAt ? formatDate(certificate.issuedAt) : 'N/A';
+        // The line below will be removed to keep the issuer fixed
+        // if (modalCertOrgName) modalCertOrgName.textContent = certificate.grantedByCertificateCourseTitle || 'Sarawak Forestry Corporation'; // Keep SFC as fallback if needed, or remove entirely
+        if (modalCertId) modalCertId.textContent = certificate.id ? `#${certificate.id.substring(0, 10)}...` : 'N/A'; // Show a snippet of the ID
 
-        modal.style.display = 'block';
+        // Set up download buttons with the current certificate ID
+        if (downloadPdfButton) downloadPdfButton.dataset.certificateId = certificateId;
+        if (downloadPngButton) downloadPngButton.dataset.certificateId = certificateId;
+
+        if (certificateModal) certificateModal.style.display = 'block';
     } else {
-        console.error('Certificate or user data not found for ID:', certId);
+        console.error('Certificate or user data not found for modal display.');
+        alert('Could not display certificate details.');
     }
 }
 

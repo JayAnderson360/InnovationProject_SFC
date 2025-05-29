@@ -28,10 +28,10 @@ async function checkAuth() { // Made async to use await
         loginLink.style.display = 'none';
     }
 
-    onAuthStateChanged(auth, async (user) => { // Made callback async
+    onAuthStateChanged(auth, async (user) => {
         const existingDropdown = document.querySelector('.dropdown');
         if (existingDropdown) {
-            existingDropdown.remove(); // Remove existing dropdown before adding a new one
+            existingDropdown.remove();
         }
 
         if (user) {
@@ -43,20 +43,20 @@ async function checkAuth() { // Made async to use await
                 const userDocSnap = await getDoc(userDocRef);
 
                 let userRole = null;
-                let profilePictureUrl = 'Resources/Images/ProfilePicture/defaultProfile.jpeg'; // Default image
+                let userName = null;
+                let profilePictureUrl = 'Resources/Images/ProfilePicture/defaultProfile.jpeg';
 
                 if (userDocSnap.exists()) {
                     const userData = userDocSnap.data();
+                    userName = userData.name;
                     userRole = userData.role;
-                    if (userData.profilePictureUrl) { // Check if profilePictureUrl exists
+                    if (userData.profilePictureUrl) {
                         profilePictureUrl = userData.profilePictureUrl;
                     }
                     console.log("User Role from Firestore:", userRole);
                     console.log("Profile Picture URL from Firestore:", profilePictureUrl);
-
-                    // Store role in localStorage (still useful for quick access on page load, but not for security)
-                     localStorage.setItem("userRole", userRole);
-
+                    localStorage.setItem("userName", userName);
+                    localStorage.setItem("userRole", userRole);
                 } else {
                     console.warn("No user document found for UID:", user.uid);
                     // If no user doc, default to 'General User' role and default picture

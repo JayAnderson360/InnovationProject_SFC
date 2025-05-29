@@ -274,14 +274,15 @@ class UI {
     }
 
     // Table Functions
-    createTable(headers, data) {
+    createTable(headers, data, actions) {
         const table = document.createElement('table');
         table.className = 'data-table';
 
-        // Create header
         const thead = document.createElement('thead');
-        // Check if any row has actions to decide if the Actions header is needed
-        const hasActions = data.some(row => row.actions && Array.isArray(row.actions) && row.actions.length > 0);
+        const hasActions = data.some(row => {
+            const rowSpecificActions = typeof actions === 'function' ? actions(row) : actions;
+            return rowSpecificActions && Array.isArray(rowSpecificActions) && rowSpecificActions.length > 0;
+        });
 
         thead.innerHTML = `
             <tr>
@@ -291,25 +292,27 @@ class UI {
         `;
         table.appendChild(thead);
 
-        // Create body
         const tbody = document.createElement('tbody');
         tbody.innerHTML = data.map(row => {
-             // Use the actions array from the row if it exists
-            const rowActions = row.actions && Array.isArray(row.actions) ? row.actions : [];
+            const rowActions = typeof actions === 'function' ? actions(row) : actions;
+            const actionsHtml = (rowActions && Array.isArray(rowActions)) ? rowActions.map(action => {
+                // Construct the onClick call. If action.params are defined, use them.
+                let onClickCall = `${action.onClick}('${row._id}')`; // Default call with row._id
+                if (action.onClickParams && Array.isArray(action.onClickParams)) {
+                    const paramsString = action.onClickParams.map(param => typeof param === 'string' ? `'${param}'` : param).join(', ');
+                    onClickCall = `${action.onClick}('${row._id}', ${paramsString})`;
+                }
+                return `
+                <button class="btn btn-${action.type}" 
+                        onclick="${onClickCall}">
+                    ${action.label}
+                </button>
+            `}).join('') : '';
 
             return `
             <tr>
                 ${headers.map(header => `<td>${row[this.headerKey(header)] ?? '-'}</td>`).join('')}
-                ${hasActions ? `
-                    <td>
-                        ${rowActions.map(action => `
-                            <button class="btn btn-${action.type}" 
-                                    onclick="${action.onClick}('${row._id}')">
-                                ${action.label}
-                            </button>
-                        `).join('')}
-                    </td>
-                ` : ''}
+                ${hasActions ? `<td>${actionsHtml}</td>` : ''}
             </tr>
             `;
         }).join('');
@@ -337,7 +340,6 @@ class UI {
         const container = document.getElementById('content-container');
         const users = JSON.parse(localStorage.getItem('users') || '{}');
 
-        // Create header with add button
         const header = document.createElement('div');
         header.className = 'page-header';
         header.innerHTML = `
@@ -346,24 +348,35 @@ class UI {
         `;
         container.appendChild(header);
 
-        // Create users table
         const table = this.createTable(
-            ['Name', 'Email', 'Role', 'IC Number', 'Phone Number'],
+            ['Name', 'Email', 'Role', 'IC Number', 'Phone Number', 'Status'],
             Object.entries(users).map(([id, user]) => ({
                 name: user.name,
                 email: user.email,
                 role: user.role,
                 icNumber: user.icNumber || '-',
                 phoneNumber: user.phoneNumber || '-',
-                _id: id // Store ID separately for actions
+                status: user.status || 'active',
+                _id: id 
             })),
-            [
-                {
-                    label: 'Edit',
-                    type: 'primary',
-                    onClick: 'ui.showEditUserModal'
-                }
-            ]
+            (row) => {
+                const actions = [
+                    {
+                        label: 'Edit',
+                        type: 'primary',
+                        onClick: 'ui.showEditUserModal'
+                    }
+                ];
+                const isDisabled = row.status === 'disabled'; 
+                const newStatus = isDisabled ? 'active' : 'disabled';
+                actions.push({
+                    label: isDisabled ? 'Enable' : 'Disable',
+                    type: isDisabled ? 'success' : 'danger',
+                    onClick: 'ui.showSetUserStatusConfirmationModal',
+                    onClickParams: [newStatus]
+                });
+                return actions;
+            }
         );
         container.appendChild(table);
     }
@@ -478,8 +491,8 @@ class UI {
                 // Conditionally include actions based on status
                 actions: (enrollment.status === 'Rejected' || enrollment.status === 'completed') ? [] : defaultActions
             })),
-             // Pass the actions array based on the row data
-            (row) => row.actions
+             // Pass the actions array directly if it's determined per row, or the static array
+            (row) => row.actions // This was correct, as actions are conditional per row
         );
         container.appendChild(table);
     }
@@ -515,9 +528,7 @@ class UI {
                 testTitle: submission.testTitle,
                 questionType: (() => {
                     const tests = JSON.parse(localStorage.getItem('tests') || '{}');
-                    // Find the test by title - assumes unique test titles
                     const test = Object.values(tests).find(t => t.title === submission.testTitle);
-                    // Assuming each test object has a 'questions' object and we need the type of the first question
                     return test && test.questions && Object.values(test.questions).length > 0 
                         ? Object.values(test.questions)[0].type 
                         : '-';
@@ -525,8 +536,9 @@ class UI {
                 answer: submission.answers && submission.answers[0] ? submission.answers[0].userAnswer : '-',
                 isCorrect: submission.answers && submission.answers[0] ? (submission.answers[0].isCorrect ? 'Yes' : 'No') : '-',
                 score: submission.score !== undefined && submission.totalPossibleScore !== undefined ? `${submission.score}/${submission.totalPossibleScore}` : '-',
-                _id: id // Store ID separately for actions
+                _id: id 
             }))
+            // No actions for this table
         );
         container.appendChild(table);
     }
@@ -535,13 +547,11 @@ class UI {
         const container = document.getElementById('content-container');
         const certificates = JSON.parse(localStorage.getItem('certificates') || '{}');
 
-        // Create header
         const header = document.createElement('div');
         header.className = 'page-header';
         header.innerHTML = '<h1>Certifications</h1>';
         container.appendChild(header);
 
-        // Create certificates table
         const table = this.createTable(
             ['Name', 'Certificate Name', 'Status', 'Issued At', 'Expires At'],
             Object.entries(certificates).map(([id, cert]) => ({
@@ -550,8 +560,9 @@ class UI {
                 status: cert.status,
                 issuedAt: firestoreTimestampToDate(cert.issuedAt)?.toLocaleDateString() || '-',
                 expiresAt: firestoreTimestampToDate(cert.expiresAt)?.toLocaleDateString() || '-',
-                _id: id // Store ID separately for actions
+                _id: id
             }))
+            // No actions for this table
         );
         container.appendChild(table);
     }
@@ -560,13 +571,11 @@ class UI {
         const container = document.getElementById('content-container');
         const feedback = JSON.parse(localStorage.getItem('visitor_feedback') || '{}');
 
-        // Create header
         const header = document.createElement('div');
         header.className = 'page-header';
         header.innerHTML = '<h1>Visitor Feedback</h1>';
         container.appendChild(header);
 
-        // Create feedback table
         const table = this.createTable(
             ['Visitor Name', 'Guide Name', 'Rating', 'Comments', 'Date'],
             Object.entries(feedback).map(([id, fb]) => ({
@@ -577,11 +586,11 @@ class UI {
                 date: (() => {
                     const rawDate = fb.feedback_date;
                     const dateObj = firestoreTimestampToDate(rawDate);
-                    console.log('Visitor Feedback Date Debug:', { raw: rawDate, converted: dateObj });
                     return dateObj?.toLocaleDateString() || '-';
                 })(),
-                _id: id // Store ID separately for actions
+                _id: id
             }))
+            // No actions for this table
         );
         container.appendChild(table);
     }
@@ -596,7 +605,19 @@ class UI {
         header.innerHTML = '<h1>Transactions</h1>';
         container.appendChild(header);
 
-        // Create transactions table
+        const transactionActions = [
+            {
+                label: 'Verify',
+                type: 'success',
+                onClick: 'ui.verifyTransaction'
+            },
+            {
+                label: 'Reject',
+                type: 'danger',
+                onClick: 'ui.rejectTransaction'
+            }
+        ];
+
         const table = this.createTable(
             ['Name', 'Amount', 'Image', 'Submitted At', 'Status', 'Verified At', 'Verified By', 'Notes'],
             Object.entries(transactions).map(([id, trans]) => ({
@@ -608,20 +629,12 @@ class UI {
                 verifiedAt: trans.verifiedAt ? firestoreTimestampToDate(trans.verifiedAt)?.toLocaleDateString() : '-',
                 verifiedBy: trans.verifiedBy || '-',
                 notes: trans.notes || '-',
-                _id: id // Store ID separately for actions
+                _id: id,
+                // For transactions, actions might be conditional based on status, similar to enrollments
+                // For simplicity, let's assume actions are always applicable if not verified/rejected
+                actions: (trans.status === 'verified' || trans.status === 'rejected') ? [] : transactionActions 
             })),
-            [
-                {
-                    label: 'Verify',
-                    type: 'success',
-                    onClick: 'ui.verifyTransaction'
-                },
-                {
-                    label: 'Reject',
-                    type: 'danger',
-                    onClick: 'ui.rejectTransaction'
-                }
-            ]
+            (row) => row.actions // This is correct as actions are conditional
         );
         container.appendChild(table);
     }
@@ -630,13 +643,11 @@ class UI {
         const container = document.getElementById('content-container');
         const licenses = JSON.parse(localStorage.getItem('licenses') || '{}');
 
-        // Create header
         const header = document.createElement('div');
         header.className = 'page-header';
         header.innerHTML = '<h1>Licenses</h1>';
         container.appendChild(header);
 
-        // Create licenses table
         const table = this.createTable(
             ['Name', 'License Number', 'Status', 'Issued At', 'Expires At'],
             Object.entries(licenses).map(([id, license]) => ({
@@ -645,8 +656,9 @@ class UI {
                 status: license.status,
                 issuedAt: firestoreTimestampToDate(license.issuedAt)?.toLocaleDateString() || '-',
                 expiresAt: firestoreTimestampToDate(license.expiresAt)?.toLocaleDateString() || '-',
-                _id: id // Store ID separately for actions
+                _id: id
             }))
+            // No actions for this table
         );
         container.appendChild(table);
     }
@@ -1068,7 +1080,8 @@ class UI {
 
         const table = this.createTable(
             ['Test Title', 'Question Type', 'Answer', 'Is Correct', 'Score'],
-            filteredSubmissions
+            filteredSubmissions,
+            (row) => row.actions
         );
 
         const container = document.getElementById('content-container');
@@ -1077,6 +1090,81 @@ class UI {
             existingTable.replaceWith(table);
         } else {
             container.appendChild(table);
+        }
+    }
+
+    showSetUserStatusConfirmationModal(userId, newStatus) {
+        const users = JSON.parse(localStorage.getItem('users') || '{}');
+        const user = users[userId];
+        const userName = user ? user.name : 'This user';
+        const actionText = newStatus === 'disabled' ? 'disable' : 'enable';
+        const capitalizedActionText = actionText.charAt(0).toUpperCase() + actionText.slice(1);
+
+        const modalContent = `
+            <h2>Confirm User Status Change</h2>
+            <p>Are you sure you want to ${actionText} <strong>${userName}</strong> (ID: ${userId})?</p>
+            <p>If disabled, the user will not be able to log in or access the system.</p>
+            <div class="modal-actions">
+                <button class="btn btn-${newStatus === 'disabled' ? 'danger' : 'success'}" id="confirm-set-status-btn">${capitalizedActionText} User</button>
+                <button class="btn btn-secondary" onclick="ui.closeModal()">Cancel</button>
+            </div>
+        `;
+
+        this.showModal(modalContent);
+
+        const confirmBtn = document.getElementById('confirm-set-status-btn');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', async () => {
+                try {
+                    this.showLoading(`${capitalizedActionText}ing user...`);
+                    await firebaseAPI.setUserStatus(userId, newStatus);
+                    this.closeModal();
+                    this.showSuccess(`User ${actionText}d successfully.`);
+                    await this.loadUsersPage(); // Reload the users table
+                } catch (error) {
+                    console.error(`Error ${actionText}ing user:`, error);
+                    this.closeModal();
+                    this.showError(`Failed to ${actionText} user: ${error.message || 'Please try again.'}`);
+                }
+            });
+        }
+    }
+
+    closeModal() {
+        const modal = document.getElementById('admin-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.innerHTML = ''; // Clear content
+        }
+    }
+
+    showError(message) {
+        // Simple alert, or could be a styled notification
+        alert(`Error: ${message}`);
+        // Or, if you have a dedicated error display element in your modal/UI:
+        // const errorElement = document.getElementById('modal-error-message');
+        // if (errorElement) errorElement.textContent = message;
+    }
+
+    showSuccess(message) {
+        // Simple alert, or a styled notification
+        alert(message); 
+    }
+    
+    showLoading(message) {
+        // Could display a loading spinner in the modal or a global spinner
+        console.log(message); // Placeholder
+        // For a modal, you might disable buttons and show text:
+        const modalActions = document.querySelector('.modal-actions');
+        if (modalActions) {
+            Array.from(modalActions.children).forEach(button => button.disabled = true);
+            let loadingMsg = document.getElementById('modal-loading-message');
+            if (!loadingMsg) {
+                loadingMsg = document.createElement('p');
+                loadingMsg.id = 'modal-loading-message';
+                modalActions.parentNode.insertBefore(loadingMsg, modalActions);
+            }
+            loadingMsg.textContent = message;
         }
     }
 }

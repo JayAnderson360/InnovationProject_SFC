@@ -1,0 +1,570 @@
+/* General Body Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6; /* Light grayish-green background */
+    margin: 0;
+    color: #333;
+}
+
+/* Header Styles */
+.cd-header {
+    background-color: #004d26; /* Dark green */
+    color: #fff;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cd-logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Remove old text-based logo icon styles */
+/* .cd-logo-icon {
+    background-color: #fff;
+    color: #004d26;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-size: 1.2em;
+} */
+
+.cd-logo-icon-img {
+    height: 40px; /* Adjust as needed */
+    width: auto; /* Maintain aspect ratio */
+    margin-right: 10px;
+    /* Add any other styling like border-radius if your logo needs it */
+}
+
+.cd-logo-text {
+    font-size: 1.5em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.cd-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.cd-nav li {
+    margin-left: 25px;
+}
+
+.cd-nav a {
+    color: #e0e0e0; /* Lighter text for nav links */
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.cd-nav a:hover, .cd-nav a.active {
+    color: #fff; /* Brighter white for hover/active */
+    border-bottom: 2px solid #fff;
+    padding-bottom: 5px;
+}
+
+.cd-user-display {
+    display: flex;
+    align-items: center;
+}
+
+.cd-user-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #1abc9c; /* Teal color for avatar */
+    border-radius: 50%;
+    margin-left: 10px;
+    /* In a real app, this would be an <img> tag */
+}
+
+#cd-username-display {
+    font-weight: 500;
+}
+
+/* Main Content Area */
+.cd-main-content {
+    padding: 30px 40px;
+}
+
+.cd-welcome-banner {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.cd-welcome-banner h1 {
+    margin: 0 0 10px 0;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.cd-welcome-banner p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+/* Controls Container */
+.cd-controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.cd-search-filter {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between search and filter placeholders */
+}
+
+/* Style for the new 'My Courses' filter container if needed */
+.cd-my-courses-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cd-my-courses-filter label {
+    font-size: 0.95em;
+    color: #333;
+}
+
+.cd-search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 8px 15px;
+    border-radius: 20px;
+    width: 300px; /* Adjust as needed */
+}
+
+.cd-search-bar i {
+    color: #777;
+    margin-right: 8px;
+}
+
+#cd-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 1em;
+    width: 100%;
+}
+
+.cd-filter-dropdown {
+    height: 40px; /* Match search bar height */
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    font-size: 0.95em;
+    color: #333;
+    min-width: 150px; /* Minimum width */
+}
+
+.cd-filter-placeholder {
+    width: 150px; /* Placeholder width */
+    height: 38px; /* Match search bar height */
+    background-color: #e9ecef; /* Light gray */
+    border-radius: 4px;
+    /* Placeholder for future dropdown styling */
+}
+
+.cd-view-toggle button {
+    background-color: #e9ecef;
+    border: 1px solid #d0d0d0;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    margin-left: 10px;
+    color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cd-view-toggle button i {
+    margin-right: 5px;
+}
+
+.cd-view-toggle button.active {
+    background-color: #004d26; /* Dark green */
+    color: #fff;
+    border-color: #004d26;
+}
+.cd-view-toggle button:hover:not(.active) {
+    background-color: #d4dadf;
+}
+
+/* Course Grid Styles */
+.cd-course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Responsive grid */
+    gap: 25px;
+}
+
+/* List View Specific Styles */
+.cd-course-grid.cd-list-view {
+    grid-template-columns: 1fr; /* Each card takes full width */
+}
+
+.cd-course-grid.cd-list-view .cd-course-card {
+    flex-direction: row; /* Arrange card content horizontally */
+    padding-bottom: 20px; /* Reset padding, no absolute button in this simple list view */
+    align-items: flex-start; /* Align items to the top in list view */
+}
+
+.cd-course-grid.cd-list-view .cd-course-image-placeholder {
+    height: auto; /* Allow image to define height or set a fixed one */
+    width: 150px; /* Fixed width for image in list view */
+    min-width: 150px;
+    max-height: 120px; /* Max height for image in list view */
+    margin-right: 20px;
+    align-self: center; /* Center image vertically if card is taller */
+}
+
+.cd-course-grid.cd-list-view .cd-course-card-content {
+    padding: 20px 20px 20px 0; /* Adjust padding */
+    flex-grow: 1;
+}
+
+.cd-course-grid.cd-list-view .cd-course-description {
+    margin-bottom: 10px; /* Reduce margin */
+    /* May need to limit lines of text with text-overflow: ellipsis for cleaner look */
+}
+
+.cd-course-grid.cd-list-view .cd-course-details {
+    flex-direction: column; /* Stack duration and price */
+    align-items: flex-start;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.cd-course-grid.cd-list-view .cd-course-price {
+    font-size: 1.2em; /* Adjust price font size for list view if needed */
+}
+
+.cd-course-grid.cd-list-view .cd-course-action {
+    position: static; /* Override absolute positioning */
+    margin-left: auto; /* Push to the right */
+    align-self: center; /* Vertically center with card content */
+    padding: 0 20px 0 0; /* Add some padding if needed */
+}
+
+.cd-course-grid.cd-list-view .cd-course-progress-container {
+    order: 1; /* Move progress below details in the flex column of card-content */
+    margin-top: 10px;
+}
+
+.cd-course-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden; /* Ensures border radius is respected by children */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    position: relative; /* For absolute positioning of the action button */
+    padding-bottom: 70px; /* Make space for the action button area */
+}
+
+.cd-course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.cd-course-image-placeholder {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 1.1em;
+    /* Placeholder colors matching the image */
+}
+.cd-course-image-placeholder.type-wildlife {
+    background-color: #d4f0e0; /* Light green */
+}
+.cd-course-image-placeholder.type-safety {
+    background-color: #ffd9d9; /* Light red */
+}
+.cd-course-image-placeholder.type-environmental {
+    background-color: #d9e8ff; /* Light blue */
+}
+.cd-course-image-placeholder.type-communication {
+    background-color: #f0d9ff; /* Light purple */
+}
+.cd-course-image-placeholder.type-navigation {
+    background-color: #fff5d9; /* Light yellow */
+}
+.cd-course-image-placeholder.type-default {
+    background-color: #e0e0e0; /* Default light gray */
+}
+
+
+.cd-course-card-content {
+    padding: 20px;
+    flex-grow: 1; /* Allows content to fill space if card heights vary */
+    display: flex;
+    flex-direction: column;
+}
+
+.cd-course-type-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 0.8em;
+    font-weight: 500;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    color: #fff;
+    /* Badge colors will be set by JS based on course type or hardcoded if few types */
+}
+.cd-course-type-badge.wildlife {
+    background-color: #27ae60; /* Green */
+}
+.cd-course-type-badge.safety {
+    background-color: #e74c3c; /* Red */
+}
+.cd-course-type-badge.environmental {
+    background-color: #3498db; /* Blue */
+}
+.cd-course-type-badge.communication {
+    background-color: #8e44ad; /* Purple */
+}
+.cd-course-type-badge.navigation {
+    background-color: #f39c12; /* Yellow-Orange */
+}
+.cd-course-type-badge.default {
+    background-color: #7f8c8d; /* Gray */
+}
+
+
+.cd-course-card h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.cd-course-card p.cd-course-description {
+    font-size: 0.95em;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Pushes details to the bottom */
+}
+
+.cd-course-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-top: auto; /* This is no longer needed if action is absolute */
+}
+
+.cd-course-duration, .cd-course-price {
+    font-size: 0.9em;
+    color: #777;
+}
+.cd-course-duration i, .cd-course-price i {
+    margin-right: 5px;
+}
+
+.cd-course-price {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #004d26;
+}
+
+.cd-course-action {
+    position: absolute;
+    bottom: 20px; /* Adjust to move it up a bit */
+    right: 20px;
+    /* The button/span inside will align based on its own properties or text-align if needed */
+}
+
+.cd-course-action button, .cd-course-action .cd-status-text {
+    background-color: #004d26; /* Dark green for enroll */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    font-size: 0.95em;
+}
+
+.cd-course-action button:hover {
+    background-color: #00331a; /* Darker green */
+}
+
+/* Specific button/status text styles */
+.cd-course-action button.cd-btn-continue {
+    background-color: #3498db; /* Blue for continue */
+}
+.cd-course-action button.cd-btn-continue:hover {
+    background-color: #2980b9;
+}
+
+.cd-course-action .cd-status-text {
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.cd-course-action .cd-status-completed {
+    background-color: #2ecc71; /* Green for completed */
+    cursor: default;
+}
+
+.cd-course-action .cd-status-pending {
+    background-color: #f39c12; /* Orange for pending */
+    color: #fff;
+     cursor: default;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .cd-header {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+    .cd-nav ul {
+        margin-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .cd-nav li {
+        margin: 5px 10px;
+    }
+    .cd-user-display {
+        margin-top: 10px;
+    }
+    .cd-main-content {
+        padding: 20px;
+    }
+    .cd-controls-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .cd-search-bar {
+        width: 100%;
+    }
+    .cd-filter-placeholder {
+        width: 48%; /* Two filters side-by-side */
+    }
+    .cd-course-grid {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+}
+
+
+/* Payment Modal Styles */
+.cd-modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 110%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.6); 
+}
+
+.cd-modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; 
+    padding: 25px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.cd-modal-close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cd-modal-close-btn:hover,
+.cd-modal-close-btn:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.cd-modal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.cd-modal p {
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.cd-form-group {
+    margin-bottom: 20px;
+}
+
+.cd-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.cd-form-group input[type="file"] {
+    display: block;
+    width: 96%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.cd-btn.cd-btn-primary {
+    background-color: #004d26;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.cd-btn.cd-btn-primary:hover {
+    background-color: #00331a;
+}
+
+.cd-modal-message {
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.cd-modal-message.success {
+    color: green;
+}
+
+.cd-modal-message.error {
+    color: red;
+} 
