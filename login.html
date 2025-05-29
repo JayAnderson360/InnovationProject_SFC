@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sarawak Forestry Conservation</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -13,11 +13,7 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="login.js" defer></script>
+  <script type="module" src="js/login.js" defer></script>
   <style>
     /* Modal Base */
     .modal {
@@ -62,23 +58,21 @@
       color: #666;
     }
 
+    /* Input Styling */
     .modal-input {
       width: 100%;
-      padding: 12px 14px;
+      padding: 10px 14px;
       border: 1px solid #ccc;
       border-radius: 8px;
       margin-bottom: 10px;
       font-size: 14px;
-      font-family: 'Poppins', sans-serif;
-      transition: border 0.3s ease, box-shadow 0.3s ease;
+      transition: border 0.3s ease;
     }
 
     .modal-input:focus {
-      border-color: #4CAF50;
-      box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+      border-color: #58a6ff;
       outline: none;
     }
-
 
     /* Button Styling */
     .modal-button {
@@ -199,7 +193,7 @@
     <div class="modal-content">
       <span id="close-forgot-password" class="close">&times;</span>
       <h3>Reset Your Password</h3>
-      <input type="email" class="modal-input" id="reset-email" placeholder="Enter your email" />
+      <input type="email" id="reset-email" placeholder="Enter your email" />
       <p id="reset-message" style="color: green;"></p>
       <p id="reset-error" style="color: red;"></p>
       <button id="send-reset" class="btn-secondary">Send Reset Email</button>
@@ -254,3 +248,4 @@
   </footer>
 </body>
 </html>
+

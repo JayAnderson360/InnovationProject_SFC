@@ -5,65 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Sarawak Forestry</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 </head>
-<body class="admin-bg">
-    <div class="main-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-logo">
-                <a href="../index.html">
-                    <img src="../Resources/Images/logo.png" alt="Sarawak Forestry Logo" class="logo-img">
-                </a>
+<body>
+    <div class="admin-container">
+        <!-- Side Navigation -->
+        <nav class="side-nav">
+            <div class="nav-header">
+                <h2>Admin Panel</h2>
             </div>
-            <nav class="sidebar-nav">
-                <ul id="sidebar-links">
-                    <!-- Links will be populated by JavaScript -->
-                </ul>
-            </nav>
-            <div class="sidebar-logout">
-            <button id="logout-btn" class="btn-logout">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-            </div>
-        </aside>
+            <ul class="nav-links">
+                <li class="active" data-page="dashboard">
+                    <a href="#dashboard">Dashboard</a>
+                </li>
+                <hr>
+                <li data-page="users">
+                    <a href="#users">Users</a>
+                </li>
+                <li data-page="parks">
+                    <a href="#parks">Parks</a>
+                </li>
+                <li data-page="courses">
+                    <a href="#courses">Courses</a>
+                </li>
+                <li data-page="course-recommendation">
+                    <a href="#course-recommendation">Course Recommendation</a>
+                </li>
+                <li data-page="enrollment">
+                    <a href="#enrollment">Enrollment</a>
+                </li>
+                <li data-page="submissions">
+                    <a href="#submissions">Submissions</a>
+                </li>
+                <li data-page="park-guide-score">
+                    <a href="#park-guide-score">Park Guide Score</a>
+                </li>
+                <li data-page="certification">
+                    <a href="#certification">Certification</a>
+                </li>
+                <li data-page="visitor-feedback">
+                    <a href="#visitor-feedback">Visitor Feedback</a>
+                </li>
+                <li data-page="transactions">
+                    <a href="#transactions">Transactions</a>
+                </li>
+                <li data-page="licenses">
+                    <a href="#licenses">Licenses</a>
+                </li>
+            </ul>
+        </nav>
 
-        <!-- Main Content -->
-        <main class="main-content" id="main-content">
-            <header class="content-header">
-                <h1 id="current-collection-title">Dashboard</h1>
-                <button id="add-new-button" class="btn-primary" style="display: none;">Add New Item</button>
-            </header>
-            <div id="data-display" class="table-section active">
-                <!-- Data table or forms will be rendered here -->
-                <p>Select a collection from the sidebar to view data.</p>
-            </div>
-
-            <!-- Modal for Add/Edit Forms -->
-            <div id="form-modal" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 id="modal-title">Add/Edit Item</h2>
-                        <span class="close-btn" id="close-modal-button">&times;</span>
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <h1>Dashboard</h1>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p id="total-users">0</p>
                     </div>
-                    <div class="modal-body" id="modal-body-content">
-                        <!-- Form will be injected here -->
+                    <div class="stat-card">
+                        <h3>Pending Enrollments</h3>
+                        <p id="pending-enrollments">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Certificates</h3>
+                        <p id="pending-certificates">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Licenses</h3>
+                        <p id="pending-licenses">0</p>
                     </div>
                 </div>
-            </div>
+                <div class="iot-data-container">
+                    <div class="chart-container">
+                        <canvas id="iotChart"></canvas>
+                        <div class="time-range-selector">
+                            <button data-range="1M">1M</button>
+                            <button data-range="1H">1H</button>
+                            <button data-range="1D">1D</button>
+                            <button data-range="1W">1W</button>
+                            <button data-range="1M">1M</button>
+                            <button data-range="1Y">1Y</button>
+                        </div>
+                    </div>
+                    <div class="sensor-status">
+                        <div class="status-card">
+                            <h3>Status</h3>
+                            <p id="overall-status">Safe</p>
+                        </div>
+                        <div class="status-card">
+                            <h3>Right Sensor</h3>
+                            <p id="right-sensor">Stationary</p>
+                        </div>
+                        <div class="status-card">
+                            <h3>Middle Sensor</h3>
+                            <p id="middle-sensor">Stationary</p>
+                        </div>
+                        <div class="status-card">
+                            <h3>Left Sensor</h3>
+                            <p id="left-sensor">Stationary</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other sections will be dynamically loaded -->
+            <div id="content-container"></div>
         </main>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-
-    <!-- Custom Scripts -->
+    <!-- Firebase Configuration -->
     <script src="firebase-config.js"></script>
+    <!-- API Functions -->
     <script src="api.js"></script>
+    <!-- UI Functions -->
     <script src="ui.js"></script>
+    <!-- Main Application Logic -->
     <script src="app.js"></script>
 </body>
 </html>

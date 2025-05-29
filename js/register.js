@@ -1,3 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { createUserWithEmailAndPassword, getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { doc, getFirestore, setDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
 // Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBS4W6MddWuU3lxotE9peb7RsI_QJzIzaI",
@@ -9,10 +13,9 @@ const firebaseConfig = {
   measurementId: "G-KXNY4PT4VY"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Elements
 const roleModal = document.getElementById("role-modal");
@@ -79,10 +82,10 @@ parkGuideForm.addEventListener("submit", async (e) => {
   }
 
   try {
-    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    await db.collection("users").doc(user.uid).set({
+    await setDoc(doc(db, "users", user.uid), {
       name,
       email,
       phone,
@@ -112,10 +115,10 @@ generalUserForm.addEventListener("submit", async (e) => {
   }
 
   try {
-    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    await db.collection("users").doc(user.uid).set({
+    await setDoc(doc(db, "users", user.uid), {
       email,
       role: "General User",
       imgUrl: "Resources/Images/ProfilePicture/defaultProfile.jpeg"
@@ -127,3 +130,7 @@ generalUserForm.addEventListener("submit", async (e) => {
     guError.textContent = error.message;
   }
 });
+
+
+
+

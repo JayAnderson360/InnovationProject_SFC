@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="css/userprofile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <!-- Libraries for PDF and PNG download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="js/auth.js" defer></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="logo">
+            <a href="index.html"><img src="Resources/Images/logo.png" alt="Sarawak Forestry Logo"></a>
+        </div>
+        <div class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="nationalparks.html">National Parks</a></li>
+            <li><a href="conservation.html">Conservation</a></li>
+            <li><a href="eco.html">Eco-Tourism</a></li>
+            <li><a href="media.html">Media & News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-photo" id="profile-photo">
+                <img id="user-img" src="Resources/Images/ProfilePicture/defaultProfile.jpeg" alt="Profile Photo">
+            </div>
+            <div class="profile-info">
+                <h2 id="user-name"></h2>
+                <p id="user-email"></p>
+                <div id="park-guide-extra" style="display:none;">
+                    <p>IC Number : <span id="user-ic">123456-78-9012</span></p>
+                    <p>Phone     : <span id="user-phone">+60 12-345 6789</span></p>
+                </div>
+            </div>
+            <button id="edit-profile">EDIT</button>
+        </div>
+        <div class="license-section" id="license-section" style="display:none;">
+            <div class="license-info">
+                <p class="license-title">Park Guide License</p>
+                <p class="license-number" id="license-number"></p>
+                <p>License Holder<br><span id="license-holder"></span></p>
+            </div>
+            <div class="license-status">
+                <span id="license-status" class="active"></span>
+                <p>Expires<br><span id="license-expiry"></span></p>
+            </div>
+        </div>
+        <div class="certificates-section">
+            <h3>Certificates</h3>
+            <table class="certificates-table">
+                <thead>
+                    <tr>
+                        <th>CERTIFICATE NAME</th>
+                        <th>ISSUED DATE</th>
+                        <th>EXPIRES DATE</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="certificates-table-body">
+                    <!-- Certificate rows will be injected here by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="certificate-display" id="certificateDisplay">
+                <div class="cert-header">
+                    <div class="cert-logo-placeholder">Logo</div>
+                    <h2>CERTIFICATE OF ACHIEVEMENT</h2>
+                </div>
+                <p class="cert-intro">This is to certify that</p>
+                <h3 class="cert-user-name" id="modalCertUserName">[Park Guide Name]</h3>
+                <hr class="cert-line">
+                <p class="cert-completed">has successfully completed the requirements for</p>
+                <div class="cert-name-box" id="modalCertName">[Certificate Name]</div>
+                <p class="cert-issued-by">Issued by</p>
+                <h4 class="cert-org-name" id="modalCertOrgName">[Park/Organization Name]</h4>
+                <div class="cert-footer">
+                    <div class="cert-date-section">
+                        <hr class="cert-line-short">
+                        <p>Date: <span id="modalCertIssueDate">[Issue Date]</span></p>
+                    </div>
+                    <div class="cert-seal-placeholder">Seal</div>
+                    <div class="cert-signature-section">
+                        <hr class="cert-line-short">
+                        <p>Authorized Signature</p>
+                    </div>
+                </div>
+                <p class="cert-id" >Certificate ID: <span id="modalCertId">#PG-2024-001</span></p>
+            </div>
+            <div class="modal-actions">
+                <button id="downloadPdfButton" class="btn-secondary">Download PDF</button>
+                <button id="downloadPngButton" class="btn-primary">Download PNG</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/user-profile/api.js"></script>
+    <script src="js/user-profile/ui.js"></script>
+    <script src="js/user-profile/app.js"></script>
+</body>
+</html> 

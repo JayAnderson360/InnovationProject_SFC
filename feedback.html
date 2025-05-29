@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visitor Feedback - Sarawak Forestry</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-    <script src="auth.js" defer></script>
+    <!-- Firebase App (the core Firebase SDK) - Ensure this is present -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/firebase-config.js" defer></script> <!-- Link your Firebase config -->
+    <script type="module" src="js/auth.js" defer></script>
+    <script type="module" src="js/feedback.js" defer></script> <!-- New feedback script -->
 
 </head>
 <body>
@@ -50,7 +52,7 @@
     </nav>
 
     <!-- Feedback Form Section -->
-    <section id="feedback-form" class="section">
+    <section id="feedback-form-section" class="section">
         <div class="container">
             <div class="section-header">
                 <h2>Share Your Experience</h2>
@@ -64,132 +66,84 @@
                     <p>Whether you had a wonderful experience or encountered some challenges during your visit, we want to hear about it. Your insights help us enhance our services and facilities for all visitors.</p>
                 </div>
                 
-                <form class="ash_feedback-form_4" action="#" method="post">
+                <form class="ash_feedback-form_4" id="visitorFeedbackForm">
                     <div class="ash_form-row_4">
                         <div class="ash_form-group_4">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                            <label for="visitor_name">Full Name</label>
+                            <input type="text" id="visitor_name" name="visitor_name" placeholder="Enter your full name" required>
                         </div>
                         <div class="ash_form-group_4">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="Enter your email address" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" oninvalid="this.setCustomValidity('Please enter a valid email address (e.g., user@example.com)')" oninput="this.setCustomValidity('')">
+                            <label for="visitor_email">Email Address</label>
+                            <input type="email" id="visitor_email" name="visitor_email" placeholder="Enter your email address" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" oninvalid="this.setCustomValidity('Please enter a valid email address (e.g., user@example.com)')" oninput="this.setCustomValidity('')">
                         </div>
                     </div>
 
                     <div class="ash_form-row_4">
                         <div class="ash_form-group_4">
-                            <label for="visit-date">Date of Visit</label>
-                            <input type="date" id="visit-date" name="visit-date" required>
+                            <label for="feedback_date">Date of Visit</label>
+                            <input type="date" id="feedback_date" name="feedback_date" required>
                         </div>
                         <div class="ash_form-group_4">
-                            <label for="location">Location Visited</label>
-                            <select id="location" name="location" required>
-                                <option value="" disabled selected>Select a location</option>
-                                <option value="bako-national-park">Bako National Park</option>
-                                <option value="gunung-mulu">Gunung Mulu National Park</option>
-                                <option value="semenggoh">Semenggoh Nature Reserve</option>
-                                <option value="kubah">Kubah National Park</option>
-                                <option value="lambir-hills">Lambir Hills National Park</option>
-                                <option value="other">Other</option>
+                            <label for="locationName">Location Visited</label>
+                            <select id="locationName" name="locationName" required>
+                                <option value="" disabled selected>Loading locations...</option>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="ash_form-row_4">
+                         <div class="ash_form-group_4 full-width">
+                            <label for="guideName">Guide (if applicable)</label>
+                            <select id="guideName" name="guideName">
+                                <option value="" disabled selected>Loading guides...</option>
+                                <option value="Unknown Guide">Unknown Guide / No Guide</option>
+                                <!-- Options will be populated by JavaScript -->
                             </select>
                         </div>
                     </div>
 
                     <div class="ash_rating-section_4">
-                        <h4>Rate Your Experience</h4>
+                        <h4>Rate Your Experience with the Guide</h4>
                         <div class="ash_rating-container_4">
                             <div class="ash_rating-category_4">
-                                <span>Cleanliness</span>
-                                <div class="ash_star-rating_4">
-                                    <i class="far fa-star" data-rating="1"></i>
-                                    <i class="far fa-star" data-rating="2"></i>
-                                    <i class="far fa-star" data-rating="3"></i>
-                                    <i class="far fa-star" data-rating="4"></i>
-                                    <i class="far fa-star" data-rating="5"></i>
+                                <span>General Knowledge</span>
+                                <div class="ash_star-rating_4" data-rating-for="GeneralKnowledge">
+                                    <i class="far fa-star" data-rating="1"></i><i class="far fa-star" data-rating="2"></i><i class="far fa-star" data-rating="3"></i><i class="far fa-star" data-rating="4"></i><i class="far fa-star" data-rating="5"></i>
                                 </div>
-                                <input type="hidden" name="cleanliness-rating" id="cleanliness-rating" value="0">
+                                <input type="hidden" name="GeneralKnowledge" id="GeneralKnowledge-rating" value="0">
                             </div>
                             <div class="ash_rating-category_4">
-                                <span>Staff Friendliness</span>
-                                <div class="ash_star-rating_4">
-                                    <i class="far fa-star" data-rating="1"></i>
-                                    <i class="far fa-star" data-rating="2"></i>
-                                    <i class="far fa-star" data-rating="3"></i>
-                                    <i class="far fa-star" data-rating="4"></i>
-                                    <i class="far fa-star" data-rating="5"></i>
+                                <span>Communication Skills</span>
+                                <div class="ash_star-rating_4" data-rating-for="CommunicationSkills">
+                                    <i class="far fa-star" data-rating="1"></i><i class="far fa-star" data-rating="2"></i><i class="far fa-star" data-rating="3"></i><i class="far fa-star" data-rating="4"></i><i class="far fa-star" data-rating="5"></i>
                                 </div>
-                                <input type="hidden" name="staff-rating" id="staff-rating" value="0">
+                                <input type="hidden" name="CommunicationSkills" id="CommunicationSkills-rating" value="0">
                             </div>
                             <div class="ash_rating-category_4">
-                                <span>Facilities</span>
-                                <div class="ash_star-rating_4">
-                                    <i class="far fa-star" data-rating="1"></i>
-                                    <i class="far fa-star" data-rating="2"></i>
-                                    <i class="far fa-star" data-rating="3"></i>
-                                    <i class="far fa-star" data-rating="4"></i>
-                                    <i class="far fa-star" data-rating="5"></i>
+                                <span>Engagement</span>
+                                <div class="ash_star-rating_4" data-rating-for="Engagement">
+                                    <i class="far fa-star" data-rating="1"></i><i class="far fa-star" data-rating="2"></i><i class="far fa-star" data-rating="3"></i><i class="far fa-star" data-rating="4"></i><i class="far fa-star" data-rating="5"></i>
                                 </div>
-                                <input type="hidden" name="facilities-rating" id="facilities-rating" value="0">
+                                <input type="hidden" name="Engagement" id="Engagement-rating" value="0">
                             </div>
                             <div class="ash_rating-category_4">
-                                <span>Overall Experience</span>
-                                <div class="ash_star-rating_4">
-                                    <i class="far fa-star" data-rating="1"></i>
-                                    <i class="far fa-star" data-rating="2"></i>
-                                    <i class="far fa-star" data-rating="3"></i>
-                                    <i class="far fa-star" data-rating="4"></i>
-                                    <i class="far fa-star" data-rating="5"></i>
+                                <span>Knowledge Of The Park</span>
+                                <div class="ash_star-rating_4" data-rating-for="KnowledgeOfThePark">
+                                    <i class="far fa-star" data-rating="1"></i><i class="far fa-star" data-rating="2"></i><i class="far fa-star" data-rating="3"></i><i class="far fa-star" data-rating="4"></i><i class="far fa-star" data-rating="5"></i>
                                 </div>
-                                <input type="hidden" name="overall-rating" id="overall-rating" value="0">
+                                <input type="hidden" name="KnowledgeOfThePark" id="KnowledgeOfThePark-rating" value="0">
                             </div>
                         </div>
                     </div>
 
                     <div class="ash_form-group_4 full-width">
-                        <label>Type of Feedback</label>
-                        <div class="ash_radio-group_4">
-                            <div class="ash_radio-option_4">
-                                <input type="radio" id="compliment" name="feedback-type" value="compliment" required>
-                                <label for="compliment">Compliment</label>
-                            </div>
-                            <div class="ash_radio-option_4">
-                                <input type="radio" id="suggestion" name="feedback-type" value="suggestion">
-                                <label for="suggestion">Suggestion</label>
-                            </div>
-                            <div class="ash_radio-option_4">
-                                <input type="radio" id="complaint" name="feedback-type" value="complaint">
-                                <label for="complaint">Complaint</label>
-                            </div>
-                            <div class="ash_radio-option_4">
-                                <input type="radio" id="general" name="feedback-type" value="general">
-                                <label for="general">General Comment</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ash_form-group_4 full-width">
-                        <label for="feedback">Your Feedback</label>
-                        <textarea id="feedback" name="feedback" rows="6" placeholder="Please share your thoughts, suggestions, or concerns here..." required class="ash_textarea_4"></textarea>
-                    </div>
-
-                    <div class="ash_form-group_4 full-width">
-                        <label for="improvements">Suggestions for Improvement</label>
-                        <textarea id="improvements" name="improvements" rows="4" placeholder="How can we make your next visit even better?" class="ash_textarea_4"></textarea>
-                    </div>
-
-                    <div class="ash_form-group_4 checkbox-group">
-                        <div class="ash_checkbox-option_4">
-                            <input type="checkbox" id="contact-permission" name="contact-permission">
-                            <label for="contact-permission">I consent to be contacted regarding my feedback if necessary</label>
-                        </div>
-                        <div class="ash_checkbox-option_4">
-                            <input type="checkbox" id="privacy-policy" name="privacy-policy" required>
-                            <label for="privacy-policy">I have read and agree to the <a href="#">Privacy Policy</a></label>
-                        </div>
+                        <label for="Comments">Comments</label>
+                        <textarea id="Comments" name="Comments" rows="6" placeholder="Please share your thoughts, suggestions, or concerns here..." required class="ash_textarea_4"></textarea>
                     </div>
 
                     <div class="ash_form-actions_4">
-                        <button type="reset" class="ash_btn-secondary_4">Clear Form</button>
+                        <button type="button" id="clearFormButton" class="ash_btn-secondary_4">Clear Form</button>
                         <button type="submit" class="ash_btn-primary_4">Submit Feedback</button>
                     </div>
                 </form>
@@ -377,73 +331,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Interactive Elements -->
-    <script type="module" src="feedback.js"></script>
-    <script>
-        // Star Rating Functionality
-        document.querySelectorAll('.ash_star-rating_4 i').forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = this.getAttribute('data-rating');
-                const parentRating = this.parentElement;
-                const hiddenInput = parentRating.parentElement.querySelector('input[type="hidden"]');
-                
-                // Reset all stars
-                parentRating.querySelectorAll('i').forEach(s => {
-                    s.className = 'far fa-star';
-                });
-                
-                // Fill stars up to selected rating
-                parentRating.querySelectorAll('i').forEach(s => {
-                    if (s.getAttribute('data-rating') <= rating) {
-                        s.className = 'fas fa-star';
-                    }
-                });
-                
-                // Update hidden input value
-                if (hiddenInput) {
-                    hiddenInput.value = rating;
-                }
-            });
-        });
-
-        // Simplified FAQ Accordion
-        document.addEventListener('DOMContentLoaded', function() {
-            // FAQ Accordion
-            document.querySelectorAll('.ash_faq-question_3').forEach(question => {
-                question.addEventListener('click', function() {
-                    const parent = this.parentElement;
-                    
-                    // Close other FAQs
-                    document.querySelectorAll('.ash_faq-item_3.active').forEach(item => {
-                        if (item !== parent) {
-                            item.classList.remove('active');
-                        }
-                    });
-                    
-                    // Toggle current FAQ
-                    parent.classList.toggle('active');
-                });
-            });
-            
-            // Navigation toggle
-            const navToggle = document.querySelector('.nav-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            
-            if (navToggle) {
-                navToggle.addEventListener('click', function() {
-                    navLinks.classList.toggle('active');
-                });
-            }
-        });
-
-        // Email validation
-        document.getElementById('email').addEventListener('input', function() {
-            if (this.validity.patternMismatch) {
-                this.setCustomValidity('Please enter a valid email address (e.g., user@example.com)');
-            } else {
-                this.setCustomValidity('');
-            }
-        });
-    </script>
+    <!-- JavaScript for Interactive Elements (will be moved to feedback.js) -->
+    
 </body>
 </html>
