@@ -12,8 +12,9 @@ class FirebaseAPI {
     // Initialize data on page load
     async initializeData() {
         try {
+            // Removed 'transactions' from collections to fetch
             const collections = ['users', 'parks', 'courses', 'enrollments', 'submissions', 
-                               'certificates', 'licenses', 'visitor_feedback', 'transactions', 'tests'];
+                               'certificates', 'licenses', 'visitor_feedback', 'tests'];
             
             for (const collection of collections) {
                 const snapshot = await this.db.collection(collection).get();
@@ -133,31 +134,76 @@ class FirebaseAPI {
     // Park Management
     async addPark(parkData) {
         try {
+            // Convert date string to Firestore Timestamp for dateOfGazettement
+            if (parkData.dateOfGazettement) {
+                parkData.dateOfGazettement = firebase.firestore.Timestamp.fromDate(new Date(parkData.dateOfGazettement));
+            }
             const docRef = await this.db.collection('parks').add(parkData);
-            
-            // Update local storage
-            const parks = JSON.parse(localStorage.getItem('parks') || '{}');
-            parks[docRef.id] = parkData;
-            localStorage.setItem('parks', JSON.stringify(parks));
-
+            console.log('Park added with ID: ', docRef.id);
+            await this.fetchParks();
             return docRef.id;
         } catch (error) {
-            console.error('Error adding park:', error);
+            console.error('Error adding park: ', error);
             throw error;
         }
     }
 
     async updatePark(parkId, parkData) {
         try {
+            // Convert date string to Firestore Timestamp if it's a string
+            if (parkData.dateOfGazettement && typeof parkData.dateOfGazettement === 'string') {
+                const dateParts = parkData.dateOfGazettement.split('-'); // Assuming YYYY-MM-DD
+                if (dateParts.length === 3) {
+                     // Check if it's already a timestamp object (e.g. from pre-fill)
+                    if (!(parkData.dateOfGazettement instanceof firebase.firestore.Timestamp)) {
+                         parkData.dateOfGazettement = firebase.firestore.Timestamp.fromDate(new Date(parkData.dateOfGazettement));
+                    }
+                } else {
+                    console.warn("Date of Gazettement is not in YYYY-MM-DD format, attempting direct conversion or keeping as is if already Timestamp", parkData.dateOfGazettement);
+                     if (!(parkData.dateOfGazettement instanceof firebase.firestore.Timestamp)) {
+                         // Attempt direct conversion for other formats, or if it's an invalid string, Firestore might error
+                         parkData.dateOfGazettement = firebase.firestore.Timestamp.fromDate(new Date(parkData.dateOfGazettement));
+                     }
+                }
+            } else if (parkData.dateOfGazettement && parkData.dateOfGazettement.seconds) {
+                 // It's already a Firestore Timestamp object, no conversion needed
+            }
+
+
             await this.db.collection('parks').doc(parkId).update(parkData);
-            
-            // Update local storage
-            const parks = JSON.parse(localStorage.getItem('parks') || '{}');
-            parks[parkId] = { ...parks[parkId], ...parkData };
-            localStorage.setItem('parks', JSON.stringify(parks));
+            console.log('Park updated with ID: ', parkId);
+            await this.fetchParks(); // Refresh local storage
         } catch (error) {
-            console.error('Error updating park:', error);
+            console.error('Error updating park: ', error);
             throw error;
+        }
+    }
+
+    async deletePark(parkId) {
+        try {
+            await this.db.collection('parks').doc(parkId).delete();
+            console.log('Park deleted with ID: ', parkId);
+            await this.fetchParks(); // Refresh local storage
+        } catch (error) {
+            console.error('Error deleting park: ', error);
+            throw error;
+        }
+    }
+
+    async fetchParks() {
+        try {
+            const snapshot = await this.db.collection('parks').get();
+            const parksData = {};
+            snapshot.forEach(doc => {
+                parksData[doc.id] = doc.data();
+            });
+            localStorage.setItem('parks', JSON.stringify(parksData));
+            console.log('Parks data fetched and updated in local storage.');
+        } catch (error) {
+            console.error('Error fetching parks: ', error);
+            // Depending on the desired behavior, you might want to throw the error
+            // or handle it gracefully (e.g., by not updating local storage if fetching fails).
+            throw error; 
         }
     }
 
@@ -218,22 +264,7 @@ class FirebaseAPI {
             enrollments[enrollmentId] = { ...enrollments[enrollmentId], ...enrollmentData };
             localStorage.setItem('enrollments', JSON.stringify(enrollments));
         } catch (error) {
-            console.error('Error updating enrollment:', error);
-            throw error;
-        }
-    }
-
-    // Transaction Management
-    async updateTransaction(transactionId, transactionData) {
-        try {
-            await this.db.collection('transactions').doc(transactionId).update(transactionData);
-            
-            // Update local storage
-            const transactions = JSON.parse(localStorage.getItem('transactions') || '{}');
-            transactions[transactionId] = { ...transactions[transactionId], ...transactionData };
-            localStorage.setItem('transactions', JSON.stringify(transactions));
-        } catch (error) {
-            console.error('Error updating transaction:', error);
+            console.error("Error updating enrollment: ", error);
             throw error;
         }
     }
@@ -256,6 +287,92 @@ class FirebaseAPI {
     // Get IoT Data
     getIoTData() {
         return JSON.parse(localStorage.getItem('iotData') || '{}');
+    }
+
+    // Certificate Management
+    async updateCertificateStatus(certificateId, newStatus) {
+        try {
+            console.log(`Updating certificate ${certificateId} to status: ${newStatus}`);
+            // Use namespaced SDK syntax consistent with the rest of the file
+            await this.db.collection('certificates').doc(certificateId).update({ status: newStatus });
+
+            // Update local storage
+            const certificates = JSON.parse(localStorage.getItem('certificates') || '{}');
+            if (certificates[certificateId]) {
+                certificates[certificateId].status = newStatus;
+            } else {
+                // If the certificate wasn't in local storage, Firestore is updated,
+                // but the UI might not reflect this for the specific item until a full data reload.
+                // This scenario implies localStorage might have been out of sync.
+                console.warn(`Certificate ${certificateId} not found in localStorage during status update. Firestore updated.`);
+                // Forcing a full refresh of this collection in localStorage to ensure consistency for next UI load:
+                try {
+                    const snapshot = await this.db.collection('certificates').get();
+                    const freshCertificates = {};
+                    snapshot.forEach(doc => {
+                        freshCertificates[doc.id] = doc.data();
+                    });
+                    localStorage.setItem('certificates', JSON.stringify(freshCertificates));
+                    console.log('Certificates collection in localStorage refreshed after missing item update.');
+                } catch (fetchError) {
+                    console.error('Error re-fetching certificates for localStorage update:', fetchError);
+                }
+            }
+            // Ensure localStorage is written back if the item was found and updated directly
+            if (certificates[certificateId]) { 
+                 localStorage.setItem('certificates', JSON.stringify(certificates));
+            }
+
+            console.log(`Certificate ${certificateId} status updated to ${newStatus}`);
+        } catch (error) {
+            console.error("Error updating certificate status: ", error);
+            throw error;
+        }
+    }
+
+    // License Management
+    async updateLicenseStatus(licenseId, newStatus) {
+        try {
+            console.log(`Updating license ${licenseId} to status: ${newStatus}`);
+            // Use namespaced SDK syntax consistent with the rest of the file
+            await this.db.collection('licenses').doc(licenseId).update({ status: newStatus });
+
+            // Update local storage
+            const licenses = JSON.parse(localStorage.getItem('licenses') || '{}');
+            if (licenses[licenseId]) {
+                licenses[licenseId].status = newStatus;
+            } else {
+                console.warn(`License ${licenseId} not found in localStorage during status update. Firestore updated.`);
+                // Forcing a full refresh of this collection in localStorage for consistency:
+                try {
+                    const snapshot = await this.db.collection('licenses').get();
+                    const freshLicenses = {};
+                    snapshot.forEach(doc => {
+                        freshLicenses[doc.id] = doc.data();
+                    });
+                    localStorage.setItem('licenses', JSON.stringify(freshLicenses));
+                    console.log('Licenses collection in localStorage refreshed after missing item update.');
+                } catch (fetchError) {
+                    console.error('Error re-fetching licenses for localStorage update:', fetchError);
+                }
+            }
+            // Ensure localStorage is written back if the item was found and updated directly
+            if (licenses[licenseId]) {
+                localStorage.setItem('licenses', JSON.stringify(licenses));
+            }
+            
+            console.log(`License ${licenseId} status updated to ${newStatus}`);
+        } catch (error) {
+            console.error("Error updating license status: ", error);
+            throw error;
+        }
+    }
+
+    // Submission Management
+    async fetchSubmissions() {
+        if (Object.keys(this.submissions).length > 0 && !this.forceRefresh) {
+            // Implementation of fetchSubmissions method
+        }
     }
 }
 

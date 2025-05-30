@@ -145,6 +145,22 @@ if (downloadPngButton) {
 }
 
 function renderCertificates() {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const certificatesSection = document.getElementById('certificates-section');
+
+    if (userData && userData.role === 'General User') {
+        if (certificatesSection) {
+            certificatesSection.style.display = 'none';
+        }
+        return; // Do not render certificates for General User
+    }
+
+    // Ensure the section is visible if the role is not General User (or if it was previously hidden)
+    // This is important if the user role could change dynamically or if there are other conditions
+    if (certificatesSection) {
+        certificatesSection.style.display = ''; // Or 'block', 'flex', etc., depending on its default display type
+    }
+
     const certificates = JSON.parse(localStorage.getItem('certificatesData')) || [];
     const tbody = document.getElementById('certificates-table-body');
     tbody.innerHTML = '';

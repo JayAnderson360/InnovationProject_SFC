@@ -44,20 +44,18 @@
                 <li data-page="submissions">
                     <a href="#submissions">Submissions</a>
                 </li>
-                <li data-page="park-guide-score">
-                    <a href="#park-guide-score">Park Guide Score</a>
-                </li>
                 <li data-page="certification">
                     <a href="#certification">Certification</a>
                 </li>
                 <li data-page="visitor-feedback">
                     <a href="#visitor-feedback">Visitor Feedback</a>
                 </li>
-                <li data-page="transactions">
-                    <a href="#transactions">Transactions</a>
-                </li>
                 <li data-page="licenses">
                     <a href="#licenses">Licenses</a>
+                </li>
+                <hr>
+                <li>
+                    <a href="../index.html">Return to Main Site</a>
                 </li>
             </ul>
         </nav>
@@ -89,7 +87,6 @@
                     <div class="chart-container">
                         <canvas id="iotChart"></canvas>
                         <div class="time-range-selector">
-                            <button data-range="1M">1M</button>
                             <button data-range="1H">1H</button>
                             <button data-range="1D">1D</button>
                             <button data-range="1W">1W</button>
@@ -121,6 +118,25 @@
             <!-- Other sections will be dynamically loaded -->
             <div id="content-container"></div>
         </main>
+    </div>
+
+    <!-- Generic Modal for Forms -->
+    <div id="admin-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="ui.closeModal('admin-modal')">&times;</span>
+            <h2 id="admin-modal-title">Modal Title</h2>
+            <form id="admin-modal-form">
+                <div id="admin-modal-form-fields">
+                    <!-- Dynamic form fields will be injected here by JavaScript -->
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" id="admin-modal-submit-btn" class="btn btn-primary">Submit</button>
+                    <button type="button" id="admin-modal-cancel-btn" class="btn btn-secondary" onclick="ui.closeModal('admin-modal')">Cancel</button>
+                </div>
+            </form>
+            <p id="modal-loading-message" style="display:none;">Loading...</p>
+            <p id="modal-error-message" class="error-text" style="display:none;"></p>
+        </div>
     </div>
 
     <!-- Firebase Configuration -->

@@ -1,13 +1,16 @@
 :root {
-    --primary-color: #1a1a1a;
-    --secondary-color: #2d2d2d;
-    --accent-color: #4CAF50;
-    --text-color: #ffffff;
-    --text-secondary: #b3b3b3;
-    --danger-color: #ff4444;
-    --warning-color: #ffbb33;
-    --success-color: #00C851;
-    --border-color: #404040;
+    --primary-color: #f4f7f6; /* Light grayish-green background */
+    --secondary-color: #ffffff; /* White for cards, navs */
+    --accent-color: #004d26; /* Dark green accent */
+    --text-color: #333333; /* Dark gray text */
+    --text-secondary: #555555; /* Medium gray text */
+    --danger-color: #e74c3c; /* Red from course dashboard badge */
+    --warning-color: #f39c12; /* Orange from course dashboard badge */
+    --success-color: #2ecc71; /* Green from course dashboard badge */
+    --border-color: #dddddd; /* Light gray border */
+    --nav-hover-bg: #e9ecef; /* Light gray for nav hover, similar to cd-view-toggle */
+    --nav-active-text: #ffffff;
+    --button-text-color: #ffffff;
 }
 
 * {
@@ -17,7 +20,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif; /* Updated font */
     background-color: var(--primary-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -34,6 +37,7 @@ body {
     background-color: var(--secondary-color);
     padding: 20px 0;
     border-right: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Added subtle shadow */
 }
 
 .nav-header {
@@ -43,6 +47,8 @@ body {
 
 .nav-header h2 {
     color: var(--accent-color);
+    font-size: 1.5em; /* Consistent with cd-logo-text */
+    font-weight: 600;
 }
 
 .nav-links {
@@ -51,24 +57,32 @@ body {
 }
 
 .nav-links li {
-    padding: 10px 20px;
+    padding: 12px 20px; /* Adjusted padding */
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s; /* Added color transition */
 }
 
 .nav-links li:hover {
-    background-color: var(--primary-color);
+    background-color: var(--nav-hover-bg);
+    color: var(--accent-color); /* Change text color on hover */
 }
 
 .nav-links li.active {
-    background-color: var(--primary-color);
-    border-left: 4px solid var(--accent-color);
+    background-color: var(--accent-color); /* Accent color for active background */
+    border-left: 4px solid var(--accent-color); /* Keep border for emphasis */
+    color: var(--nav-active-text); /* White text for active item */
+}
+
+.nav-links li.active a { /* Ensure link text is also white */
+    color: var(--nav-active-text);
+    font-weight: 500;
 }
 
 .nav-links a {
-    color: var(--text-color);
+    color: var(--text-color); /* Default link color */
     text-decoration: none;
     display: block;
+    font-weight: 500; /* Slightly bolder nav links */
 }
 
 .nav-links hr {
@@ -80,7 +94,7 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
-    padding: 20px;
+    padding: 30px 40px; /* Match course-dashboard padding */
     overflow-y: auto;
 }
 
@@ -92,30 +106,47 @@ body {
     display: block;
 }
 
+/* Page Header (for h1 and action buttons) */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-header h1 {
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
 /* Dashboard Cards */
 .stats-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted minmax */
+    gap: 25px; /* Increased gap */
     margin-bottom: 30px;
 }
 
 .stat-card {
     background-color: var(--secondary-color);
-    padding: 20px;
+    padding: 25px; /* Increased padding */
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Match course-dashboard shadow */
 }
 
 .stat-card h3 {
     color: var(--text-secondary);
-    font-size: 0.9em;
+    font-size: 1em; /* Adjusted size */
     margin-bottom: 10px;
+    font-weight: 500;
 }
 
 .stat-card p {
-    font-size: 1.8em;
-    font-weight: bold;
+    font-size: 2em; /* Adjusted size */
+    font-weight: 600; /* Bolder */
     color: var(--accent-color);
 }
 
@@ -123,59 +154,71 @@ body {
 .iot-data-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 20px;
+    gap: 25px; /* Increased gap */
     margin-top: 30px;
 }
 
 .chart-container {
     background-color: var(--secondary-color);
-    padding: 20px;
+    padding: 25px; /* Increased padding */
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Match course-dashboard shadow */
 }
 
 .time-range-selector {
     display: flex;
     gap: 10px;
     margin-top: 15px;
+    margin-bottom: 15px; /* Added margin bottom */
 }
 
 .time-range-selector button {
-    background-color: var(--primary-color);
-    color: var(--text-color);
+    background-color: #e9ecef; /* Light gray, similar to cd-view-toggle */
+    color: var(--text-secondary);
     border: 1px solid var(--border-color);
-    padding: 5px 10px;
+    padding: 8px 15px; /* Adjusted padding */
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 0.9em;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .time-range-selector button:hover {
+    background-color: #d4dadf; /* Darker hover, similar to cd-view-toggle */
+    color: var(--text-color);
+}
+
+.time-range-selector button.active-range {
     background-color: var(--accent-color);
+    color: var(--button-text-color);
+    font-weight: bold;
+    border-color: var(--accent-color); /* Match border to background */
 }
 
 .sensor-status {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive */
+    gap: 20px; /* Increased gap */
 }
 
 .status-card {
     background-color: var(--secondary-color);
-    padding: 15px;
+    padding: 20px; /* Increased padding */
     border-radius: 8px;
     text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Match course-dashboard shadow */
 }
 
 .status-card h3 {
     color: var(--text-secondary);
-    font-size: 0.9em;
+    font-size: 0.95em; /* Adjusted size */
     margin-bottom: 10px;
+    font-weight: 500;
 }
 
 .status-card p {
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 1.3em; /* Adjusted size */
+    font-weight: 600; /* Bolder */
 }
 
 /* Tables */
@@ -186,6 +229,7 @@ body {
     background-color: var(--secondary-color);
     border-radius: 8px;
     overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Match course-dashboard shadow */
 }
 
 .data-table th,
@@ -196,38 +240,80 @@ body {
 }
 
 .data-table th {
-    background-color: var(--primary-color);
-    color: var(--text-secondary);
+    background-color: #f8f9fa; /* Lighter header for light theme */
+    color: var(--text-color); /* Darker text for header */
     font-weight: 600;
+    font-size: 0.95em;
 }
 
 .data-table tr:hover {
-    background-color: var(--primary-color);
+    background-color: #f1f3f5; /* Subtle hover for light theme */
+}
+
+.data-table td .btn { /* Add some margin between buttons in table cells */
+    margin-right: 5px;
+    margin-bottom: 5px; /* For wrapping on small screens */
+}
+.data-table td .btn:last-child {
+    margin-right: 0;
 }
 
 /* Buttons */
 .btn {
-    padding: 8px 16px;
+    padding: 10px 20px; /* Match course-dashboard button padding */
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.3s;
+    font-size: 0.95em; /* Match course-dashboard button font-size */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+    text-decoration: none; /* Ensure links styled as buttons don't have underlines */
+    display: inline-block; /* For proper padding and margin on <a> tags as buttons */
 }
 
 .btn-primary {
     background-color: var(--accent-color);
-    color: white;
+    color: var(--button-text-color);
+}
+.btn-primary:hover {
+    background-color: #00331a; /* Darker green from cd */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
 .btn-danger {
     background-color: var(--danger-color);
-    color: white;
+    color: var(--button-text-color);
+}
+.btn-danger:hover {
+    background-color: #c0392b; /* Darker red */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
 .btn-warning {
     background-color: var(--warning-color);
-    color: black;
+    color: var(--button-text-color); /* Changed to white for better contrast */
+}
+.btn-warning:hover {
+    background-color: #d35400; /* Darker orange */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.btn-success { /* Added success button style */
+    background-color: var(--success-color);
+    color: var(--button-text-color);
+}
+.btn-success:hover {
+    background-color: #27ae60; /* Darker success green */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.btn-secondary { /* Added secondary button style */
+    background-color: #6c757d; /* Bootstrap secondary color */
+    color: var(--button-text-color);
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
 /* Forms */
@@ -237,75 +323,145 @@ body {
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px; /* Increased margin */
     color: var(--text-secondary);
+    font-weight: 500; /* Slightly bolder labels */
 }
 
 .form-control {
     width: 100%;
-    padding: 8px 12px;
-    background-color: var(--primary-color);
+    padding: 10px 12px; /* Adjusted padding */
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    color: var(--text-color);
+    background-color: #fff; /* Ensure form controls have white background */
+    color: var(--text-color); /* Ensure text is readable */
+    font-size: 1em;
 }
 
 .form-control:focus {
-    outline: none;
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 77, 38, 0.25); /* Green focus shadow */
+    outline: none;
 }
 
-/* Modal */
+/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
-    top: 0;
+    z-index: 1000;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker backdrop */
 }
 
 .modal-content {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color); /* Use white for modal content */
     margin: 10% auto;
-    padding: 20px;
-    width: 80%;
-    max-width: 600px;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    width: 90%;
+    max-width: 600px; /* Default max-width for modals */
     border-radius: 8px;
     position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    color: var(--text-color); /* Ensure modal text is dark */
+}
+
+.modal-content h2, .modal-content h3 {
+    color: var(--accent-color); /* Accent color for modal titles */
+    margin-top: 0;
 }
 
 .modal-close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 24px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1; /* Adjust line height for better positioning */
     cursor: pointer;
-    color: var(--text-secondary);
 }
 
-/* Status Indicators */
+.modal-close:hover,
+.modal-close:focus {
+    color: var(--text-color); /* Darker color on hover */
+    text-decoration: none;
+}
+
+/* Specific modal content styling for admin modal */
+#admin-modal .modal-content {
+    max-width: 600px; /* Can be overridden by JS if needed */
+}
+
+#admin-modal-title {
+    margin-bottom: 20px;
+}
+
+#admin-modal-form-fields .form-group:last-child {
+    margin-bottom: 0; /* Remove bottom margin from last form group in modal */
+}
+
+.modal-actions {
+    margin-top: 25px;
+    text-align: right;
+}
+.modal-actions .btn {
+    margin-left: 10px;
+}
+.modal-actions .btn:first-child {
+    margin-left: 0;
+}
+
+/* Message styling within modals */
+#modal-error-message, #modal-loading-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+#modal-error-message {
+    background-color: rgba(255, 68, 68, 0.1); /* Light red background */
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+#modal-loading-message {
+    background-color: rgba(0, 77, 38, 0.1); /* Light accent background */
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+/* Status Badges (similar to course dashboard) */
 .status-badge {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8em;
+    display: inline-block;
+    padding: 5px 12px; /* Adjusted padding */
+    font-size: 0.85em; /* Adjusted size */
     font-weight: 500;
+    border-radius: 12px; /* Rounded badge */
+    color: var(--button-text-color);
+    text-align: center;
 }
 
 .status-pending {
     background-color: var(--warning-color);
-    color: black;
 }
 
-.status-approved {
+.status-approved, .status-active, .status-safe { /* Group similar positive statuses */
     background-color: var(--success-color);
-    color: white;
 }
 
-.status-rejected {
+.status-rejected, .status-disabled, .status-alert { /* Group similar negative/danger statuses */
     background-color: var(--danger-color);
-    color: white;
+}
+.status-completed { /* Adding a distinct completed status if needed */
+     background-color: #3498db; /* Blue for completed, similar to cd-btn-continue */
+}
+.status-draft {
+    background-color: #7f8c8d; /* Gray for draft */
+}
+.status-warning { /* If a distinct warning is needed, separate from pending */
+    background-color: var(--warning-color);
 }
 
 /* Submission Filters */
@@ -317,52 +473,165 @@ body {
 }
 
 .submission-filters select {
-    padding: 8px 12px;
-    background-color: var(--primary-color);
-    border: 1px solid var(--border-color);
+    padding: 10px;
     border-radius: 4px;
-    color: var(--text-color);
-    cursor: pointer;
-    font-size: 1em;
-    outline: none;
-    /* Remove default browser arrow in some browsers */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    /* Add custom arrow */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="292.362" height="292.362" viewBox="0 0 292.362 292.362"><path fill="%23ffffff" d="M287.912 69.166H4.45a14.083 14.083 0 0 0-9.9 24.092l136.736 136.736a14.083 14.083 0 0 0 19.8 0l136.736-136.736a14.083 14.083 0 0 0-9.9-24.092z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px top 50%;
-    background-size: 12px auto;
-    padding-right: 30px; /* Make space for the arrow */
+    border: 1px solid var(--border-color);
+    background-color: #fff; /* White background */
+    color: var(--text-color); /* Dark text */
+    font-size: 0.95em;
+    margin-right: 10px;
+}
+.submission-filters select:last-child {
+    margin-right: 0;
 }
 
 .submission-filters select:focus {
-     border-color: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 77, 38, 0.25);
 }
 
 .submission-filters select option {
-    background-color: var(--secondary-color);
+    background-color: #fff;
     color: var(--text-color);
 }
 
-/* Responsive Design */
+/* Responsive adjustments */
 @media (max-width: 768px) {
     .admin-container {
         flex-direction: column;
     }
-
     .side-nav {
         width: 100%;
+        height: auto;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
     }
+    .nav-links { /* Allow nav links to wrap */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .nav-links li {
+        flex-grow: 1; /* Allow items to grow and fill space */
+        text-align: center;
+        border-left: none; /* Remove left border on mobile */
+    }
+    .nav-links li.active {
+        border-bottom: 3px solid var(--accent-color); /* Use bottom border for active on mobile */
+        border-left: none;
+    }
 
+    .main-content {
+        padding: 20px; /* Reduce padding on mobile */
+    }
     .iot-data-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack chart and sensor status */
     }
-
     .stats-cards {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Single column for stat cards */
     }
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .page-header .btn {
+        margin-top: 10px;
+    }
+    .time-range-selector {
+        flex-wrap: wrap; /* Allow time range buttons to wrap */
+        justify-content: center;
+    }
+    .time-range-selector button {
+        margin-bottom: 5px; /* Add margin for wrapped buttons */
+    }
+    .submission-filters {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .submission-filters select {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+/* Admin Course Cards Styling (similar to course-dashboard but adapted) */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.course-card {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.course-card h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: var(--accent-color);
+}
+
+.course-card p.course-description {
+    font-size: 0.95em;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Pushes meta and actions to the bottom */
+    min-height: 60px; /* Ensure a minimum height for description area */
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Pushes to bottom if description is short */
+    margin-bottom: 15px;
+}
+
+.course-type-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 0.8em;
+    font-weight: 500;
+    border-radius: 12px;
+    color: var(--button-text-color); /* White text for badges */
+}
+
+/* Define some colors for course types, similar to cd-course-type-badge */
+.course-type-badge.default, .course-type-badge.general {
+    background-color: #7f8c8d; /* Gray */
+}
+.course-type-badge.wildlife-management {
+    background-color: #27ae60; /* Green */
+}
+.course-type-badge.safety-first-aid {
+    background-color: #e74c3c; /* Red */
+}
+.course-type-badge.environmental-science {
+    background-color: #3498db; /* Blue */
+}
+.course-type-badge.communication-skills {
+    background-color: #8e44ad; /* Purple */
+}
+.course-type-badge.navigation-safety {
+    background-color: #f39c12; /* Yellow-Orange */
+}
+/* Add more specific type colors as needed based on your actual course types */
+
+.course-actions {
+    margin-top: auto; /* Ensures actions are at the bottom */
+    text-align: right; /* Aligns button to the right if card is wider */
 }

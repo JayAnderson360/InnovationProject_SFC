@@ -24,9 +24,16 @@ class UI {
         });
 
         // Time range selector
-        document.querySelectorAll('.time-range-selector button').forEach(button => {
+        const timeRangeButtons = document.querySelectorAll('.time-range-selector button');
+        timeRangeButtons.forEach(button => {
             button.addEventListener('click', (e) => {
-                const range = e.target.dataset.range;
+                // Remove active class from all buttons
+                timeRangeButtons.forEach(btn => btn.classList.remove('active-range'));
+                // Add active class to clicked button
+                const clickedButton = e.target;
+                clickedButton.classList.add('active-range');
+                
+                const range = clickedButton.dataset.range;
                 this.updateIoTChart(range);
             });
         });
@@ -42,18 +49,33 @@ class UI {
             }
         });
 
-        // Hide all sections
+        // Hide all static .content-section elements first
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
 
-        // Show selected section
-        const section = document.getElementById(page);
-        if (section) {
-            section.classList.add('active');
+        // Get the container for dynamically loaded content
+        const dynamicContentContainer = document.getElementById('content-container');
+
+        // Show selected static section OR load dynamic content
+        const staticSection = document.getElementById(page);
+        if (staticSection && staticSection.classList.contains('content-section')) {
+            staticSection.classList.add('active');
+            // If we are activating a static section (like the main dashboard),
+            // ensure the dynamic content container is cleared/hidden.
+            if (dynamicContentContainer) {
+                dynamicContentContainer.innerHTML = ''; // Clear content
+                // Or, if it has its own visibility class: dynamicContentContainer.classList.remove('active');
+            }
+        } else if (dynamicContentContainer) { // If it's not a main static section, assume it's dynamic
+            // Ensure static dashboard (if it exists and is not the target) is not active
+            const dashboardSection = document.getElementById('dashboard');
+            if (dashboardSection && page !== 'dashboard') {
+                dashboardSection.classList.remove('active');
+            }
+            this.loadPageContent(page); // This already clears dynamicContentContainer
         } else {
-            // Load dynamic content
-            this.loadPageContent(page);
+            console.warn(`No static section or dynamic container found for page: ${page}`);
         }
 
         this.currentPage = page;
@@ -62,7 +84,7 @@ class UI {
     // Load dynamic page content
     async loadPageContent(page) {
         const container = document.getElementById('content-container');
-        container.innerHTML = '';
+        container.innerHTML = ''; // Clear previous content
 
         switch (page) {
             case 'users':
@@ -86,11 +108,13 @@ class UI {
             case 'visitor-feedback':
                 await this.loadVisitorFeedbackPage();
                 break;
-            case 'transactions':
-                await this.loadTransactionsPage();
-                break;
             case 'licenses':
                 await this.loadLicensesPage();
+                break;
+            default:
+                console.warn(`Attempted to load unknown page: ${page}`);
+                // Optionally display a "Page not found" message in the container
+                // container.innerHTML = `<p>The page "${page}" could not be found.</p>`;
                 break;
         }
     }
@@ -148,44 +172,132 @@ class UI {
         const iotData = firebaseAPI.getIoTData();
         const now = new Date();
         let startTime;
+        let rangeText = 'All Time';
+        let groupingIntervalMs = 0;
+        let timeFormatOptions = { hour: '2-digit', minute: '2-digit' };
+        let numberOfPoints = 0;
 
-        // Calculate startTime based on range
         switch (range) {
-            case '1M': startTime = new Date(now.getTime() - 60000); break;
-            case '1H': startTime = new Date(now.getTime() - 3600000); break;
-            case '1D': startTime = new Date(now.getTime() - 86400000); break;
-            case '1W': startTime = new Date(now.getTime() - 604800000); break;
-            case '1Y': startTime = new Date(now.getTime() - 31536000000); break;
-            default: startTime = new Date(0); // Show all if unknown
-        }
+            case '1H': // Last Hour, data every 2 minutes
+                startTime = new Date(now.getTime() - 3600000);
+                rangeText = 'Last Hour';
+                groupingIntervalMs = 2 * 60 * 1000; // 2 minutes
+                numberOfPoints = 30;
+                timeFormatOptions = { hour: '2-digit', minute: '2-digit' };
+                break;
+            case '1D': // Last Day, data every hour
+                startTime = new Date(now.getTime() - 86400000);
+                rangeText = 'Last Day';
+                groupingIntervalMs = 60 * 60 * 1000; // 1 hour
+                numberOfPoints = 24;
+                timeFormatOptions = { hour: 'numeric', minute: 'numeric' }; // e.g., "14:00"
+                break;
+            case '1W': // Last Week, data every day
+                startTime = new Date(now.getTime() - 7 * 86400000);
+                rangeText = 'Last Week';
+                groupingIntervalMs = 24 * 60 * 60 * 1000; // 1 day
+                numberOfPoints = 7;
+                timeFormatOptions = { weekday: 'short', day: 'numeric' }; // e.g., "Mon 15"
+                break;
+            case '1M': // Last Month, data every day
+                startTime = new Date(now.getFullYear(), now.getMonth() -1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());                   
+                // Calculate actual number of days in the last month for numberOfPoints
+                const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() -1, 1);
+                numberOfPoints = endOfLastMonth.getDate(); 
+                // Ensure startTime is roughly 30-31 days ago from now, not just start of current hour on that day.
+                startTime = new Date(now.getTime() - numberOfPoints * 24 * 60 * 60 * 1000);
 
-        // Helper to parse your dateTimeString
+                rangeText = 'Last Month';
+                groupingIntervalMs = 24 * 60 * 60 * 1000; // 1 day
+                timeFormatOptions = { month: 'short', day: 'numeric' }; // e.g., "Jan 15"
+                break;
+            case '1Y': // Last Year, data every month
+                startTime = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+                rangeText = 'Last Year';
+                // groupingIntervalMs for 1Y will be handled by month-by-month iteration
+                numberOfPoints = 12;
+                timeFormatOptions = { month: 'short', year: 'numeric' }; // e.g., "Jan 2023"
+                break;
+            default:
+                startTime = new Date(0);
+                rangeText = 'All Time';
+                groupingIntervalMs = 24 * 60 * 60 * 1000; // Default to 1 day for safety
+                numberOfPoints = 30; // Arbitrary default
+                timeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+                break;
+        }
+        this.currentRange = range;
+
         function parseDateTimeString(str) {
-            // Format: YYYY-MM-DD_HH-mm-ss
             const [date, time] = str.split('_');
             const [year, month, day] = date.split('-');
             const [hour, minute, second] = time.split('-');
-            return new Date(
-                Number(year), Number(month) - 1, Number(day),
-                Number(hour), Number(minute), Number(second)
-            );
+            return new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second));
         }
 
-        // Filter and sort data
-        const filteredData = Object.entries(iotData)
-            .filter(([dateTimeString]) => parseDateTimeString(dateTimeString) >= startTime)
-            .sort(([a], [b]) => parseDateTimeString(a) - parseDateTimeString(b));
+        const allEntries = Object.entries(iotData)
+            .map(([dateTimeString, data]) => ({
+                time: parseDateTimeString(dateTimeString),
+                temp: data.temperature,
+                originalString: dateTimeString
+            }))
+            .filter(entry => entry.time >= startTime) // Initial filter to reduce processing
+            .sort((a, b) => a.time - b.time);
 
-        this.iotChart.data.labels = filteredData.map(([dateTimeString]) =>
-            parseDateTimeString(dateTimeString).toLocaleTimeString()
-        );
-        this.iotChart.data.datasets[0].data = filteredData.map(([, data]) => data.temperature);
+        let aggregatedData = [];
+        let currentSlotTime = startTime.getTime();
+
+        if (range === '1Y') { // Special handling for yearly (month-by-month)
+            for (let i = 0; i < numberOfPoints; i++) {
+                const slotStartDate = new Date(startTime.getFullYear(), startTime.getMonth() + i, 1);
+                let slotEndDate = new Date(startTime.getFullYear(), startTime.getMonth() + i + 1, 1);
+                // Ensure slotEndDate does not exceed 'now' for the current month in progress
+                if (slotStartDate.getFullYear() === now.getFullYear() && slotStartDate.getMonth() === now.getMonth()){
+                    slotEndDate = new Date(Math.min(slotEndDate.getTime(), now.getTime()));
+                }
+
+                const pointsInSlot = allEntries.filter(entry => entry.time >= slotStartDate && entry.time < slotEndDate);
+                if (pointsInSlot.length > 0) {
+                    const avgTemp = pointsInSlot.reduce((sum, entry) => sum + entry.temp, 0) / pointsInSlot.length;
+                    aggregatedData.push({ time: slotStartDate, temp: avgTemp });
+                } else {
+                    aggregatedData.push({ time: slotStartDate, temp: null }); // Gap in data
+                }
+            }
+        } else if (groupingIntervalMs > 0) { // For 1H, 1D, 1W, 1M
+            for (let i = 0; i < numberOfPoints; i++) {
+                const slotStartTime = currentSlotTime + (i * groupingIntervalMs);
+                const slotEndTime = slotStartTime + groupingIntervalMs;
+                
+                // Ensure the slot does not go beyond the current time
+                if (slotStartTime > now.getTime()) break;
+
+                const pointsInSlot = allEntries.filter(entry => entry.time.getTime() >= slotStartTime && entry.time.getTime() < slotEndTime);
+
+                if (pointsInSlot.length > 0) {
+                    const avgTemp = pointsInSlot.reduce((sum, entry) => sum + entry.temp, 0) / pointsInSlot.length;
+                    aggregatedData.push({ time: new Date(slotStartTime), temp: avgTemp });
+                } else {
+                    aggregatedData.push({ time: new Date(slotStartTime), temp: null }); // Gap in data
+                }
+            }
+        } else { // Fallback for "All Time" or unexpected cases
+            aggregatedData = allEntries.map(entry => ({ time: entry.time, temp: entry.temp }));
+        }
+
+        this.iotChart.data.labels = aggregatedData.map(data => data.time.toLocaleTimeString([], timeFormatOptions));
+        this.iotChart.data.datasets[0].data = aggregatedData.map(data => data.temp);
+        this.iotChart.data.datasets[0].spanGaps = true; // Important for Chart.js to handle nulls correctly
+
+        this.iotChart.options.plugins.title.text = `IoT Temperature - ${rangeText}`;
         this.iotChart.update();
 
-        // Update sensor status
-        if (filteredData.length > 0) {
-            const latestData = filteredData[filteredData.length - 1][1];
-            this.updateSensorStatus(latestData);
+        if (allEntries.length > 0) {
+            const latestRawDataEntry = firebaseAPI.getIoTData()[allEntries[allEntries.length - 1].originalString];
+            if (latestRawDataEntry) {
+                this.updateSensorStatus(latestRawDataEntry);
+            }
         } else {
             this.updateSensorStatus({});
         }
@@ -241,37 +353,109 @@ class UI {
         };
     }
 
-    // Form Functions
-    createForm(fields, onSubmit) {
-        const form = document.createElement('form');
-        form.innerHTML = fields.map(field => `
-            <div class="form-group">
-                <label for="${field.id}">${field.label}</label>
-                <input type="${field.type}" 
-                       id="${field.id}" 
-                       name="${field.id}" 
-                       class="form-control"
-                       ${field.required ? 'required' : ''}>
-            </div>
-        `).join('');
+    // New function to display a configured form in the generic modal
+    displayFormInModal(config) {
+        const { title, fields, submitButtonText, onSubmitCallback, initialData = {} } = config;
 
-        const submitButton = document.createElement('button');
-        submitButton.type = 'submit';
-        submitButton.className = 'btn btn-primary';
-        submitButton.textContent = 'Submit';
-        form.appendChild(submitButton);
+        const modal = document.getElementById('admin-modal');
+        const modalTitle = document.getElementById('admin-modal-title');
+        const formFieldsContainer = document.getElementById('admin-modal-form-fields');
+        const form = document.getElementById('admin-modal-form');
+        const submitButton = document.getElementById('admin-modal-submit-btn');
+        const errorMessageElement = document.getElementById('modal-error-message');
+        const loadingMessageElement = document.getElementById('modal-loading-message');
 
-        form.onsubmit = (e) => {
+        if (!modal || !modalTitle || !formFieldsContainer || !form || !submitButton || !errorMessageElement || !loadingMessageElement) {
+            console.error('Admin modal elements not found! Ensure admin-dashboard.html is correct.');
+            return;
+        }
+
+        // Reset previous state
+        modalTitle.textContent = title;
+        formFieldsContainer.innerHTML = ''; // Clear previous fields
+        errorMessageElement.style.display = 'none';
+        errorMessageElement.textContent = '';
+        loadingMessageElement.style.display = 'none';
+        submitButton.disabled = false;
+        document.getElementById('admin-modal-cancel-btn').disabled = false;
+
+        // Create and append form fields
+        fields.forEach(field => {
+            const formGroup = document.createElement('div');
+            formGroup.className = 'form-group';
+
+            const label = document.createElement('label');
+            label.setAttribute('for', field.id);
+            label.textContent = field.label;
+            formGroup.appendChild(label);
+
+            let inputElement;
+            if (field.type === 'select') {
+                inputElement = document.createElement('select');
+                inputElement.className = 'form-control';
+                field.options.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt.value;
+                    option.textContent = opt.label;
+                    if (initialData[field.id] === opt.value) {
+                        option.selected = true;
+                    }
+                    inputElement.appendChild(option);
+                });
+            } else if (field.type === 'textarea') {
+                inputElement = document.createElement('textarea');
+                inputElement.className = 'form-control';
+            } else {
+                inputElement = document.createElement('input');
+                inputElement.type = field.type;
+                inputElement.className = 'form-control';
+            }
+
+            inputElement.id = field.id;
+            inputElement.name = field.id;
+            if (field.required) {
+                inputElement.required = true;
+            }
+            if (initialData[field.id] !== undefined) {
+                inputElement.value = initialData[field.id];
+            } else if (field.value !== undefined) { // Default value from field definition
+                inputElement.value = field.value;
+            }
+
+            formGroup.appendChild(inputElement);
+            formFieldsContainer.appendChild(formGroup);
+        });
+
+        submitButton.textContent = submitButtonText;
+
+        // Remove old submit listener if any, and add the new one
+        const newSubmitHandler = async (e) => {
             e.preventDefault();
             const formData = {};
             fields.forEach(field => {
-                formData[field.id] = form[field.id].value;
+                const element = form.elements[field.id];
+                if (element) {
+                    formData[field.id] = element.value;
+                } else {
+                     console.warn(`Form field with id '${field.id}' not found in form elements during submission.`);
+                }
             });
-            onSubmit(formData);
+            await onSubmitCallback(formData);
         };
 
-        return form;
+        if (form._currentSubmitHandler) {
+            form.removeEventListener('submit', form._currentSubmitHandler);
+        }
+        form.addEventListener('submit', newSubmitHandler);
+        form._currentSubmitHandler = newSubmitHandler; // Store on the form element itself
+
+        modal.style.display = 'block';
     }
+
+    // Form Functions
+    // createForm(fields, onSubmit) { // This function will be deprecated or removed
+    // ... existing createForm code ...
+    // }
 
     // Table Functions
     createTable(headers, data, actions) {
@@ -302,11 +486,11 @@ class UI {
                     const paramsString = action.onClickParams.map(param => typeof param === 'string' ? `'${param}'` : param).join(', ');
                     onClickCall = `${action.onClick}('${row._id}', ${paramsString})`;
                 }
-                return `
-                <button class="btn btn-${action.type}" 
+            return `
+                            <button class="btn btn-${action.type}" 
                         onclick="${onClickCall}">
-                    ${action.label}
-                </button>
+                                ${action.label}
+                            </button>
             `}).join('') : '';
 
             return `
@@ -338,6 +522,8 @@ class UI {
     // Page-specific loading functions
     async loadUsersPage() {
         const container = document.getElementById('content-container');
+        container.innerHTML = ''; // Clear previous users content before adding new
+
         const users = JSON.parse(localStorage.getItem('users') || '{}');
 
         const header = document.createElement('div');
@@ -361,11 +547,11 @@ class UI {
             })),
             (row) => {
                 const actions = [
-                    {
-                        label: 'Edit',
-                        type: 'primary',
-                        onClick: 'ui.showEditUserModal'
-                    }
+                {
+                    label: 'Edit',
+                    type: 'primary',
+                    onClick: 'ui.showEditUserModal'
+                }
                 ];
                 const isDisabled = row.status === 'disabled'; 
                 const newStatus = isDisabled ? 'active' : 'disabled';
@@ -383,6 +569,8 @@ class UI {
 
     async loadParksPage() {
         const container = document.getElementById('content-container');
+        container.innerHTML = ''; // Clear previous parks content before adding new
+
         const parks = JSON.parse(localStorage.getItem('parks') || '{}');
 
         // Create header with add button
@@ -410,19 +598,29 @@ class UI {
                 })(),
                 _id: id // Store ID separately for actions
             })),
-            [
+            (row) => {
+                const actions = [
                 {
                     label: 'Edit',
                     type: 'primary',
                     onClick: 'ui.showEditParkModal'
+                },
+                {
+                    label: 'Remove',
+                    type: 'danger',
+                    onClick: 'ui.showDeleteParkConfirmationModal'
                 }
-            ]
+                ];
+                return actions;
+            }
         );
         container.appendChild(table);
     }
 
     async loadCoursesPage() {
         const container = document.getElementById('content-container');
+        container.innerHTML = ''; // Clear previous content
+
         const courses = JSON.parse(localStorage.getItem('courses') || '{}');
 
         // Create header with add button
@@ -436,19 +634,27 @@ class UI {
 
         // Create courses grid
         const grid = document.createElement('div');
-        grid.className = 'courses-grid';
-        grid.innerHTML = Object.entries(courses).map(([id, course]) => `
-            <div class="course-card" onclick="ui.showCourseDetails('${id}')">
-                <h3>${course.title}</h3>
-                <p>${course.description}</p>
-                <div class="course-meta">
-                    <span class="course-type">${course.courseType}</span>
-                    <span class="course-status ${course.published ? 'published' : 'draft'}">
-                        ${course.published ? 'Published' : 'Draft'}
-                    </span>
+        grid.className = 'courses-grid'; // Use a generic grid class, can be styled further if needed
+        
+        if (Object.keys(courses).length === 0) {
+            grid.innerHTML = '<p>No courses found. Click "Add Course" to create one.</p>';
+        } else {
+            grid.innerHTML = Object.entries(courses).map(([id, course]) => `
+                <div class="course-card"> 
+                    <h3>${course.title}</h3>
+                    <p class="course-description">${course.description ? (course.description.length > 100 ? course.description.substring(0, 97) + '...' : course.description) : 'No description available.'} </p>
+                    <div class="course-meta">
+                        <span class="course-type-badge ${course.courseType ? course.courseType.toLowerCase().replace(/\s+/g, '-') : 'default'}">${course.courseType || 'General'}</span>
+                        <span class="status-badge ${course.published ? 'status-approved' : 'status-draft'}">
+                            ${course.published ? 'Published' : 'Draft'}
+                        </span>
+                    </div>
+                    <div class="course-actions" style="margin-top: 15px;">
+                         <button class="btn btn-primary" onclick="window.location.href = '../course-edit-page.html?courseId=${id}'">Edit Course</button>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+        }
         container.appendChild(grid);
     }
 
@@ -545,6 +751,8 @@ class UI {
 
     async loadCertificationPage() {
         const container = document.getElementById('content-container');
+        container.innerHTML = ''; // Clear previous content
+
         const certificates = JSON.parse(localStorage.getItem('certificates') || '{}');
 
         const header = document.createElement('div');
@@ -561,14 +769,31 @@ class UI {
                 issuedAt: firestoreTimestampToDate(cert.issuedAt)?.toLocaleDateString() || '-',
                 expiresAt: firestoreTimestampToDate(cert.expiresAt)?.toLocaleDateString() || '-',
                 _id: id
-            }))
-            // No actions for this table
+            })),
+            (row) => {
+                const actions = [];
+                if (row.status && row.status.toLowerCase() === 'pending') {
+                    actions.push({
+                        label: 'Approve',
+                        type: 'success',
+                        onClick: 'ui.approveCertificate'
+                    });
+                    actions.push({
+                        label: 'Reject',
+                        type: 'danger',
+                        onClick: 'ui.rejectCertificate'
+                    });
+                }
+                return actions;
+            }
         );
         container.appendChild(table);
     }
 
     async loadVisitorFeedbackPage() {
         const container = document.getElementById('content-container');
+        container.innerHTML = ''; // Clear previous content
+
         const feedback = JSON.parse(localStorage.getItem('visitor_feedback') || '{}');
 
         const header = document.createElement('div');
@@ -595,52 +820,10 @@ class UI {
         container.appendChild(table);
     }
 
-    async loadTransactionsPage() {
-        const container = document.getElementById('content-container');
-        const transactions = JSON.parse(localStorage.getItem('transactions') || '{}');
-
-        // Create header
-        const header = document.createElement('div');
-        header.className = 'page-header';
-        header.innerHTML = '<h1>Transactions</h1>';
-        container.appendChild(header);
-
-        const transactionActions = [
-            {
-                label: 'Verify',
-                type: 'success',
-                onClick: 'ui.verifyTransaction'
-            },
-            {
-                label: 'Reject',
-                type: 'danger',
-                onClick: 'ui.rejectTransaction'
-            }
-        ];
-
-        const table = this.createTable(
-            ['Name', 'Amount', 'Image', 'Submitted At', 'Status', 'Verified At', 'Verified By', 'Notes'],
-            Object.entries(transactions).map(([id, trans]) => ({
-                name: trans.userName,
-                amount: `RM ${trans.totalAmountPaid}`,
-                image: `<button onclick="ui.showPaymentProof('${trans.paymentProofImageUrl}')">View proof</button>`,
-                submittedAt: firestoreTimestampToDate(trans.submittedAt)?.toLocaleDateString() || '-',
-                status: trans.status,
-                verifiedAt: trans.verifiedAt ? firestoreTimestampToDate(trans.verifiedAt)?.toLocaleDateString() : '-',
-                verifiedBy: trans.verifiedBy || '-',
-                notes: trans.notes || '-',
-                _id: id,
-                // For transactions, actions might be conditional based on status, similar to enrollments
-                // For simplicity, let's assume actions are always applicable if not verified/rejected
-                actions: (trans.status === 'verified' || trans.status === 'rejected') ? [] : transactionActions 
-            })),
-            (row) => row.actions // This is correct as actions are conditional
-        );
-        container.appendChild(table);
-    }
-
     async loadLicensesPage() {
         const container = document.getElementById('content-container');
+        container.innerHTML = ''; // Clear previous content
+
         const licenses = JSON.parse(localStorage.getItem('licenses') || '{}');
 
         const header = document.createElement('div');
@@ -657,8 +840,23 @@ class UI {
                 issuedAt: firestoreTimestampToDate(license.issuedAt)?.toLocaleDateString() || '-',
                 expiresAt: firestoreTimestampToDate(license.expiresAt)?.toLocaleDateString() || '-',
                 _id: id
-            }))
-            // No actions for this table
+            })),
+            (row) => {
+                const actions = [];
+                if (row.status && row.status.toLowerCase() === 'pending') {
+                    actions.push({
+                        label: 'Approve',
+                        type: 'success',
+                        onClick: 'ui.approveLicense'
+                    });
+                    actions.push({
+                        label: 'Reject',
+                        type: 'danger',
+                        onClick: 'ui.rejectLicense'
+                    });
+                }
+                return actions;
+            }
         );
         container.appendChild(table);
     }
@@ -740,60 +938,219 @@ class UI {
     }
 
     showAddParkModal() {
-        const form = this.createForm([
-            { id: 'name', label: 'Name', type: 'text', required: true },
+        const formFields = [
+            { id: 'name', label: 'Park Name', type: 'text', required: true },
             { id: 'location', label: 'Location', type: 'text', required: true },
-            { id: 'type', label: 'Type', type: 'select', required: true },
-            { id: 'landArea', label: 'Land Area', type: 'number', required: true },
-            { id: 'marineArea', label: 'Marine Area', type: 'number', required: true },
+            {
+                id: 'type',
+                label: 'Type',
+                type: 'select',
+                required: true,
+                options: [
+                    { value: 'National Park', label: 'National Park' },
+                    { value: 'Wildlife Sanctuary', label: 'Wildlife Sanctuary' },
+                    { value: 'Nature Reserve', label: 'Nature Reserve' }
+                ]
+            },
+            { id: 'landArea', label: 'Land Area (sq km)', type: 'number', required: true, value: '0' },
+            { id: 'marineArea', label: 'Marine Area (sq km)', type: 'number', required: true, value: '0' },
             { id: 'dateOfGazettement', label: 'Date of Gazettement', type: 'date', required: true }
-        ], async (formData) => {
+        ];
+
+        const onSubmitCallback = async (formData) => {
             try {
-                await firebaseAPI.addPark(formData);
-                this.navigateToPage('parks');
+                this.showLoading('Adding park...', 'admin-modal');
+                
+                const landAreaValue = parseFloat(formData.landArea);
+                const marineAreaValue = parseFloat(formData.marineArea);
+
+                const dataToAdd = {
+                    name: formData.name,
+                    location: formData.location,
+                    type: formData.type,
+                    landArea: isNaN(landAreaValue) ? 0 : landAreaValue,
+                    marineArea: isNaN(marineAreaValue) ? 0 : marineAreaValue,
+                    dateOfGazettement: formData.dateOfGazettement // Will be YYYY-MM-DD string
+                };
+
+                await firebaseAPI.addPark(dataToAdd);
+                this.closeModal('admin-modal');
+                this.showInfoModal('Success', 'Park added successfully!', true);
+                // Assuming showInfoModal is modal and user clicks OK, then we load.
+                // If showInfoModal is a toast, this can be called immediately.
+                await this.loadParksPage(); 
             } catch (error) {
                 console.error('Error adding park:', error);
-                this.showError('Failed to add park. Please try again.');
+                // Error is now shown within the admin-modal itself by showError
+                this.showError(`Failed to add park: ${error.message || 'Please try again.'}`, 'admin-modal');
+                // Do not close modal on error, so user can see the message and correct data if needed.
             }
-        });
+        };
 
-        this.showModal(`
-            <h2>Add New Park</h2>
-            ${form.outerHTML}
-        `);
+        this.displayFormInModal({
+            title: 'Add New Park',
+            fields: formFields,
+            submitButtonText: 'Add Park',
+            onSubmitCallback
+        });
     }
 
     showEditParkModal(parkId) {
         const parks = JSON.parse(localStorage.getItem('parks') || '{}');
         const park = parks[parkId];
 
-        const form = this.createForm([
-            { id: 'name', label: 'Name', type: 'text', required: true },
+        if (!park) {
+            this.showError('Park details not found. Please refresh and try again.', 'admin-modal'); // Show error in a general way
+            return;
+        }
+
+        // Convert Firestore Timestamp to YYYY-MM-DD for date input
+        let dateOfGazettementValue = '';
+        if (park.dateOfGazettement && park.dateOfGazettement.seconds) {
+            const date = new Date(park.dateOfGazettement.seconds * 1000);
+            dateOfGazettementValue = date.toISOString().split('T')[0];
+        } else if (typeof park.dateOfGazettement === 'string') { 
+            // Check if it's already in YYYY-MM-DD format (e.g., from a previous failed edit attempt or direct input)
+            if (/^\d{4}-\d{2}-\d{2}$/.test(park.dateOfGazettement)) {
+                dateOfGazettementValue = park.dateOfGazettement;
+            } else {
+                 // If it's some other string format, attempt to parse or default
+                const parsedDate = new Date(park.dateOfGazettement);
+                if (!isNaN(parsedDate)) {
+                    dateOfGazettementValue = parsedDate.toISOString().split('T')[0];
+                } else {
+                    console.warn('Could not parse dateOfGazettement string for edit:', park.dateOfGazettement);
+                    // Keep it empty or set a sensible default if parsing fails, 
+                    // rather than letting the form error out immediately.
+                }
+            }
+        }
+
+        const formFields = [
+            { id: 'name', label: 'Park Name', type: 'text', required: true },
             { id: 'location', label: 'Location', type: 'text', required: true },
-            { id: 'type', label: 'Type', type: 'select', required: true },
-            { id: 'landArea', label: 'Land Area', type: 'number', required: true },
-            { id: 'marineArea', label: 'Marine Area', type: 'number', required: true },
+            {
+                id: 'type',
+                label: 'Type',
+                type: 'select',
+                required: true,
+                options: [
+                    { value: 'National Park', label: 'National Park' },
+                    { value: 'Nature Reserve', label: 'Nature Reserve' },
+                    { value: 'Wildlife Sanctuary', label: 'Wildlife Sanctuary' },
+                    { value: 'Protected Landscape', label: 'Protected Landscape' }
+                ]
+            },
+            { id: 'landArea', label: 'Land Area (sq km)', type: 'number', required: true },
+            { id: 'marineArea', label: 'Marine Area (sq km)', type: 'number', required: true },
             { id: 'dateOfGazettement', label: 'Date of Gazettement', type: 'date', required: true }
-        ], async (formData) => {
+        ];
+
+        const initialData = {
+            ...park,
+            dateOfGazettement: dateOfGazettementValue // Ensure YYYY-MM-DD format for date input
+        };
+        
+        const onSubmitCallback = async (formData) => {
             try {
-                await firebaseAPI.updatePark(parkId, formData);
-                this.navigateToPage('parks');
+                this.showLoading('Updating park...', 'admin-modal');
+                
+                const landAreaValue = parseFloat(formData.landArea);
+                const marineAreaValue = parseFloat(formData.marineArea);
+
+                const dataToUpdate = {
+                    name: formData.name,
+                    location: formData.location,
+                    type: formData.type,
+                    landArea: isNaN(landAreaValue) ? 0 : landAreaValue,
+                    marineArea: isNaN(marineAreaValue) ? 0 : marineAreaValue,
+                    dateOfGazettement: formData.dateOfGazettement // Will be YYYY-MM-DD string
+                };
+
+                await firebaseAPI.updatePark(parkId, dataToUpdate);
+                this.closeModal('admin-modal');
+                this.showInfoModal('Success', 'Park updated successfully!', true);
+                await this.loadParksPage(); 
             } catch (error) {
                 console.error('Error updating park:', error);
-                this.showError('Failed to update park. Please try again.');
+                this.showError(`Failed to update park: ${error.message || 'Please try again.'}`, 'admin-modal');
             }
-        });
+        };
 
-        // Pre-fill form data
-        Object.entries(park).forEach(([key, value]) => {
-            const input = form.querySelector(`#${key}`);
-            if (input) input.value = value;
+        this.displayFormInModal({
+            title: 'Edit Park',
+            fields: formFields,
+            submitButtonText: 'Save Changes',
+            onSubmitCallback,
+            initialData
         });
+    }
 
-        this.showModal(`
-            <h2>Edit Park</h2>
-            ${form.outerHTML}
-        `);
+    // New helper function to create and show a modal with a specific ID
+    createAndShowModal(modalId, contentHtml, maxWidth = '450px') {
+        // Close if already exists to prevent duplicates
+        const existingModal = document.getElementById(modalId);
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        const modal = document.createElement('div');
+        modal.id = modalId;
+        modal.className = 'modal'; // Basic modal styling
+        modal.style.display = 'block';
+        
+        modal.innerHTML = `
+            <div class="modal-content" style="max-width: ${maxWidth};">
+                <span class="modal-close" onclick="ui.closeModal('${modalId}')">&times;</span>
+                ${contentHtml}
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Clicking backdrop closes this specific modal
+        modal.onclick = (event) => {
+            if (event.target === modal) {
+                this.closeModal(modalId);
+            }
+        };
+        return modal; // Return the created modal element
+    }
+
+    showDeleteParkConfirmationModal(parkId) {
+        const parks = JSON.parse(localStorage.getItem('parks') || '{}');
+        const park = parks[parkId];
+        const parkName = park ? park.name : 'this park';
+        const confirmationModalId = `delete-confirm-modal-${parkId || Date.now()}`;
+
+        const modalContentHtml = `
+            <h2>Confirm Delete Park</h2>
+            <p>Are you sure you want to delete <strong>${parkName}</strong> (ID: ${parkId})?</p>
+            <p>This action cannot be undone.</p>
+            <div class="modal-actions" style="margin-top: 20px; text-align: right;">
+                <button class="btn btn-danger" id="confirm-delete-park-btn-${parkId}">Delete Park</button>
+                <button class="btn btn-secondary" onclick="ui.closeModal('${confirmationModalId}')">Cancel</button>
+            </div>
+        `;
+        
+        const confirmationModalElement = this.createAndShowModal(confirmationModalId, modalContentHtml);
+
+        const confirmBtn = confirmationModalElement.querySelector(`#confirm-delete-park-btn-${parkId}`);
+        if (confirmBtn) {
+            confirmBtn.onclick = async () => {
+                try {
+                    // No separate loading message for this simple confirmation, straight to action.
+                    await firebaseAPI.deletePark(parkId);
+                    this.closeModal(confirmationModalId); // Close this specific confirmation modal
+                    this.showInfoModal('Success', 'Park deleted successfully!', true); // This shows a separate info modal
+                    await this.loadParksPage(); 
+                } catch (error) {
+                    console.error('Error deleting park:', error);
+                    this.closeModal(confirmationModalId); // Make sure to close on error too
+                    this.showInfoModal('Error', `Failed to delete park: ${error.message || 'Please try again.'}`, false);
+                }
+            };
+        }
     }
 
     showAddCourseModal() {
@@ -925,10 +1282,15 @@ class UI {
 
     async approveEnrollment(enrollmentId) {
         try {
+            this.showLoading('Approving enrollment...');
             await firebaseAPI.updateEnrollment(enrollmentId, { status: 'active' });
-            this.navigateToPage('enrollment');
+            this.closeModal();
+            this.showSuccess('Enrollment approved successfully.');
+            await this.loadEnrollmentPage(); // Reload the table
+            this.updateDashboardStats(); // Refresh dashboard stats
         } catch (error) {
             console.error('Error approving enrollment:', error);
+            this.closeModal();
             this.showError('Failed to approve enrollment. Please try again.');
         }
     }
@@ -937,41 +1299,75 @@ class UI {
         try {
             // Update status to 'Rejected' (uppercase R) to match the display condition
             await firebaseAPI.updateEnrollment(enrollmentId, { status: 'Rejected' }); 
-            this.navigateToPage('enrollment');
+            this.showSuccess('Enrollment rejected successfully.');
+            await this.loadEnrollmentPage(); // Reload the table
+            this.updateDashboardStats(); // Refresh dashboard stats
         } catch (error) {
             console.error('Error rejecting enrollment:', error);
+            this.closeModal();
             this.showError('Failed to reject enrollment. Please try again.');
         }
     }
 
-    async verifyTransaction(transactionId) {
+    // Certificate Action Handlers
+    async approveCertificate(certificateId) {
         try {
-            const currentUser = window.auth.currentUser;
-            const users = JSON.parse(localStorage.getItem('users') || '{}');
-            const adminName = users[currentUser.uid].name;
-
-            await firebaseAPI.updateTransaction(transactionId, {
-                status: 'verified',
-                verifiedAt: new Date().toISOString(),
-                verifiedBy: adminName
-            });
-            this.navigateToPage('transactions');
+            this.showLoading('Approving certificate...');
+            await firebaseAPI.updateCertificateStatus(certificateId, 'active');
+            this.closeModal(); // Close any open generic modal, or specify ID if one is used for loading
+            this.showSuccess('Certificate approved successfully.');
+            await this.loadCertificationPage(); // Refresh the certifications table
+            this.updateDashboardStats(); // Refresh dashboard stats
         } catch (error) {
-            console.error('Error verifying transaction:', error);
-            this.showError('Failed to verify transaction. Please try again.');
+            console.error('Error approving certificate:', error);
+            this.closeModal();
+            this.showError('Failed to approve certificate. Please try again.');
         }
     }
 
-    async rejectTransaction(transactionId) {
+    async rejectCertificate(certificateId) {
         try {
-            await firebaseAPI.updateTransaction(transactionId, {
-                status: 'rejected',
-                rejectionReason: 'Rejected by admin'
-            });
-            this.navigateToPage('transactions');
+            this.showLoading('Rejecting certificate...');
+            await firebaseAPI.updateCertificateStatus(certificateId, 'rejected');
+            this.closeModal();
+            this.showSuccess('Certificate rejected successfully.');
+            await this.loadCertificationPage(); // Refresh the certifications table
+            this.updateDashboardStats(); // Refresh dashboard stats
         } catch (error) {
-            console.error('Error rejecting transaction:', error);
-            this.showError('Failed to reject transaction. Please try again.');
+            console.error('Error rejecting certificate:', error);
+            this.closeModal();
+            this.showError('Failed to reject certificate. Please try again.');
+        }
+    }
+
+    // License Action Handlers
+    async approveLicense(licenseId) {
+        try {
+            this.showLoading('Approving license...');
+            await firebaseAPI.updateLicenseStatus(licenseId, 'active');
+            this.closeModal();
+            this.showSuccess('License approved successfully.');
+            await this.loadLicensesPage(); // Refresh the licenses table
+            this.updateDashboardStats(); // Refresh dashboard stats
+        } catch (error) {
+            console.error('Error approving license:', error);
+            this.closeModal();
+            this.showError('Failed to approve license. Please try again.');
+        }
+    }
+
+    async rejectLicense(licenseId) {
+        try {
+            this.showLoading('Rejecting license...');
+            await firebaseAPI.updateLicenseStatus(licenseId, 'rejected');
+            this.closeModal();
+            this.showSuccess('License rejected successfully.');
+            await this.loadLicensesPage(); // Refresh the licenses table
+            this.updateDashboardStats(); // Refresh dashboard stats
+        } catch (error) {
+            console.error('Error rejecting license:', error);
+            this.closeModal();
+            this.showError('Failed to reject license. Please try again.');
         }
     }
 
@@ -1130,42 +1526,127 @@ class UI {
         }
     }
 
-    closeModal() {
-        const modal = document.getElementById('admin-modal');
+    closeModal(modalId = 'admin-modal') {
+        const modal = document.getElementById(modalId);
         if (modal) {
             modal.style.display = 'none';
-            modal.innerHTML = ''; // Clear content
+            
+            // Clear form fields if it's the admin-modal with a form
+            if (modalId === 'admin-modal') {
+                const formFieldsContainer = modal.querySelector('#admin-modal-form-fields');
+                if (formFieldsContainer) {
+                    formFieldsContainer.innerHTML = '';
+                }
+                const form = modal.querySelector('#admin-modal-form');
+                if (form) {
+                    if (form._currentSubmitHandler) { // Check if handler exists on the form
+                       form.removeEventListener('submit', form._currentSubmitHandler);
+                       delete form._currentSubmitHandler; // Clean up the stored handler property
+                    }
+                    // form.reset(); // Reset native form elements if any were not dynamically cleared
+                }
+            }
+
+            // Reset and hide loading/error messages
+            const loadingMsg = modal.querySelector('#modal-loading-message');
+            if (loadingMsg) {
+                loadingMsg.textContent = 'Loading...';
+                loadingMsg.style.display = 'none';
+            }
+            const errorMsg = modal.querySelector('#modal-error-message');
+            if (errorMsg) {
+                errorMsg.textContent = '';
+                errorMsg.style.display = 'none';
+            }
+
+            // Re-enable buttons if they were part of this modal
+            const submitButton = modal.querySelector('#admin-modal-submit-btn');
+            const cancelButton = modal.querySelector('#admin-modal-cancel-btn');
+            if (submitButton) submitButton.disabled = false;
+            if (cancelButton) cancelButton.disabled = false;
         }
     }
 
-    showError(message) {
-        // Simple alert, or could be a styled notification
-        alert(`Error: ${message}`);
-        // Or, if you have a dedicated error display element in your modal/UI:
-        // const errorElement = document.getElementById('modal-error-message');
-        // if (errorElement) errorElement.textContent = message;
+    showError(message, modalId = 'admin-modal') {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            const errorElement = modal.querySelector('#modal-error-message');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            const loadingMsg = modal.querySelector('#modal-loading-message');
+            if (loadingMsg) {
+                loadingMsg.style.display = 'none';
+            }
+            // Ensure buttons are enabled
+            const submitButton = modal.querySelector('#admin-modal-submit-btn');
+            const cancelButton = modal.querySelector('#admin-modal-cancel-btn');
+            if (submitButton) submitButton.disabled = false;
+            if (cancelButton) cancelButton.disabled = false;
+        } else {
+            // Fallback for modals not using the fixed structure, or if modalId is different
+            alert(`Error: ${message}`);
+        }
     }
 
     showSuccess(message) {
         // Simple alert, or a styled notification
-        alert(message); 
+        // alert(message); 
+        this.showInfoModal('Success', message, true);
     }
     
-    showLoading(message) {
-        // Could display a loading spinner in the modal or a global spinner
-        console.log(message); // Placeholder
-        // For a modal, you might disable buttons and show text:
-        const modalActions = document.querySelector('.modal-actions');
-        if (modalActions) {
-            Array.from(modalActions.children).forEach(button => button.disabled = true);
-            let loadingMsg = document.getElementById('modal-loading-message');
-            if (!loadingMsg) {
-                loadingMsg = document.createElement('p');
-                loadingMsg.id = 'modal-loading-message';
-                modalActions.parentNode.insertBefore(loadingMsg, modalActions);
+    showLoading(message, modalId = 'admin-modal') {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            const loadingMsg = modal.querySelector('#modal-loading-message');
+            if (loadingMsg) {
+                loadingMsg.textContent = message;
+                loadingMsg.style.display = 'block';
             }
-            loadingMsg.textContent = message;
+            const errorMsg = modal.querySelector('#modal-error-message');
+            if (errorMsg) {
+                errorMsg.style.display = 'none';
+            }
+            // Disable buttons
+            const submitButton = modal.querySelector('#admin-modal-submit-btn');
+            const cancelButton = modal.querySelector('#admin-modal-cancel-btn');
+            if (submitButton) submitButton.disabled = true;
+            if (cancelButton) cancelButton.disabled = true;
+        } else {
+             console.log(message); // Placeholder for non-standard modals
         }
+    }
+
+    showInfoModal(title, message, isSuccess = true) {
+        const modalId = 'info-modal';
+        this.closeModal(modalId); // Close if already open
+
+        const modalContent = `
+            <div class="modal-content" style="max-width: 400px;">
+                <span class="modal-close" onclick="ui.closeModal('${modalId}')">&times;</span>
+                <h2 style="color: ${isSuccess ? 'var(--success-color)' : 'var(--danger-color)'};">${title}</h2>
+                <p>${message}</p>
+                <div class="modal-actions" style="margin-top: 20px; text-align: right;">
+                    <button class="btn btn-primary" onclick="ui.closeModal('${modalId}')">OK</button>
+                </div>
+            </div>
+        `;
+        
+        // Use a modified showModal or create a new one for info
+        const modal = document.createElement('div');
+        modal.id = modalId;
+        modal.className = 'modal'; // Use existing modal class for backdrop and centering
+        modal.style.display = 'block';
+        modal.innerHTML = modalContent;
+        document.body.appendChild(modal);
+
+        // Ensure clicking backdrop also closes this specific modal
+        modal.onclick = (event) => {
+            if (event.target === modal) {
+                this.closeModal(modalId);
+            }
+        };
     }
 }
 

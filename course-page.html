@@ -35,6 +35,15 @@
             <button id="cp-admin-edit-course-title-btn" class="cp-btn cp-btn-admin" style="display:none;">Edit Title</button>
         </header>
 
+        <!-- Course Status Summary Section -->
+        <section id="cp-course-status-summary" class="cp-section" style="display: none; /* Initially hidden until populated */">
+            <h2 id="cp-course-summary-title">Course Progress</h2>
+            <div id="cp-course-summary-details">
+                <!-- Progress details will be inserted here by JS -->
+                <p>Calculating your progress...</p>
+            </div>
+        </section>
+
         <section class="cp-section cp-course-description-section">
             <h2>Course Description</h2>
             <p id="cp-course-description">Description will load here.</p>
@@ -69,6 +78,23 @@
             <!-- Admin: Add New Module Button -->
             <button id="cp-admin-add-module-btn" class="cp-btn cp-btn-admin cp-btn-add" style="display:none;">+ Add Module</button>
         </section>
+
+        <!-- Test Modal -->
+        <div id="cp-test-modal" class="cp-modal" style="display:none;">
+            <div class="cp-modal-content">
+                <span class="cp-modal-close-btn">&times;</span>
+                <h2 id="cp-test-modal-title">Test Title</h2>
+                <div id="cp-test-modal-body">
+                    <!-- Content will be dynamically populated here -->
+                    <!-- For displaying results or questions -->
+                </div>
+                <div id="cp-test-modal-footer">
+                    <button id="cp-test-modal-submit-btn" class="cp-btn cp-btn-primary" style="display:none;">Submit Answers</button>
+                    <button id="cp-test-modal-close-footer-btn" class="cp-btn">Close</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Modals for Admin actions (e.g., edit module) can be added here later -->

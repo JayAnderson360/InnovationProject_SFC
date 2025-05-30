@@ -1,30 +1,32 @@
 /* General Body Styles */
 body {
-    font-family: 'Poppins', sans-serif; /* Assuming Poppins is desired, add font import in HTML if not global */
-    background-color: #f8f9fa; /* Light gray background */
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6; /* Match dashboard: Light grayish-green */
     margin: 0;
     color: #333;
     line-height: 1.6;
 }
 
-/* Navigation Styles */
+/* Navigation Styles - Updated to match dashboard header */
 .cp-nav {
-    background-color: #fff; /* White background for nav */
-    padding: 10px 40px;
+    background-color: #004d26; /* Match dashboard: Dark green */
+    color: #fff;
+    padding: 15px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 30px; /* Consistent margin */
 }
 
 .cp-logo-link {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #333;
+    color: #fff; /* Match dashboard: White text */
     font-weight: 600;
-    font-size: 1.3em;
+    font-size: 1.5em; /* Match dashboard: .cd-logo-text */
+    letter-spacing: 0.5px;
 }
 
 .cp-logo-img {
@@ -33,56 +35,70 @@ body {
 }
 
 .cp-user-actions .cp-nav-link {
-    margin-left: 20px;
+    margin-left: 25px; /* Match dashboard: .cd-nav li */
     text-decoration: none;
-    color: #007bff; /* Blue for links */
+    color: #e0e0e0; /* Match dashboard: Lighter text for nav links */
     font-weight: 500;
+    font-size: 1em;
+    transition: color 0.3s ease;
+    padding-bottom: 5px; /* For border alignment */
+    border-bottom: 2px solid transparent; /* Prepare for active/hover border */
 }
 
-.cp-user-actions .cp-nav-link:hover {
-    text-decoration: underline;
+.cp-user-actions .cp-nav-link:hover,
+.cp-user-actions .cp-nav-link.active { /* Assuming an active class might be added by JS */
+    color: #fff; /* Match dashboard: Brighter white */
+    border-bottom: 2px solid #fff;
 }
 
 
 /* Main Container */
 .cp-container {
-    max-width: 960px;
+    max-width: 960px; /* Keep max-width for readability on content page */
     margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.07);
+    padding: 20px; /* Original padding */
+    /* Removed background-color and box-shadow here, sections will have it */
 }
 
-/* Header Section */
+/* Section Styling - Common for description and modules list container */
+.cp-section {
+    background-color: #fff; /* Match dashboard section background */
+    padding: 25px 30px; /* Generous padding like .cd-welcome-banner */
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Match dashboard section shadow */
+    border: none; /* Remove previous border, rely on shadow */
+}
+
+
+/* Header Section within Course Page (Title and Admin Edit) */
 .cp-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #ffffff; /* White header */
+    padding: 20px; /* Keep its own padding or make it a .cp-section if full width desired */
+    background-color: #ffffff; 
     border-radius: 8px;
-    /* box-shadow: 0 2px 8px rgba(0,0,0,0.05); */
     margin-bottom: 30px;
-    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Consistent shadow */
 }
 
 .cp-header h1 {
     margin: 0;
-    font-size: 1.8em; /* Slightly smaller than image for now */
+    font-size: 2em; /* Match dashboard h1 */
     font-weight: 600;
     color: #333;
 }
 
-/* General Button Styles */
+/* General Button Styles - Base for all buttons on this page */
 .cp-btn {
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px; /* Match dashboard button radius */
     cursor: pointer;
     font-size: 0.95em;
     font-weight: 500;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -93,66 +109,67 @@ body {
     margin-right: 8px;
 }
 
-.cp-btn-primary {
-    background-color: #007bff; /* Blue */
+/* Primary action button - e.g. Take Test */
+.cp-btn-primary, 
+.cp-btn-take-test { /* Grouping for consistent primary action color */
+    background-color: #004d26; /* Match dashboard primary action: Dark green */
     color: white;
 }
-
-.cp-btn-primary:hover {
-    background-color: #0056b3;
+.cp-btn-primary:hover, 
+.cp-btn-take-test:hover {
+    background-color: #00331a; /* Match dashboard hover: Darker green */
 }
 
+/* Admin Button Styles */
 .cp-btn-admin {
-    background-color: #6c757d; /* Gray for admin buttons */
+    background-color: #6c757d; 
     color: white;
-    margin-left: 10px; /* Spacing for admin buttons */
+    margin-left: 10px; 
 }
-
 .cp-btn-admin:hover {
     background-color: #5a6268;
 }
 
+/* Add Module Button (if distinct styling needed from general admin) */
 .cp-btn-add {
-    background-color: #28a745; /* Green for add */
-    margin-top: 20px; /* Space above add module button */
+    background-color: #27ae60; /* Match dashboard badge.wildlife (a nice green) */
+    color: white;
+    margin-top: 20px; 
 }
 .cp-btn-add:hover {
-    background-color: #218838;
+    background-color: #229954;
 }
 
-/* Course Description Section */
-.cp-course-description-section {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    margin-bottom: 30px;
-    border: 1px solid #e0e0e0;
-}
-
+/* Course Description Section (inherits .cp-section) */
 .cp-course-description-section h2 {
     margin-top: 0;
     margin-bottom: 15px;
-    font-size: 1.4em;
+    font-size: 1.4em; /* Consistent with original */
+    font-weight: 600;
 }
 
 .cp-course-description-section p {
     color: #555;
-    font-size: 1em;
+    font-size: 1em; /* Match dashboard banner p */
 }
 
-/* Modules Section */
-.cp-modules-section h2 {
+/* Modules Section (inherits .cp-section for the outer container if one is added) */
+/* If #cp-modules-list is directly inside .cp-container, it won't have the section bg unless we wrap it */
+.cp-modules-section h2 { /* This h2 is inside .cp-section */
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 1.4em;
+    font-weight: 600;
 }
 
+/* Individual Module Styling */
 #cp-modules-list .cp-module {
-    background-color: #ffffff;
+    background-color: #ffffff; /* Content area is white */
     border-radius: 8px;
-    margin-bottom: 15px; /* Spacing between modules */
-    border: 1px solid #e0e0e0;
-    overflow: hidden; /* Ensures content doesn't spill before accordion animation (if added) */
+    margin-bottom: 20px; /* Spacing between modules */
+    /* box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Lighter shadow for individual modules */
+    border: 1px solid #e0e0e0; /* Keep border for modules if preferred over just shadow */
+    overflow: hidden; 
 }
 
 .cp-module-header {
@@ -160,9 +177,9 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #f8f9fa; /* Light background for header */
+    background-color: #f8f9fa; /* Light background, slightly different from dashboard sections for hierarchy */
     cursor: pointer;
-    border-bottom: 1px solid #e0e0e0; /* Separator when content is hidden */
+    border-bottom: 1px solid #e9ecef; /* Separator when content is hidden */
 }
 
 .cp-module-header:hover {
@@ -171,23 +188,22 @@ body {
 
 .cp-module-header h3 {
     margin: 0;
-    font-size: 1.15em; /* Slightly smaller than section h2 */
+    font-size: 1.2em; /* Consistent H3 */
     font-weight: 600;
 }
 
 .cp-module-header-actions {
     display: flex;
     align-items: center;
-    gap: 10px; /* Spacing between icons/buttons in header */
+    gap: 10px; 
 }
 
 .cp-module-status-icon {
-    font-size: 1.3em; /* Checkbox icon size */
-    color: #6c757d; /* Default gray for pending */
-    /* margin-right: 10px; */ /* Replaced by gap */
+    font-size: 1.3em; 
+    color: #6c757d; 
 }
 .cp-module-status-icon.completed {
-    color: #28a745; /* Green for completed */
+    color: #28a745; 
 }
 
 .cp-module-toggle-icon {
@@ -196,22 +212,20 @@ body {
     transition: transform 0.2s ease-in-out;
 }
 
-/* Styles for admin buttons within module header if any custom needed */
 .cp-module-header .cp-btn-admin {
-    padding: 5px 8px; /* Smaller padding for header buttons */
+    padding: 5px 8px; 
     font-size: 0.8em;
-    margin-left: 0; /* Reset margin if set globally */
+    margin-left: 0; 
 }
 .cp-module-header .cp-btn-admin i {
-    margin-right: 0; /* No margin for icon-only buttons */
+    margin-right: 0; 
 }
 
 
 .cp-module-content {
     padding: 20px;
-    border-top: none; /* Header has bottom border */
-    /* display: none; /* Managed by JS */ 
-    background-color: #ffffff; /* White background for content area */
+    /* border-top: none; Removed as header has bottom border */ 
+    background-color: #ffffff; 
 }
 
 .cp-module-main-content {
@@ -230,13 +244,13 @@ body {
 
 .cp-resource-link {
     padding: 8px 15px;
-    border-radius: 5px; /* Slightly less rounded than image */
+    border-radius: 4px; /* Match button radius */
     text-decoration: none;
     font-size: 0.9em;
     display: inline-flex;
     align-items: center;
     border: 1px solid transparent;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .cp-resource-link i {
@@ -244,22 +258,22 @@ body {
     font-size: 1.1em;
 }
 
-/* Specific styling based on image */
 .cp-resource-link.pdf {
-    background-color: #ffe3e3; /* Light pink/red background */
-    color: #d9534f; /* Red text */
+    background-color: #ffe3e3; 
+    color: #d9534f; 
     border-color: #d43f3a;
 }
 .cp-resource-link.pdf i {
     color: #d9534f;
 }
 .cp-resource-link.pdf:hover {
-    background-color: #f8d7da; /* Darker on hover */
+    background-color: #f8d7da; 
     border-color: #d9534f;
+    color: #bA4545;
 }
 
 .cp-resource-link.video {
-    background-color: #d9534f; /* Red background */
+    background-color: #d9534f; 
     color: white;
     border-color: #c9302c;
 }
@@ -267,11 +281,11 @@ body {
     color: white;
 }
 .cp-resource-link.video:hover {
-    background-color: #c9302c; /* Darker red on hover */
+    background-color: #c9302c; 
     border-color: #ac2925;
 }
 
-.cp-resource-link.link { /* For other generic links */
+.cp-resource-link.link { 
     background-color: #e9ecef;
     color: #495057;
     border-color: #ced4da;
@@ -283,22 +297,6 @@ body {
     background-color: #dde1e6;
 }
 
-
-.cp-btn-take-test {
-    background-color: #5cb85c; /* Green button like image */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-}
-
-.cp-btn-take-test:hover {
-    background-color: #4cae4c; /* Darker green */
-}
-
-.cp-btn-take-test i {
-    margin-right: 8px;
-}
-
 .cp-no-test-message {
     font-size: 0.9em;
     color: #6c757d;
@@ -306,78 +304,7 @@ body {
 }
 
 /* Responsive Adjustments */
-/* ... (existing responsive styles, may need review for accordion) ... */
-
-/* General Button Styles (ensure they are above module specific if any overlap) */
-.cp-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.95em;
-    font-weight: 500;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cp-btn i {
-    margin-right: 8px;
-}
-
-.cp-btn-primary {
-    background-color: #007bff; /* Blue */
-    color: white;
-}
-
-.cp-btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.cp-btn-admin {
-    background-color: #6c757d; /* Gray for admin buttons */
-    color: white;
-    margin-left: 10px; /* Spacing for admin buttons in header etc. */
-}
-
-.cp-btn-admin:hover {
-    background-color: #5a6268;
-}
-
-.cp-btn-add {
-    background-color: #28a745; /* Green for add */
-    margin-top: 20px; /* Space above add module button */
-}
-.cp-btn-add:hover {
-    background-color: #218838;
-}
-
-
-/* Responsive Adjustments (Basic) */
 @media (max-width: 768px) {
-    .cp-header,
-    .cp-module-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .cp-header h1 {
-        font-size: 1.6em;
-    }
-    .cp-btn {
-      /* width: 100%; // This might be too aggressive for some buttons */
-      margin-bottom: 10px;
-    }
-    .cp-header .cp-btn,
-    .cp-module-actions .cp-btn,
-    .cp-module-header-actions .cp-btn-admin { /* Ensure admin buttons in header don't go full width */
-        width: auto; 
-        margin-bottom: 0;
-    }
-
     .cp-nav {
         flex-direction: column;
         align-items: flex-start;
@@ -387,9 +314,206 @@ body {
         margin-top: 10px;
         width: 100%;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-around; /* Or space-between */
     }
     .cp-user-actions .cp-nav-link {
         margin-left: 0;
     }
+
+    .cp-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .cp-header h1 {
+        font-size: 1.6em;
+    }
+    
+    /* Adjust general button width for mobile if needed, but be careful */
+    /* .cp-btn { width: 100%; margin-bottom: 10px; } */
+    
+    .cp-header .cp-btn, /* Buttons in header shouldn't go full width */
+    .cp-module-header-actions .cp-btn-admin { 
+        width: auto; 
+        margin-bottom: 0;
+    }
+    .cp-module-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+} 
+
+/* Styles for Test Modal */
+.cp-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    display: flex; /* Used with JS to show/hide, but helps with centering if visible */
+    align-items: center;
+    justify-content: center;
+}
+
+.cp-modal-content {
+    background-color: #fefefe;
+    margin: auto; /* Auto margins for centering, flex also helps */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 700px; /* Max width for the modal */
+    position: relative;
+    max-height: 90vh; /* Max height to prevent overflow on small screens */
+    display: flex;
+    flex-direction: column;
+}
+
+.cp-modal-close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cp-modal-close-btn:hover,
+.cp-modal-close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#cp-test-modal-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+#cp-test-modal-body {
+    margin-bottom: 20px;
+    overflow-y: auto; /* Scroll for long test content */
+    flex-grow: 1; /* Allow body to take up available space */
+}
+
+#cp-test-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Test Form Specific Styles */
+.cp-test-form-container {
+    padding: 10px 0;
+}
+
+.cp-test-question {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #e0e0e0;
+}
+.cp-test-question:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.cp-test-question p strong {
+    font-weight: 600;
+    color: #004d26; /* Dark green for question text */
+}
+
+.cp-test-options {
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.cp-test-options label {
+    display: block; /* Each option on a new line */
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.cp-test-options label:hover {
+    background-color: #f0f0f0;
+}
+
+.cp-test-options input[type="radio"] {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Test Results Specific Styles */
+.cp-test-results h3 {
+    font-size: 1.5em;
+    color: #004d26;
+    margin-bottom: 15px;
+}
+
+.cp-test-results p {
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+
+.cp-test-results h4 {
+    font-size: 1.2em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    border-top: 1px dashed #eee;
+    padding-top: 15px;
+}
+
+.cp-test-answers-review ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.cp-test-answers-review li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    border: 1px solid #e9ecef;
+}
+
+.cp-test-answers-review li p {
+    margin: 5px 0;
+}
+
+.cp-correct-answer {
+    color: #28a745; /* Green for correct */
+    font-weight: bold;
+}
+
+.cp-incorrect-answer {
+    color: #dc3545; /* Red for incorrect */
+    font-weight: bold;
+}
+
+.cp-question-options-review {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 5px;
+    padding-left: 15px;
+}
+.cp-question-options-review ul {
+    margin-top: 5px;
+    padding-left: 15px; /* Indent options list */
+    list-style-type: disc;
 } 

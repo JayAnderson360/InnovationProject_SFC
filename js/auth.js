@@ -85,7 +85,6 @@ async function checkAuth() { // Made async to use await
                     } else if (userRole === "Admin") {
                          dropdownMenuHTML += `
                             <a href="admin-dashboard/admin-dashboard.html">Dashboard</a>
-                            <a href="course-dashboard/course-dashboard.html">Courses</a>
                         `;
                     } else { // Default for 'General User' or unknown roles
                          dropdownMenuHTML += `

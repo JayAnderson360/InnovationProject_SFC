@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Course Details</title>
+    <!-- Ensure correct path for admin dashboard context -->
+    <link rel="stylesheet" href="css/course-edit-page.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script> 
+</head>
+<body>
+    <nav class="cp-nav">
+        <a href="index.html" class="cp-logo-link">
+            <img src="Resources/Images/logo.png" alt="Park Guide Academy Logo" class="cp-logo-img">
+            <span>Park Guide Academy</span>
+        </a>
+        <div class="cp-user-actions">
+            <!-- Link back to Admin Dashboard -->
+            <a href="admin-dashboard/admin-dashboard.html" class="cp-nav-link">Admin Dashboard</a>
+            <a href="userprofile.html" class="cp-nav-link">My Profile</a>
+        </div>
+    </nav>
+
+    <div class="cp-container">
+        <header class="cp-header">
+            <div class="cp-title-container">
+                <h1 id="cp-course-title">Course Title Will Load Here</h1>
+                <button id="cp-admin-edit-course-title-btn" class="cp-btn cp-btn-icon cp-btn-edit"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+             <!-- Publish Status Toggle -->
+            <div class="cp-publish-status-container">
+                <label for="cp-publish-toggle">Publish Course:</label>
+                <label class="switch">
+                    <input type="checkbox" id="cp-publish-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span id="cp-publish-status-text">Draft</span>
+            </div>
+        </header>
+
+        <section class="cp-section cp-course-meta-section">
+            <h2>Course Metadata</h2>
+            <div class="cp-meta-grid">
+                <div>
+                    <label for="cp-course-type">Course Type:</label>
+                    <input type="text" id="cp-course-type" placeholder="e.g., Wildlife, Safety">
+                </div>
+                <div>
+                    <label for="cp-course-duration">Duration (Months):</label>
+                    <input type="number" id="cp-course-duration" placeholder="e.g., 3">
+                </div>
+                <div>
+                    <label for="cp-course-fee">Course Fee (MYR):</label>
+                    <input type="number" id="cp-course-fee" placeholder="e.g., 299">
+                </div>
+                <div>
+                    <label for="cp-certificate-name">Certificate Name (Optional):</label>
+                    <input type="text" id="cp-certificate-name" placeholder="e.g., Advanced Wildlife Spotting Certificate">
+                </div>
+                 <div>
+                    <label for="cp-course-image-url">Course Image URL:</label>
+                    <input type="text" id="cp-course-image-url" placeholder="https://example.com/image.png">
+                </div>
+            </div>
+             <button id="cp-admin-save-meta-btn" class="cp-btn cp-btn-primary cp-btn-save-meta">Save Metadata</button>
+        </section>
+
+        <section class="cp-section cp-course-description-section">
+            <div class="cp-section-header">
+                <h2>Course Description</h2>
+                <button id="cp-admin-edit-description-btn" class="cp-btn cp-btn-icon cp-btn-edit"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            <p id="cp-course-description">Description will load here.</p>
+        </section>
+
+        <section class="cp-section cp-modules-section">
+            <div class="cp-section-header">
+                <h2>Course Modules</h2>
+                <button id="cp-admin-add-module-btn" class="cp-btn cp-btn-primary cp-btn-add"><i class="fas fa-plus"></i> Add Module</button>
+            </div>
+            <div id="cp-modules-list">
+                <!-- Modules will be dynamically inserted here by ui.js -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Generic Modal for Forms (Edit Title, Description, Module, Test etc.) -->
+    <div id="cp-generic-modal" class="cp-modal" style="display:none;">
+        <div class="cp-modal-content">
+            <span class="cp-modal-close-btn" onclick="ui.closeModal('cp-generic-modal')">&times;</span>
+            <h2 id="cp-generic-modal-title">Modal Title</h2>
+            <div id="cp-generic-modal-body">
+                <!-- Form fields will be injected here -->
+            </div>
+            <div id="cp-generic-modal-footer">
+                <button id="cp-generic-modal-save-btn" class="cp-btn cp-btn-primary">Save</button>
+                <button id="cp-generic-modal-cancel-btn" class="cp-btn cp-btn-secondary" onclick="ui.closeModal('cp-generic-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Test Management Modal -->
+    <div id="cp-test-management-modal" class="cp-modal">
+        <div class="cp-modal-content cp-test-modal-content">
+            <span class="cp-modal-close-btn">&times;</span>
+            <h2 id="cp-test-management-modal-title" class="cp-modal-title">Manage Test</h2>
+            <div id="cp-test-management-modal-body" class="cp-modal-body">
+                <!-- Test management content will go here -->
+                <p>Test questions and settings will be managed here.</p>
+                <div id="cp-test-questions-list">
+                    <!-- Placeholder for questions -->
+                </div>
+                <button type="button" class="cp-btn cp-btn-add" id="cp-add-question-btn" style="margin-top: 15px;"><i class="fas fa-plus"></i> Add Question</button>
+            </div>
+            <div class="cp-modal-footer">
+                <button type="button" class="cp-btn cp-btn-primary" id="cp-test-management-modal-save-btn">Save Test Changes</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/firebase-config.js" defer></script>
+    <script src="js/course-edit-page/api.js" defer></script>
+    <script src="js/course-edit-page/ui.js" defer></script>
+    <script src="js/course-edit-page/app.js" defer></script>
+</body>
+</html> 
